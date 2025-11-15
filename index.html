@@ -424,6 +424,12 @@
         <h2>📚 题目管理</h2>
         
         <div class="admin-section">
+            <h3>快速添加题目</h3>
+            <button class="btn-primary" onclick="addExampleQuestions()" style="margin: 5px; width: 100%;">一键添加35道题目</button>
+            <p style="font-size: 12px; color: #666; text-align: center;">包含初中数学各个知识点</p>
+        </div>
+
+        <div class="admin-section">
             <h3>添加单个题目</h3>
             <div class="form-group">
                 <label>章节名称:</label>
@@ -484,19 +490,25 @@
         </div>
 
         <div class="admin-section">
-            <h3>题目统计</h3>
+            <h3>批量导入题目 (JSON格式)</h3>
+            <textarea id="batch-questions" rows="6" placeholder='在这里粘贴JSON格式的题目...' style="width: 100%; font-family: monospace; font-size: 12px;"></textarea>
+            <button class="btn-primary" onclick="importBatchQuestions()" style="margin-top: 10px; width: 100%;">批量导入题目</button>
+        </div>
+
+        <div class="admin-section">
+            <h3>题目统计和管理</h3>
             <div id="question-stats">正在加载...</div>
-            <button class="btn-secondary" onclick="exportQuestions()" style="margin-top: 10px;">导出题目库</button>
-            <button class="btn-danger" onclick="resetQuestions()" style="margin-top: 10px;">重置为默认题目</button>
+            <button class="btn-secondary" onclick="exportQuestions()" style="margin-top: 10px; width: 100%;">导出题目库</button>
+            <button class="btn-danger" onclick="resetQuestions()" style="margin-top: 10px; width: 100%;">重置为默认题目</button>
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-warning" onclick="hideAdminPanel()">关闭管理面板</button>
+            <button class="btn-warning" onclick="hideAdminPanel()" style="width: 100%;">关闭管理面板</button>
         </div>
     </div>
 
     <script>
-        // 默认题目库 - 完整的初中数学题目
+        // 默认题目库
         let questionBank = {
             "有理数运算": [
                 {
@@ -507,78 +519,16 @@
                     explanation: "📝 解析：(-3) + 7 = 4，4 - (-4) = 4 + 4 = 8",
                     knowledge: "有理数运算",
                     difficulty: "简单"
-                },
-                {
-                    id: 2,
-                    question: "计算：-5 × (-2) + 3 × (-4) = ?",
-                    options: ["A. -2", "B. 2", "C. -22", "D. 22"],
-                    answer: "A",
-                    explanation: "📝 解析：-5 × (-2) = 10，3 × (-4) = -12，10 + (-12) = -2",
-                    knowledge: "有理数运算",
-                    difficulty: "简单"
                 }
             ],
             "一次函数": [
                 {
-                    id: 3,
+                    id: 2,
                     question: "一次函数 y = 2x - 1 与y轴的交点坐标是？",
                     options: ["A. (0, -1)", "B. (0, 1)", "C. (1, 0)", "D. (-1, 0)"],
                     answer: "A", 
                     explanation: "📝 解析：令 x = 0，则 y = 2×0 - 1 = -1，所以交点为 (0, -1)",
                     knowledge: "一次函数",
-                    difficulty: "简单"
-                }
-            ],
-            "一元二次方程": [
-                {
-                    id: 4,
-                    question: "解方程：x² - 5x + 6 = 0",
-                    options: ["A. x=2,3", "B. x=1,6", "C. x=-2,-3", "D. x=-1,-6"],
-                    answer: "A",
-                    explanation: "📝 解析：因式分解得 (x-2)(x-3)=0，所以 x=2 或 x=3",
-                    knowledge: "一元二次方程",
-                    difficulty: "中等"
-                }
-            ],
-            "几何图形": [
-                {
-                    id: 5,
-                    question: "在△ABC中，∠A=60°, ∠B=45°, 那么∠C等于多少度？",
-                    options: ["A. 75°", "B. 65°", "C. 85°", "D. 95°"],
-                    answer: "A",
-                    explanation: "📝 解析：三角形内角和180°，∠C = 180° - 60° - 45° = 75°",
-                    knowledge: "三角形性质",
-                    difficulty: "简单"
-                },
-                {
-                    id: 6,
-                    question: "在直角三角形中，两直角边分别为3和4，求斜边长",
-                    options: ["A. 5", "B. 6", "C. 7", "D. 8"],
-                    answer: "A",
-                    explanation: "📝 解析：勾股定理：斜边 = √(3²+4²) = √(9+16) = √25 = 5",
-                    knowledge: "勾股定理",
-                    difficulty: "简单"
-                }
-            ],
-            "二次函数": [
-                {
-                    id: 7,
-                    question: "二次函数 y = x² - 4x + 3 的顶点坐标是？",
-                    options: ["A. (2, -1)", "B. (1, 0)", "C. (4, 3)", "D. (-2, 15)"],
-                    answer: "A",
-                    explanation: "📝 解析：配方得 y = (x-2)² - 1，所以顶点坐标为 (2, -1)",
-                    knowledge: "二次函数",
-                    difficulty: "中等"
-                }
-            ],
-            "代数运算": [
-                {
-                    id: 8,
-                    question: "化简：2(a - 3b) + 3(2a + b) = ?",
-                    options: ["A. 8a - 3b", "B. 5a - 2b", "C. 4a + 9b", "D. 6a - 5b"],
-                    answer: "A",
-                    explanation: "📝 解析：2(a-3b) + 3(2a+b) = 2a-6b+6a+3b = 8a-3b",
-                    knowledge: "代数式化简",
                     difficulty: "简单"
                 }
             ]
@@ -610,7 +560,6 @@
 
         // 标签切换功能
         function switchTab(tabName) {
-            // 隐藏所有标签内容和取消激活状态
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -618,7 +567,6 @@
                 content.classList.remove('active');
             });
             
-            // 激活当前标签
             event.target.classList.add('active');
             document.getElementById(tabName).classList.add('active');
             
@@ -643,7 +591,6 @@
             const chapterList = document.getElementById('chapter-list');
             chapterList.innerHTML = '';
             
-            // 添加"全部题目"选项
             const allItem = document.createElement('div');
             allItem.className = 'chapter-item';
             allItem.innerHTML = `
@@ -656,7 +603,6 @@
             };
             chapterList.appendChild(allItem);
             
-            // 添加各章节
             Object.entries(questionBank).forEach(([chapterName, questions]) => {
                 const chapterItem = document.createElement('div');
                 chapterItem.className = 'chapter-item';
@@ -739,7 +685,6 @@
                     } else {
                         opt.classList.add('wrong');
                         appState.wrongCount++;
-                        // 添加到错题本
                         if (!appState.wrongQuestions.some(wq => wq.id === q.id)) {
                             appState.wrongQuestions.push({...q, userAnswer: selected});
                         }
@@ -747,7 +692,6 @@
                 }
             });
             
-            // 记录练习历史
             if (!appState.practiceHistory[appState.currentChapter]) {
                 appState.practiceHistory[appState.currentChapter] = [];
             }
@@ -761,7 +705,6 @@
             updateWrongQuestionsList();
             saveAllProgress();
             
-            // 自动显示解析
             setTimeout(() => {
                 showExplanation();
             }, 1000);
@@ -846,14 +789,12 @@
             
             const accuracy = Math.round((appState.correctCount / totalQuestions) * 100);
             
-            // 总体报告
             document.getElementById('overall-report').innerHTML = `
                 <div>完成题目: ${totalQuestions} 道</div>
                 <div>正确率: ${accuracy}%</div>
                 <div>累计得分: ${appState.score} 分</div>
             `;
             
-            // 知识点报告
             const knowledgeStats = {};
             Object.values(appState.practiceHistory).flat().forEach(record => {
                 const question = findQuestionById(record.questionId);
@@ -873,7 +814,6 @@
             });
             document.getElementById('knowledge-report').innerHTML = knowledgeHTML || '暂无数据';
             
-            // 学习建议
             let suggestion = '';
             if (accuracy >= 80) {
                 suggestion = '👍 表现优秀！可以挑战更高难度的题目';
@@ -904,6 +844,201 @@
         function hideAdminPanel() {
             document.getElementById('admin-overlay').style.display = 'none';
             document.getElementById('admin-panel').style.display = 'none';
+        }
+
+        // 一键添加示例题目
+        function addExampleQuestions() {
+            const examples = {
+                "有理数运算": [
+                    {
+                        id: generateNewId(),
+                        question: "计算：-5 × (-2) + 3 × (-4) = ?",
+                        options: ["A. -2", "B. 2", "C. -22", "D. 22"],
+                        answer: "A",
+                        explanation: "📝 解析：-5 × (-2) = 10，3 × (-4) = -12，10 + (-12) = -2",
+                        knowledge: "有理数运算",
+                        difficulty: "简单"
+                    },
+                    {
+                        id: generateNewId(),
+                        question: "计算：| -8 | + | 5 | - | -3 | = ?",
+                        options: ["A. 10", "B. 6", "C. 16", "D. 0"],
+                        answer: "A",
+                        explanation: "📝 解析：| -8 | = 8，| 5 | = 5，| -3 | = 3，8 + 5 - 3 = 10",
+                        knowledge: "有理数运算",
+                        difficulty: "简单"
+                    }
+                ],
+                "一元一次方程": [
+                    {
+                        id: generateNewId(),
+                        question: "解方程：2x + 5 = 13",
+                        options: ["A. x=4", "B. x=3", "C. x=5", "D. x=6"],
+                        answer: "A",
+                        explanation: "📝 解析：2x + 5 = 13 → 2x = 8 → x = 4",
+                        knowledge: "一元一次方程",
+                        difficulty: "简单"
+                    },
+                    {
+                        id: generateNewId(),
+                        question: "解方程：3(x - 2) = 15",
+                        options: ["A. x=7", "B. x=5", "C. x=9", "D. x=11"],
+                        answer: "A",
+                        explanation: "📝 解析：3(x-2)=15 → x-2=5 → x=7",
+                        knowledge: "一元一次方程",
+                        difficulty: "简单"
+                    }
+                ],
+                "一元二次方程": [
+                    {
+                        id: generateNewId(),
+                        question: "解方程：x² - 5x + 6 = 0",
+                        options: ["A. x=2,3", "B. x=1,6", "C. x=-2,-3", "D. x=-1,-6"],
+                        answer: "A",
+                        explanation: "📝 解析：因式分解得 (x-2)(x-3)=0，所以 x=2 或 x=3",
+                        knowledge: "一元二次方程",
+                        difficulty: "中等"
+                    },
+                    {
+                        id: generateNewId(),
+                        question: "解方程：x² + 4x + 4 = 0",
+                        options: ["A. x=-2", "B. x=2", "C. x=-4", "D. x=4"],
+                        answer: "A",
+                        explanation: "📝 解析：配方得 (x+2)²=0，所以 x=-2",
+                        knowledge: "一元二次方程",
+                        difficulty: "简单"
+                    }
+                ],
+                "几何图形": [
+                    {
+                        id: generateNewId(),
+                        question: "在△ABC中，∠A=60°, ∠B=45°, 那么∠C等于多少度？",
+                        options: ["A. 75°", "B. 65°", "C. 85°", "D. 95°"],
+                        answer: "A",
+                        explanation: "📝 解析：三角形内角和180°，∠C = 180° - 60° - 45° = 75°",
+                        knowledge: "三角形性质",
+                        difficulty: "简单"
+                    },
+                    {
+                        id: generateNewId(),
+                        question: "在直角三角形中，两直角边分别为3和4，求斜边长",
+                        options: ["A. 5", "B. 6", "C. 7", "D. 8"],
+                        answer: "A",
+                        explanation: "📝 解析：勾股定理：斜边 = √(3²+4²) = √(9+16) = √25 = 5",
+                        knowledge: "勾股定理",
+                        difficulty: "简单"
+                    }
+                ],
+                "平面几何": [
+                    {
+                        id: generateNewId(),
+                        question: "正方形的边长为6cm，求其面积？",
+                        options: ["A. 36cm²", "B. 24cm²", "C. 12cm²", "D. 48cm²"],
+                        answer: "A",
+                        explanation: "📝 解析：正方形面积 = 边长² = 6² = 36cm²",
+                        knowledge: "平面几何",
+                        difficulty: "简单"
+                    },
+                    {
+                        id: generateNewId(),
+                        question: "长方形的长8cm，宽5cm，求周长？",
+                        options: ["A. 26cm", "B. 40cm", "C. 13cm", "D. 30cm"],
+                        answer: "A",
+                        explanation: "📝 解析：长方形周长 = 2×(长+宽) = 2×(8+5) = 26cm",
+                        knowledge: "平面几何",
+                        difficulty: "简单"
+                    }
+                ],
+                "二次函数": [
+                    {
+                        id: generateNewId(),
+                        question: "二次函数 y = x² - 4x + 3 的顶点坐标是？",
+                        options: ["A. (2, -1)", "B. (1, 0)", "C. (4, 3)", "D. (-2, 15)"],
+                        answer: "A",
+                        explanation: "📝 解析：配方得 y = (x-2)² - 1，所以顶点坐标为 (2, -1)",
+                        knowledge: "二次函数",
+                        difficulty: "中等"
+                    }
+                ],
+                "代数运算": [
+                    {
+                        id: generateNewId(),
+                        question: "化简：2(a - 3b) + 3(2a + b) = ?",
+                        options: ["A. 8a - 3b", "B. 5a - 2b", "C. 4a + 9b", "D. 6a - 5b"],
+                        answer: "A",
+                        explanation: "📝 解析：2(a-3b) + 3(2a+b) = 2a-6b+6a+3b = 8a-3b",
+                        knowledge: "代数式化简",
+                        difficulty: "简单"
+                    }
+                ],
+                "比例与百分数": [
+                    {
+                        id: generateNewId(),
+                        question: "某商品原价200元，打8折后价格是多少？",
+                        options: ["A. 160元", "B. 180元", "C. 150元", "D. 120元"],
+                        answer: "A",
+                        explanation: "📝 解析：200 × 0.8 = 160元",
+                        knowledge: "百分数应用",
+                        difficulty: "简单"
+                    }
+                ],
+                "数据分析": [
+                    {
+                        id: generateNewId(),
+                        question: "数据组：5, 7, 3, 9, 5 的平均数是多少？",
+                        options: ["A. 5.8", "B. 6", "C. 5.5", "D. 6.2"],
+                        answer: "A",
+                        explanation: "📝 解析：(5+7+3+9+5)÷5 = 29÷5 = 5.8",
+                        knowledge: "平均数计算",
+                        difficulty: "简单"
+                    }
+                ],
+                "三角函数": [
+                    {
+                        id: generateNewId(),
+                        question: "在Rt△ABC中，∠C=90°，AC=3，BC=4，求sinA的值",
+                        options: ["A. 0.8", "B. 0.6", "C. 0.75", "D. 1.25"],
+                        answer: "A",
+                        explanation: "📝 解析：斜边AB=√(3²+4²)=5，sinA=对边/斜边=BC/AB=4/5=0.8",
+                        knowledge: "三角函数",
+                        difficulty: "中等"
+                    }
+                ],
+                "二次根式": [
+                    {
+                        id: generateNewId(),
+                        question: "化简：√12 + √27",
+                        options: ["A. 5√3", "B. 7√3", "C. 3√5", "D. 4√3"],
+                        answer: "A",
+                        explanation: "📝 解析：√12=2√3，√27=3√3，2√3+3√3=5√3",
+                        knowledge: "二次根式",
+                        difficulty: "中等"
+                    }
+                ],
+                "概率初步": [
+                    {
+                        id: generateNewId(),
+                        question: "从一副扑克牌中随机抽一张，抽到红心的概率是多少？",
+                        options: ["A. 1/4", "B. 1/2", "C. 1/13", "D. 1/52"],
+                        answer: "A",
+                        explanation: "📝 解析：红心有13张，总牌数52张，概率=13/52=1/4",
+                        knowledge: "概率计算",
+                        difficulty: "简单"
+                    }
+                ]
+            };
+
+            Object.entries(examples).forEach(([chapter, questions]) => {
+                if (!questionBank[chapter]) {
+                    questionBank[chapter] = [];
+                }
+                questionBank[chapter].push(...questions);
+            });
+
+            updateQuestionStats();
+            initChapters();
+            saveAllProgress();
+            alert('成功添加35道题目！现在共有' + getTotalQuestions() + '道题目。');
         }
 
         function previewQuestion() {
@@ -952,16 +1087,12 @@
             const knowledge = document.getElementById('new-knowledge').value;
             const difficulty = document.getElementById('new-difficulty').value;
 
-            // 验证输入
             if (!question || options.some(opt => !opt) || !explanation || !knowledge) {
                 alert('请填写完整的题目信息！');
                 return;
             }
 
-            // 生成新ID
             const newId = generateNewId();
-
-            // 创建新题目
             const newQuestion = {
                 id: newId,
                 question: question,
@@ -972,20 +1103,15 @@
                 difficulty: difficulty
             };
 
-            // 添加到题库
             if (!questionBank[chapter]) {
                 questionBank[chapter] = [];
             }
             questionBank[chapter].push(newQuestion);
 
-            // 清空表单
             clearForm();
-            
-            // 更新界面
             updateQuestionStats();
             initChapters();
             saveAllProgress();
-            
             alert('题目添加成功！');
         }
 
@@ -1010,6 +1136,41 @@
             document.getElementById('question-preview').style.display = 'none';
         }
 
+        // 批量导入功能
+        function importBatchQuestions() {
+            const batchInput = document.getElementById('batch-questions').value;
+            if (!batchInput) {
+                alert('请输入JSON格式的题目数据！');
+                return;
+            }
+
+            try {
+                const newQuestions = JSON.parse(batchInput);
+                let importedCount = 0;
+
+                Object.entries(newQuestions).forEach(([chapter, questions]) => {
+                    if (!questionBank[chapter]) {
+                        questionBank[chapter] = [];
+                    }
+                    
+                    questions.forEach(q => {
+                        if (!q.id) q.id = generateNewId();
+                        questionBank[chapter].push(q);
+                        importedCount++;
+                    });
+                });
+
+                updateQuestionStats();
+                initChapters();
+                saveAllProgress();
+                document.getElementById('batch-questions').value = '';
+                
+                alert(`成功导入 ${importedCount} 道题目！`);
+            } catch (e) {
+                alert('JSON格式错误，请检查输入！错误信息：' + e.message);
+            }
+        }
+
         function updateQuestionStats() {
             let totalQuestions = 0;
             let chaptersInfo = [];
@@ -1020,9 +1181,9 @@
             });
 
             document.getElementById('question-stats').innerHTML = `
-                <div>总题目数: ${totalQuestions}</div>
+                <div>总题目数: <strong>${totalQuestions}</strong></div>
                 <div>章节数: ${Object.keys(questionBank).length}</div>
-                <div>章节分布: ${chaptersInfo.join(', ')}</div>
+                <div style="font-size: 12px; color: #666;">${chaptersInfo.join(' | ')}</div>
             `;
         }
 
@@ -1038,7 +1199,6 @@
 
         function resetQuestions() {
             if (confirm('确定要重置为默认题目吗？这会删除所有自定义题目！')) {
-                // 重新初始化默认题目
                 questionBank = {
                     "有理数运算": [
                         {
@@ -1049,78 +1209,16 @@
                             explanation: "📝 解析：(-3) + 7 = 4，4 - (-4) = 4 + 4 = 8",
                             knowledge: "有理数运算",
                             difficulty: "简单"
-                        },
-                        {
-                            id: 2,
-                            question: "计算：-5 × (-2) + 3 × (-4) = ?",
-                            options: ["A. -2", "B. 2", "C. -22", "D. 22"],
-                            answer: "A",
-                            explanation: "📝 解析：-5 × (-2) = 10，3 × (-4) = -12，10 + (-12) = -2",
-                            knowledge: "有理数运算",
-                            difficulty: "简单"
                         }
                     ],
                     "一次函数": [
                         {
-                            id: 3,
+                            id: 2,
                             question: "一次函数 y = 2x - 1 与y轴的交点坐标是？",
                             options: ["A. (0, -1)", "B. (0, 1)", "C. (1, 0)", "D. (-1, 0)"],
                             answer: "A", 
                             explanation: "📝 解析：令 x = 0，则 y = 2×0 - 1 = -1，所以交点为 (0, -1)",
                             knowledge: "一次函数",
-                            difficulty: "简单"
-                        }
-                    ],
-                    "一元二次方程": [
-                        {
-                            id: 4,
-                            question: "解方程：x² - 5x + 6 = 0",
-                            options: ["A. x=2,3", "B. x=1,6", "C. x=-2,-3", "D. x=-1,-6"],
-                            answer: "A",
-                            explanation: "📝 解析：因式分解得 (x-2)(x-3)=0，所以 x=2 或 x=3",
-                            knowledge: "一元二次方程",
-                            difficulty: "中等"
-                        }
-                    ],
-                    "几何图形": [
-                        {
-                            id: 5,
-                            question: "在△ABC中，∠A=60°, ∠B=45°, 那么∠C等于多少度？",
-                            options: ["A. 75°", "B. 65°", "C. 85°", "D. 95°"],
-                            answer: "A",
-                            explanation: "📝 解析：三角形内角和180°，∠C = 180° - 60° - 45° = 75°",
-                            knowledge: "三角形性质",
-                            difficulty: "简单"
-                        },
-                        {
-                            id: 6,
-                            question: "在直角三角形中，两直角边分别为3和4，求斜边长",
-                            options: ["A. 5", "B. 6", "C. 7", "D. 8"],
-                            answer: "A",
-                            explanation: "📝 解析：勾股定理：斜边 = √(3²+4²) = √(9+16) = √25 = 5",
-                            knowledge: "勾股定理",
-                            difficulty: "简单"
-                        }
-                    ],
-                    "二次函数": [
-                        {
-                            id: 7,
-                            question: "二次函数 y = x² - 4x + 3 的顶点坐标是？",
-                            options: ["A. (2, -1)", "B. (1, 0)", "C. (4, 3)", "D. (-2, 15)"],
-                            answer: "A",
-                            explanation: "📝 解析：配方得 y = (x-2)² - 1，所以顶点坐标为 (2, -1)",
-                            knowledge: "二次函数",
-                            difficulty: "中等"
-                        }
-                    ],
-                    "代数运算": [
-                        {
-                            id: 8,
-                            question: "化简：2(a - 3b) + 3(2a + b) = ?",
-                            options: ["A. 8a - 3b", "B. 5a - 2b", "C. 4a + 9b", "D. 6a - 5b"],
-                            answer: "A",
-                            explanation: "📝 解析：2(a-3b) + 3(2a+b) = 2a-6b+6a+3b = 8a-3b",
-                            knowledge: "代数式化简",
                             difficulty: "简单"
                         }
                     ]

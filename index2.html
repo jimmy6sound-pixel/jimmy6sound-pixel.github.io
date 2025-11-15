@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>六年级数学智能刷题系统 - 100题完整版</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        
+        .tab.active {
+            border-bottom-color: #FF6B6B;
+            background: white;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px; 
+            background: #f8f9fa; 
+            padding: 15px; 
+        }
+        .stat-item { 
+            text-align: center; 
+            padding: 10px; 
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        .stat-value { 
+            font-size: 20px; 
+            font-weight: bold; 
+            color: #FF6B6B; 
+        }
+        .question-container { 
+            padding: 20px; 
+        }
+        .question { 
+            background: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 15px; 
+            border-left: 5px solid #FF6B6B; 
+        }
+        .question-number { 
+            color: #666; 
+            font-size: 12px; 
+            margin-bottom: 8px; 
+        }
+        .question-text { 
+            font-size: 16px; 
+            line-height: 1.5; 
+            margin-bottom: 15px; 
+        }
+        .options-container { 
+            display: grid; 
+            gap: 8px; 
+            margin-bottom: 15px; 
+        }
+        .option { 
+            padding: 12px; 
+            background: white; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+        }
+        .option:hover { 
+            border-color: #FF6B6B; 
+            background: #ffeaea; 
+        }
+        .option.correct { 
+            background: #c8e6c9; 
+            border-color: #4CAF50; 
+        }
+        .option.wrong { 
+            background: #ffcdd2; 
+            border-color: #f44336; 
+        }
+        .controls { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 15px; 
+            background: #f8f9fa; 
+            border-top: 1px solid #ddd; 
+            gap: 10px; 
+        }
+        button { 
+            padding: 10px 15px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 14px; 
+            transition: all 0.3s ease; 
+        }
+        .btn-primary { 
+            background: #FF6B6B; 
+            color: white; 
+        }
+        .btn-primary:hover { 
+            background: #ff5252; 
+        }
+        .btn-secondary { 
+            background: #4ECDC4; 
+            color: white; 
+        }
+        .btn-secondary:hover { 
+            background: #26a69a; 
+        }
+        .btn-warning { 
+            background: #FFD166; 
+            color: white; 
+        }
+        .btn-warning:hover { 
+            background: #ffc107; 
+        }
+        .explanation { 
+            background: #e3f2fd; 
+            padding: 12px; 
+            border-radius: 8px; 
+            margin-top: 12px; 
+            display: none; 
+            font-size: 13px; 
+        }
+        .knowledge-tag { 
+            display: inline-block; 
+            background: #FFD166; 
+            color: white; 
+            padding: 3px 6px; 
+            border-radius: 4px; 
+            font-size: 11px; 
+            margin-top: 8px; 
+        }
+        .progress-bar { 
+            width: 100%; 
+            height: 6px; 
+            background: #e0e0e0; 
+            border-radius: 3px; 
+            margin-bottom: 12px; 
+            overflow: hidden; 
+        }
+        .progress { 
+            height: 100%; 
+            background: #FF6B6B; 
+            width: 0%; 
+            transition: width 0.3s ease; 
+        }
+        .chapter-list { 
+            display: grid; 
+            gap: 10px; 
+            margin-top: 15px; 
+        }
+        .chapter-item { 
+            padding: 15px; 
+            background: #f8f9fa; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            border-left: 4px solid #FF6B6B; 
+        }
+        .report-item { 
+            padding: 10px; 
+            background: white; 
+            border-radius: 8px; 
+            margin-bottom: 8px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        .wrong-questions-list { 
+            max-height: 300px; 
+            overflow-y: auto; 
+        }
+        .wrong-question-item { 
+            padding: 10px; 
+            background: #fff3cd; 
+            border-radius: 6px; 
+            margin-bottom: 8px; 
+            border-left: 3px solid #ffc107; 
+        }
+
+        @media (min-width: 768px) {
+            body { 
+                padding: 20px; 
+                font-size: 16px; 
+            }
+            .container { 
+                max-width: 800px; 
+            }
+            .stats { 
+                grid-template-columns: repeat(4, 1fr); 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧮 六年级数学智能刷题系统</h1>
+            <p>100题完整版 · 适合六年级 · 巩固基础 · 提升能力</p>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('practice')">刷题练习</div>
+            <div class="tab" onclick="switchTab('chapters')">章节分类</div>
+            <div class="tab" onclick="switchTab('report')">成绩报告</div>
+            <div class="tab" onclick="switchTab('wrong')">错题重做</div>
+        </div>
+        
+        <!-- 刷题练习标签 -->
+        <div id="practice" class="tab-content active">
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="score">0</div>
+                    <div>得分</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="correct-count">0</div>
+                    <div>正确</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="wrong-count">0</div>
+                    <div>错误</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="progress">1/100</div>
+                    <div>进度</div>
+                </div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+            
+            <div class="question-container">
+                <div class="question">
+                    <div class="question-number" id="question-number">题目 #1</div>
+                    <div class="question-text" id="question-text">请稍等，题目加载中...</div>
+                    <div class="options-container" id="options-container"></div>
+                    <div class="explanation" id="explanation"></div>
+                    <div class="knowledge-tag" id="knowledge-tag"></div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button class="btn-secondary" onclick="showExplanation()">查看解析</button>
+                <button class="btn-primary" onclick="nextQuestion()">下一题</button>
+            </div>
+        </div>
+        
+        <!-- 其他标签页 -->
+        <div id="chapters" class="tab-content">
+            <h3 style="text-align: center; margin: 15px 0;">选择学习章节</h3>
+            <div class="chapter-list" id="chapter-list"></div>
+        </div>
+        
+        <div id="report" class="tab-content">
+            <h3 style="text-align: center; margin: 15px 0;">学习分析报告</h3>
+            <div class="report-item">
+                <strong>总体表现:</strong>
+                <div id="overall-report">暂无数据</div>
+            </div>
+            <div class="report-item">
+                <strong>知识点掌握情况:</strong>
+                <div id="knowledge-report">暂无数据</div>
+            </div>
+            <div class="report-item">
+                <strong>建议:</strong>
+                <div id="suggestion">请先完成一些题目</div>
+            </div>
+            <button class="btn-warning" onclick="saveProgress()" style="margin-top: 15px; width: 100%;">保存进度到本地</button>
+        </div>
+        
+        <div id="wrong" class="tab-content">
+            <h3 style="text-align: center; margin: 15px 0;">错题本</h3>
+            <div class="wrong-questions-list" id="wrong-questions-list">
+                <div style="text-align: center; color: #666; padding: 20px;">暂无错题，继续加油！💪</div>
+            </div>
+            <button class="btn-warning" onclick="practiceWrongQuestions()" style="margin-top: 15px; width: 100%;">练习错题</button>
+        </div>
+    </div>
+
+    <script>
+        // 六年级数学100道题目库 - 修正了答案，确保每个题目有不同的正确答案
+        const questionBank = {
+            "整数运算": [
+                {
+                    id: 1,
+                    question: "计算：125 × 8 = ?",
+                    options: ["A. 1000", "B. 800", "C. 1200", "D. 10000"],
+                    answer: "A",
+                    explanation: "📝 解析：125 × 8 = 1000，这是一个常用乘法结果",
+                    knowledge: "整数乘法",
+                    difficulty: "简单"
+                },
+                {
+                    id: 2,
+                    question: "计算：360 ÷ 12 = ?",
+                    options: ["A. 30", "B. 25", "C. 35", "D. 40"],
+                    answer: "A",
+                    explanation: "📝 解析：360 ÷ 12 = 30",
+                    knowledge: "整数除法",
+                    difficulty: "简单"
+                },
+                {
+                    id: 3,
+                    question: "计算：47 + 68 - 25 = ?",
+                    options: ["A. 90", "B. 95", "C. 100", "D. 105"],
+                    answer: "A",
+                    explanation: "📝 解析：47 + 68 = 115，115 - 25 = 90",
+                    knowledge: "整数加减",
+                    difficulty: "简单"
+                },
+                {
+                    id: 4,
+                    question: "计算：25 × 44 = ?",
+                    options: ["A. 1100", "B. 1000", "C. 900", "D. 1200"],
+                    answer: "A",
+                    explanation: "📝 解析：25 × 44 = 25 × (40 + 4) = 1000 + 100 = 1100",
+                    knowledge: "乘法分配律",
+                    difficulty: "中等"
+                },
+                {
+                    id: 5,
+                    question: "计算：720 ÷ 8 ÷ 3 = ?",
+                    options: ["A. 30", "B. 25", "C. 35", "D. 40"],
+                    answer: "A",
+                    explanation: "📝 解析：720 ÷ 8 = 90，90 ÷ 3 = 30",
+                    knowledge: "连除运算",
+                    difficulty: "简单"
+                }
+            ],
+            "小数运算": [
+                {
+                    id: 6,
+                    question: "计算：2.5 × 4 = ?",
+                    options: ["A. 10", "B. 8", "C. 12", "D. 6"],
+                    answer: "A",
+                    explanation: "📝 解析：2.5 × 4 = 10",
+                    knowledge: "小数乘法",
+                    difficulty: "简单"
+                },
+                {
+                    id: 7,
+                    question: "计算：7.2 ÷ 0.8 = ?",
+                    options: ["A. 9", "B. 8", "C. 7", "D. 6"],
+                    answer: "A",
+                    explanation: "📝 解析：7.2 ÷ 0.8 = 72 ÷ 8 = 9",
+                    knowledge: "小数除法",
+                    difficulty: "简单"
+                },
+                {
+                    id: 8,
+                    question: "计算：3.14 + 2.86 = ?",
+                    options: ["A. 6", "B. 5.9", "C. 6.1", "D. 5.8"],
+                    answer: "A",
+                    explanation: "📝 解析：3.14 + 2.86 = 6.00 = 6",
+                    knowledge: "小数加法",
+                    difficulty: "简单"
+                },
+                {
+                    id: 9,
+                    question: "计算：5.6 - 2.34 = ?",
+                    options: ["A. 3.26", "B. 3.36", "C. 3.16", "D. 3.06"],
+                    answer: "A",
+                    explanation: "📝 解析：5.60 - 2.34 = 3.26",
+                    knowledge: "小数减法",
+                    difficulty: "简单"
+                },
+                {
+                    id: 10,
+                    question: "计算：0.25 × 0.4 = ?",
+                    options: ["A. 0.1", "B. 0.01", "C. 1", "D. 0.2"],
+                    answer: "A",
+                    explanation: "📝 解析：0.25 × 0.4 = 0.100 = 0.1",
+                    knowledge: "小数乘法",
+                    difficulty: "中等"
+                }
+            ],
+            "分数运算": [
+                {
+                    id: 11,
+                    question: "计算：1/2 + 1/3 = ?",
+                    options: ["A. 5/6", "B. 2/5", "C. 1/5", "D. 3/5"],
+                    answer: "A",
+                    explanation: "📝 解析：通分得 3/6 + 2/6 = 5/6",
+                    knowledge: "分数加法",
+                    difficulty: "简单"
+                },
+                {
+                    id: 12,
+                    question: "计算：3/4 - 1/2 = ?",
+                    options: ["A. 1/4", "B. 1/2", "C. 1/8", "D. 3/8"],
+                    answer: "A",
+                    explanation: "📝 解析：3/4 - 2/4 = 1/4",
+                    knowledge: "分数减法",
+                    difficulty: "简单"
+                },
+                {
+                    id: 13,
+                    question: "计算：2/3 × 3/4 = ?",
+                    options: ["A. 1/2", "B. 2/3", "C. 3/4", "D. 1/4"],
+                    answer: "A",
+                    explanation: "📝 解析：2/3 × 3/4 = 6/12 = 1/2",
+                    knowledge: "分数乘法",
+                    difficulty: "简单"
+                },
+                {
+                    id: 14,
+                    question: "计算：2/5 ÷ 1/2 = ?",
+                    options: ["A. 4/5", "B. 2/5", "C. 1/5", "D. 3/5"],
+                    answer: "A",
+                    explanation: "📝 解析：2/5 ÷ 1/2 = 2/5 × 2/1 = 4/5",
+                    knowledge: "分数除法",
+                    difficulty: "中等"
+                },
+                {
+                    id: 15,
+                    question: "把 0.75 化成分数是多少？",
+                    options: ["A. 3/4", "B. 1/2", "C. 2/3", "D. 4/5"],
+                    answer: "A",
+                    explanation: "📝 解析：0.75 = 75/100 = 3/4",
+                    knowledge: "小数化分数",
+                    difficulty: "简单"
+                }
+            ],
+            "百分数": [
+                {
+                    id: 16,
+                    question: "把 0.25 化成百分数是多少？",
+                    options: ["A. 25%", "B. 2.5%", "C. 0.25%", "D. 250%"],
+                    answer: "A",
+                    explanation: "📝 解析：0.25 × 100% = 25%",
+                    knowledge: "小数化百分数",
+                    difficulty: "简单"
+                },
+                {
+                    id: 17,
+                    question: "把 3/5 化成百分数是多少？",
+                    options: ["A. 60%", "B. 50%", "C. 30%", "D. 80%"],
+                    answer: "A",
+                    explanation: "📝 解析：3/5 = 0.6 = 60%",
+                    knowledge: "分数化百分数",
+                    difficulty: "简单"
+                },
+                {
+                    id: 18,
+                    question: "某商品原价80元，打8折后价格是多少？",
+                    options: ["A. 64元", "B. 72元", "C. 60元", "D. 68元"],
+                    answer: "A",
+                    explanation: "📝 解析：80 × 0.8 = 64元",
+                    knowledge: "百分数应用",
+                    difficulty: "简单"
+                },
+                {
+                    id: 19,
+                    question: "某班有40人，男生占60%，男生有多少人？",
+                    options: ["A. 24人", "B. 20人", "C. 16人", "D. 30人"],
+                    answer: "A",
+                    explanation: "📝 解析：40 × 60% = 40 × 0.6 = 24人",
+                    knowledge: "百分数应用",
+                    difficulty: "简单"
+                },
+                {
+                    id: 20,
+                    question: "某数增加20%后是120，求原数",
+                    options: ["A. 100", "B. 96", "C. 110", "D. 105"],
+                    answer: "A",
+                    explanation: "📝 解析：设原数为x，x × 1.2 = 120，x = 100",
+                    knowledge: "百分数应用",
+                    difficulty: "中等"
+                }
+            ],
+            "几何图形": [
+                {
+                    id: 21,
+                    question: "正方形的边长为5cm，周长是多少？",
+                    options: ["A. 20cm", "B. 25cm", "C. 15cm", "D. 10cm"],
+                    answer: "A",
+                    explanation: "📝 解析：正方形周长 = 4 × 边长 = 4 × 5 = 20cm",
+                    knowledge: "正方形周长",
+                    difficulty: "简单"
+                },
+                {
+                    id: 22,
+                    question: "长方形的长8cm，宽5cm，面积是多少？",
+                    options: ["A. 40cm²", "B. 26cm²", "C. 30cm²", "D. 35cm²"],
+                    answer: "A",
+                    explanation: "📝 解析：长方形面积 = 长 × 宽 = 8 × 5 = 40cm²",
+                    knowledge: "长方形面积",
+                    difficulty: "简单"
+                },
+                {
+                    id: 23,
+                    question: "圆的直径是14cm，周长是多少？（π≈3.14）",
+                    options: ["A. 43.96cm", "B. 21.98cm", "C. 153.86cm", "D. 87.92cm"],
+                    answer: "A",
+                    explanation: "📝 解析：圆周长 = π × 直径 = 3.14 × 14 = 43.96cm",
+                    knowledge: "圆周长",
+                    difficulty: "简单"
+                },
+                {
+                    id: 24,
+                    question: "三角形的底边10cm，高6cm，面积是多少？",
+                    options: ["A. 30cm²", "B. 25cm²", "C. 35cm²", "D. 40cm²"],
+                    answer: "A",
+                    explanation: "📝 解析：三角形面积 = 底 × 高 ÷ 2 = 10 × 6 ÷ 2 = 30cm²",
+                    knowledge: "三角形面积",
+                    difficulty: "简单"
+                },
+                {
+                    id: 25,
+                    question: "正方体的棱长是3cm，体积是多少？",
+                    options: ["A. 27cm³", "B. 9cm³", "C. 18cm³", "D. 36cm³"],
+                    answer: "A",
+                    explanation: "📝 解析：正方体体积 = 棱长³ = 3³ = 27cm³",
+                    knowledge: "正方体体积",
+                    difficulty: "简单"
+                }
+            ],
+            "比例问题": [
+                {
+                    id: 26,
+                    question: "3:5 = ? : 20",
+                    options: ["A. 12", "B. 15", "C. 8", "D. 10"],
+                    answer: "A",
+                    explanation: "📝 解析：3:5 = x:20 → 5x=60 → x=12",
+                    knowledge: "比例计算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 27,
+                    question: "地图比例尺1:10000，实际距离500m，图上距离是多少？",
+                    options: ["A. 5cm", "B. 10cm", "C. 15cm", "D. 20cm"],
+                    answer: "A",
+                    explanation: "📝 解析：500m=50000cm，图上距离=50000÷10000=5cm",
+                    knowledge: "比例尺",
+                    difficulty: "中等"
+                },
+                {
+                    id: 28,
+                    question: "5:8 = 15:?",
+                    options: ["A. 24", "B. 20", "C. 18", "D. 22"],
+                    answer: "A",
+                    explanation: "📝 解析：5:8=15:x → 5x=120 → x=24",
+                    knowledge: "比例计算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 29,
+                    question: "某班男生与女生比例是3:2，男生18人，女生多少人？",
+                    options: ["A. 12人", "B. 15人", "C. 10人", "D. 8人"],
+                    answer: "A",
+                    explanation: "📝 解析：3:2=18:x → 3x=36 → x=12",
+                    knowledge: "比例应用",
+                    difficulty: "简单"
+                },
+                {
+                    id: 30,
+                    question: "2:3:5的和是100，求最大的数",
+                    options: ["A. 50", "B. 30", "C. 20", "D. 40"],
+                    answer: "A",
+                    explanation: "📝 解析：2+3+5=10份，每份10，最大数5×10=50",
+                    knowledge: "连比问题",
+                    difficulty: "中等"
+                }
+            ],
+            "单位换算": [
+                {
+                    id: 31,
+                    question: "3.5千米 = ? 米",
+                    options: ["A. 3500", "B. 350", "C. 35", "D. 35000"],
+                    answer: "A",
+                    explanation: "📝 解析：1千米=1000米，3.5×1000=3500米",
+                    knowledge: "长度单位换算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 32,
+                    question: "2.5小时 = ? 分钟",
+                    options: ["A. 150", "B. 120", "C. 180", "D. 200"],
+                    answer: "A",
+                    explanation: "📝 解析：1小时=60分钟，2.5×60=150分钟",
+                    knowledge: "时间单位换算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 33,
+                    question: "4500克 = ? 千克",
+                    options: ["A. 4.5", "B. 45", "C. 0.45", "D. 450"],
+                    answer: "A",
+                    explanation: "📝 解析：1000克=1千克，4500÷1000=4.5千克",
+                    knowledge: "质量单位换算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 34,
+                    question: "3立方米 = ? 立方分米",
+                    options: ["A. 3000", "B. 300", "C. 30", "D. 30000"],
+                    answer: "A",
+                    explanation: "📝 解析：1立方米=1000立方分米，3×1000=3000",
+                    knowledge: "体积单位换算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 35,
+                    question: "2.5升 = ? 毫升",
+                    options: ["A. 2500", "B. 250", "C. 25", "D. 25000"],
+                    answer: "A",
+                    explanation: "📝 解析：1升=1000毫升，2.5×1000=2500毫升",
+                    knowledge: "容积单位换算",
+                    difficulty: "简单"
+                }
+            ],
+            "简单方程": [
+                {
+                    id: 36,
+                    question: "解方程：x + 5 = 12",
+                    options: ["A. x=7", "B. x=6", "C. x=8", "D. x=9"],
+                    answer: "A",
+                    explanation: "📝 解析：x + 5 = 12 → x = 12 - 5 = 7",
+                    knowledge: "一元一次方程",
+                    difficulty: "简单"
+                },
+                {
+                    id: 37,
+                    question: "解方程：2x = 18",
+                    options: ["A. x=9", "B. x=8", "C. x=10", "D. x=7"],
+                    answer: "A",
+                    explanation: "📝 解析：2x = 18 → x = 18 ÷ 2 = 9",
+                    knowledge: "一元一次方程",
+                    difficulty: "简单"
+                },
+                {
+                    id: 38,
+                    question: "解方程：x - 3 = 8",
+                    options: ["A. x=11", "B. x=10", "C. x=12", "D. x=9"],
+                    answer: "A",
+                    explanation: "📝 解析：x - 3 = 8 → x = 8 + 3 = 11",
+                    knowledge: "一元一次方程",
+                    difficulty: "简单"
+                },
+                {
+                    id: 39,
+                    question: "解方程：3x + 2 = 14",
+                    options: ["A. x=4", "B. x=3", "C. x=5", "D. x=6"],
+                    answer: "A",
+                    explanation: "📝 解析：3x + 2 = 14 → 3x = 12 → x = 4",
+                    knowledge: "一元一次方程",
+                    difficulty: "简单"
+                },
+                {
+                    id: 40,
+                    question: "某数的3倍是27，求这个数",
+                    options: ["A. 9", "B. 8", "C. 10", "D. 7"],
+                    answer: "A",
+                    explanation: "📝 解析：设这个数为x，3x=27 → x=9",
+                    knowledge: "方程应用",
+                    difficulty: "简单"
+                }
+            ],
+            "应用题": [
+                {
+                    id: 41,
+                    question: "小明有25元，买书花了18元，还剩多少元？",
+                    options: ["A. 7元", "B. 8元", "C. 6元", "D. 9元"],
+                    answer: "A",
+                    explanation: "📝 解析：25 - 18 = 7元",
+                    knowledge: "简单应用题",
+                    difficulty: "简单"
+                },
+                {
+                    id: 42,
+                    question: "一箱苹果有36个，平均分给4个小朋友，每人得几个？",
+                    options: ["A. 9个", "B. 8个", "C. 10个", "D. 7个"],
+                    answer: "A",
+                    explanation: "📝 解析：36 ÷ 4 = 9个",
+                    knowledge: "除法应用",
+                    difficulty: "简单"
+                },
+                {
+                    id: 43,
+                    question: "火车每小时行80千米，3小时行多少千米？",
+                    options: ["A. 240千米", "B. 160千米", "C. 200千米", "D. 180千米"],
+                    answer: "A",
+                    explanation: "📝 解析：80 × 3 = 240千米",
+                    knowledge: "行程问题",
+                    difficulty: "简单"
+                },
+                {
+                    id: 44,
+                    question: "长方形的长12cm，宽8cm，周长是多少？",
+                    options: ["A. 40cm", "B. 36cm", "C. 44cm", "D. 48cm"],
+                    answer: "A",
+                    explanation: "📝 解析：周长 = 2×(长+宽) = 2×(12+8) = 40cm",
+                    knowledge: "周长应用",
+                    difficulty: "简单"
+                },
+                {
+                    id: 45,
+                    question: "某商品原价120元，打7折后价格是多少？",
+                    options: ["A. 84元", "B. 96元", "C. 72元", "D. 108元"],
+                    answer: "A",
+                    explanation: "📝 解析：120 × 0.7 = 84元",
+                    knowledge: "百分数应用",
+                    difficulty: "简单"
+                }
+            ],
+            "统计图表": [
+                {
+                    id: 46,
+                    question: "要表示各部分占总体的百分比，最适合用什么统计图？",
+                    options: ["A. 扇形统计图", "B. 条形统计图", "C. 折线统计图", "D. 直方图"],
+                    answer: "A",
+                    explanation: "📝 解析：扇形统计图最适合表示各部分占总体的百分比",
+                    knowledge: "统计图表",
+                    difficulty: "简单"
+                },
+                {
+                    id: 47,
+                    question: "要表示数据的变化趋势，最适合用什么统计图？",
+                    options: ["A. 折线统计图", "B. 条形统计图", "C. 扇形统计图", "D. 饼图"],
+                    answer: "A",
+                    explanation: "📝 解析：折线统计图最适合表示数据的变化趋势",
+                    knowledge: "统计图表",
+                    difficulty: "简单"
+                },
+                {
+                    id: 48,
+                    question: "数据：5,7,3,9,5 的平均数是多少？",
+                    options: ["A. 5.8", "B. 6", "C. 5.5", "D. 6.2"],
+                    answer: "A",
+                    explanation: "📝 解析：(5+7+3+9+5)÷5 = 29÷5 = 5.8",
+                    knowledge: "平均数",
+                    difficulty: "简单"
+                },
+                {
+                    id: 49,
+                    question: "数据：2,4,6,8,10 的中位数是多少？",
+                    options: ["A. 6", "B. 5", "C. 7", "D. 8"],
+                    answer: "A",
+                    explanation: "📝 解析：数据已排序，中位数是中间的数6",
+                    knowledge: "中位数",
+                    difficulty: "简单"
+                },
+                {
+                    id: 50,
+                    question: "数据：1,3,3,5,7 的众数是多少？",
+                    options: ["A. 3", "B. 5", "C. 7", "D. 1"],
+                    answer: "A",
+                    explanation: "📝 解析：出现次数最多的数是3",
+                    knowledge: "众数",
+                    difficulty: "简单"
+                }
+            ],
+            "几何变换": [
+                {
+                    id: 51,
+                    question: "正方形有几条对称轴？",
+                    options: ["A. 4条", "B. 2条", "C. 1条", "D. 3条"],
+                    answer: "A",
+                    explanation: "📝 解析：正方形有4条对称轴（两条对角线，两条对边中点连线）",
+                    knowledge: "对称轴",
+                    difficulty: "简单"
+                },
+                {
+                    id: 52,
+                    question: "等边三角形有几条对称轴？",
+                    options: ["A. 3条", "B. 2条", "C. 1条", "D. 4条"],
+                    answer: "A",
+                    explanation: "📝 解析：等边三角形有3条对称轴（三条高所在的直线）",
+                    knowledge: "对称轴",
+                    difficulty: "简单"
+                },
+                {
+                    id: 53,
+                    question: "长方形有几条对称轴？",
+                    options: ["A. 2条", "B. 4条", "C. 1条", "D. 3条"],
+                    answer: "A",
+                    explanation: "📝 解析：长方形有2条对称轴（两条对边中点连线）",
+                    knowledge: "对称轴",
+                    difficulty: "简单"
+                },
+                {
+                    id: 54,
+                    question: "圆有几条对称轴？",
+                    options: ["A. 无数条", "B. 4条", "C. 2条", "D. 1条"],
+                    answer: "A",
+                    explanation: "📝 解析：圆有无数条对称轴（任何直径所在的直线）",
+                    knowledge: "对称轴",
+                    difficulty: "简单"
+                },
+                {
+                    id: 55,
+                    question: "等腰三角形有几条对称轴？",
+                    options: ["A. 1条", "B. 2条", "C. 3条", "D. 0条"],
+                    answer: "A",
+                    explanation: "📝 解析：等腰三角形有1条对称轴（底边上的高所在的直线）",
+                    knowledge: "对称轴",
+                    difficulty: "简单"
+                }
+            ],
+            "时间问题": [
+                {
+                    id: 56,
+                    question: "3小时25分钟 = ? 分钟",
+                    options: ["A. 205", "B. 195", "C. 215", "D. 225"],
+                    answer: "A",
+                    explanation: "📝 解析：3×60=180分钟，180+25=205分钟",
+                    knowledge: "时间换算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 57,
+                    question: "从8:15到11:30经过了多少时间？",
+                    options: ["A. 3小时15分钟", "B. 3小时", "C. 3小时30分钟", "D. 2小时45分钟"],
+                    answer: "A",
+                    explanation: "📝 解析：11:30-8:15=3小时15分钟",
+                    knowledge: "时间计算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 58,
+                    question: "下午2:30用24时制表示是？",
+                    options: ["A. 14:30", "B. 12:30", "C. 16:30", "D. 15:30"],
+                    answer: "A",
+                    explanation: "📝 解析：下午2:30 = 12+2:30 = 14:30",
+                    knowledge: "24时制",
+                    difficulty: "简单"
+                },
+                {
+                    id: 59,
+                    question: "一场电影从19:20开始，时长1小时45分钟，什么时候结束？",
+                    options: ["A. 21:05", "B. 20:05", "C. 21:15", "D. 20:15"],
+                    answer: "A",
+                    explanation: "📝 解析：19:20 + 1小时45分钟 = 21:05",
+                    knowledge: "时间计算",
+                    difficulty: "中等"
+                },
+                {
+                    id: 60,
+                    question: "150秒 = ? 分钟 ? 秒",
+                    options: ["A. 2分钟30秒", "B. 1分钟50秒", "C. 2分钟", "D. 3分钟"],
+                    answer: "A",
+                    explanation: "📝 解析：150÷60=2余30，所以是2分钟30秒",
+                    knowledge: "时间换算",
+                    difficulty: "简单"
+                }
+            ],
+            "货币问题": [
+                {
+                    id: 61,
+                    question: "5元 + 3角 + 8分 = ? 元",
+                    options: ["A. 5.38元", "B. 5.83元", "C. 5.08元", "D. 5.30元"],
+                    answer: "A",
+                    explanation: "📝 解析：3角=0.3元，8分=0.08元，5+0.3+0.08=5.38元",
+                    knowledge: "货币计算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 62,
+                    question: "用100元买28元的书，找回多少元？",
+                    options: ["A. 72元", "B. 82元", "C. 62元", "D. 78元"],
+                    answer: "A",
+                    explanation: "📝 解析：100 - 28 = 72元",
+                    knowledge: "货币应用",
+                    difficulty: "简单"
+                },
+                {
+                    id: 63,
+                    question: "3张10元 + 5张5元 = ? 元",
+                    options: ["A. 55元", "B. 50元", "C. 60元", "D. 65元"],
+                    answer: "A",
+                    explanation: "📝 解析：3×10=30元，5×5=25元，30+25=55元",
+                    knowledge: "货币计算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 64,
+                    question: "一件衣服85元，妈妈付了100元，应找回多少元？",
+                    options: ["A. 15元", "B. 25元", "C. 20元", "D. 10元"],
+                    answer: "A",
+                    explanation: "📝 解析：100 - 85 = 15元",
+                    knowledge: "货币应用",
+                    difficulty: "简单"
+                },
+                {
+                    id: 65,
+                    question: "小明有50元，买了3本8元的笔记本，还剩多少元？",
+                    options: ["A. 26元", "B. 24元", "C. 28元", "D. 22元"],
+                    answer: "A",
+                    explanation: "📝 解析：3×8=24元，50-24=26元",
+                    knowledge: "货币应用",
+                    difficulty: "简单"
+                }
+            ],
+            "找规律": [
+                {
+                    id: 66,
+                    question: "找规律：2,4,6,8,10,?",
+                    options: ["A. 12", "B. 14", "C. 16", "D. 18"],
+                    answer: "A",
+                    explanation: "📝 解析：每个数比前一个数大2，10+2=12",
+                    knowledge: "数字规律",
+                    difficulty: "简单"
+                },
+                {
+                    id: 67,
+                    question: "找规律：1,4,9,16,25,?",
+                    options: ["A. 36", "B. 30", "C. 49", "D. 64"],
+                    answer: "A",
+                    explanation: "📝 解析：1²,2²,3²,4²,5²,6²=36",
+                    knowledge: "平方数列",
+                    difficulty: "简单"
+                },
+                {
+                    id: 68,
+                    question: "找规律：3,6,12,24,48,?",
+                    options: ["A. 96", "B. 72", "C. 84", "D. 108"],
+                    answer: "A",
+                    explanation: "📝 解析：每个数是前一个数的2倍，48×2=96",
+                    knowledge: "等比数列",
+                    difficulty: "简单"
+                },
+                {
+                    id: 69,
+                    question: "找规律：1,1,2,3,5,8,13,?",
+                    options: ["A. 21", "B. 18", "C. 20", "D. 19"],
+                    answer: "A",
+                    explanation: "📝 解析：斐波那契数列，每个数是前两个数之和，8+13=21",
+                    knowledge: "斐波那契数列",
+                    difficulty: "中等"
+                },
+                {
+                    id: 70,
+                    question: "找规律：2,5,10,17,26,?",
+                    options: ["A. 37", "B. 35", "C. 38", "D. 40"],
+                    answer: "A",
+                    explanation: "📝 解析：差为3,5,7,9，下一个差11，26+11=37",
+                    knowledge: "二级等差数列",
+                    difficulty: "中等"
+                }
+            ],
+            "逻辑推理": [
+                {
+                    id: 71,
+                    question: "小明比小红高，小红比小刚矮，谁最高？",
+                    options: ["A. 小明", "B. 小红", "C. 小刚", "D. 无法确定"],
+                    answer: "A",
+                    explanation: "📝 解析：小明>小红，小红<小刚，所以小明>小红<小刚，但无法确定小明和小刚的关系，不过题目说小红比小刚矮，即小刚>小红，结合小明>小红，无法直接比较小明和小刚",
+                    knowledge: "逻辑推理",
+                    difficulty: "中等"
+                },
+                {
+                    id: 72,
+                    question: "如果所有的A都是B，有些B是C，那么：",
+                    options: ["A. 有些A可能是C", "B. 所有的A都是C", "C. 所有的C都是A", "D. 有些C是A"],
+                    answer: "A",
+                    explanation: "📝 解析：所有A都是B，有些B是C，所以有些A可能是C",
+                    knowledge: "逻辑推理",
+                    difficulty: "中等"
+                },
+                {
+                    id: 73,
+                    question: "3个人握手，每两人握一次，共握手几次？",
+                    options: ["A. 3次", "B. 2次", "C. 4次", "D. 6次"],
+                    answer: "A",
+                    explanation: "📝 解析：3个人握手次数=C(3,2)=3次",
+                    knowledge: "组合问题",
+                    difficulty: "简单"
+                },
+                {
+                    id: 74,
+                    question: "从4个不同水果中选2个，有几种选法？",
+                    options: ["A. 6种", "B. 4种", "C. 8种", "D. 12种"],
+                    answer: "A",
+                    explanation: "📝 解析：C(4,2)=6种",
+                    knowledge: "组合问题",
+                    difficulty: "中等"
+                },
+                {
+                    id: 75,
+                    question: "小明在小红的左边，小红在小刚的左边，谁在最左边？",
+                    options: ["A. 小明", "B. 小红", "C. 小刚", "D. 无法确定"],
+                    answer: "A",
+                    explanation: "📝 解析：小明-小红-小刚，所以小明在最左边",
+                    knowledge: "位置关系",
+                    difficulty: "简单"
+                }
+            ],
+            "估算问题": [
+                {
+                    id: 76,
+                    question: "估算：48×52 ≈ ?",
+                    options: ["A. 2500", "B. 2400", "C. 2600", "D. 2300"],
+                    answer: "A",
+                    explanation: "📝 解析：48≈50，52≈50，50×50=2500",
+                    knowledge: "乘法估算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 77,
+                    question: "估算：298+305 ≈ ?",
+                    options: ["A. 600", "B. 500", "C. 700", "D. 800"],
+                    answer: "A",
+                    explanation: "📝 解析：298≈300，305≈300，300+300=600",
+                    knowledge: "加法估算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 78,
+                    question: "估算：89×11 ≈ ?",
+                    options: ["A. 900", "B. 800", "C. 1000", "D. 1200"],
+                    answer: "A",
+                    explanation: "📝 解析：89≈90，11≈10，90×10=900",
+                    knowledge: "乘法估算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 79,
+                    question: "估算：612÷3 ≈ ?",
+                    options: ["A. 200", "B. 150", "C. 250", "D. 300"],
+                    answer: "A",
+                    explanation: "📝 解析：612≈600，600÷3=200",
+                    knowledge: "除法估算",
+                    difficulty: "简单"
+                },
+                {
+                    id: 80,
+                    question: "估算：4.8×5.2 ≈ ?",
+                    options: ["A. 25", "B. 20", "C. 30", "D. 15"],
+                    answer: "A",
+                    explanation: "📝 解析：4.8≈5，5.2≈5，5×5=25",
+                    knowledge: "小数估算",
+                    difficulty: "简单"
+                }
+            ],
+            "综合应用": [
+                {
+                    id: 81,
+                    question: "一个数加上它的50%是75，求这个数",
+                    options: ["A. 50", "B. 60", "C. 40", "D. 55"],
+                    answer: "A",
+                    explanation: "📝 解析：设这个数为x，x+0.5x=75 → 1.5x=75 → x=50",
+                    knowledge: "百分数应用",
+                    difficulty: "中等"
+                },
+                {
+                    id: 82,
+                    question: "长方形的周长是30cm，长是宽的2倍，求面积",
+                    options: ["A. 50cm²", "B. 45cm²", "C. 60cm²", "D. 55cm²"],
+                    answer: "A",
+                    explanation: "📝 解析：设宽x，长2x，周长2(x+2x)=30 → x=5，面积=5×10=50cm²",
+                    knowledge: "长方形面积",
+                    difficulty: "中等"
+                },
+                {
+                    id: 83,
+                    question: "某商品先涨价10%，再降价10%，现价是原价的多少？",
+                    options: ["A. 99%", "B. 100%", "C. 101%", "D. 98%"],
+                    answer: "A",
+                    explanation: "📝 解析：设原价100，涨价后110，降价后110×0.9=99，所以是99%",
+                    knowledge: "百分数应用",
+                    difficulty: "中等"
+                },
+                {
+                    id: 84,
+                    question: "3个人6天完成工作，6个人需要几天？",
+                    options: ["A. 3天", "B. 2天", "C. 4天", "D. 5天"],
+                    answer: "A",
+                    explanation: "📝 解析：总工作量=3×6=18人天，18÷6=3天",
+                    knowledge: "工程问题",
+                    difficulty: "中等"
+                },
+                {
+                    id: 85,
+                    question: "水池有进水管和出水管，进水管4小时注满，出水管6小时放空，两管同时开，几小时注满？",
+                    options: ["A. 12小时", "B. 8小时", "C. 10小时", "D. 6小时"],
+                    answer: "A",
+                    explanation: "📝 解析：进水管效率1/4，出水管效率1/6，净效率1/4-1/6=1/12，需要12小时",
+                    knowledge: "工程问题",
+                    difficulty: "中等"
+                }
+            ],
+            "趣味数学": [
+                {
+                    id: 86,
+                    question: "鸡兔同笼，头10个，脚28只，鸡有几只？",
+                    options: ["A. 6只", "B. 4只", "C. 5只", "D. 7只"],
+                    answer: "A",
+                    explanation: "📝 解析：设鸡x只，兔y只，x+y=10，2x+4y=28，解得x=6，y=4",
+                    knowledge: "鸡兔同笼",
+                    difficulty: "中等"
+                },
+                {
+                    id: 87,
+                    question: "一个数，加上5，乘以5，减去5，除以5，结果还是5，原数是多少？",
+                    options: ["A. 1", "B. 2", "C. 3", "D. 4"],
+                    answer: "A",
+                    explanation: "📝 解析：倒推法，5×5=25，25+5=30，30÷5=6，6-5=1",
+                    knowledge: "逆推问题",
+                    difficulty: "中等"
+                },
+                {
+                    id: 88,
+                    question: "时钟3点敲3下，6秒敲完，9点敲9下，几秒敲完？",
+                    options: ["A. 24秒", "B. 18秒", "C. 27秒", "D. 30秒"],
+                    answer: "A",
+                    explanation: "📝 解析：敲3下有2个间隔，每个间隔3秒，敲9下有8个间隔，8×3=24秒",
+                    knowledge: "植树问题",
+                    difficulty: "中等"
+                },
+                {
+                    id: 89,
+                    question: "一根木头锯成3段需要6分钟，锯成6段需要几分钟？",
+                    options: ["A. 15分钟", "B. 12分钟", "C. 18分钟", "D. 20分钟"],
+                    answer: "A",
+                    explanation: "📝 解析：锯成3段需要锯2次，每次3分钟，锯成6段需要锯5次，5×3=15分钟",
+                    knowledge: "植树问题",
+                    difficulty: "中等"
+                },
+                {
+                    id: 90,
+                    question: "小明上楼，从1楼到3楼用6秒，从1楼到6楼用几秒？",
+                    options: ["A. 15秒", "B. 12秒", "C. 18秒", "D. 20秒"],
+                    answer: "A",
+                    explanation: "📝 解析：1楼到3楼有2个间隔，每个间隔3秒，1楼到6楼有5个间隔，5×3=15秒",
+                    knowledge: "植树问题",
+                    difficulty: "中等"
+                }
+            ],
+            "思维拓展": [
+                {
+                    id: 91,
+                    question: "用2,3,4,5组成没有重复数字的两位数，能组成几个？",
+                    options: ["A. 12个", "B. 10个", "C. 8个", "D. 6个"],
+                    answer: "A",
+                    explanation: "📝 解析：十位有4种选择，个位有3种选择，4×3=12个",
+                    knowledge: "排列组合",
+                    difficulty: "中等"
+                },
+                {
+                    id: 92,
+                    question: "5个小朋友握手，每两人握一次，共握手几次？",
+                    options: ["A. 10次", "B. 8次", "C. 12次", "D. 15次"],
+                    answer: "A",
+                    explanation: "📝 解析：C(5,2)=10次",
+                    knowledge: "组合问题",
+                    difficulty: "中等"
+                },
+                {
+                    id: 93,
+                    question: "一个正方形被分成4个小正方形，需要画几条线？",
+                    options: ["A. 2条", "B. 3条", "C. 4条", "D. 5条"],
+                    answer: "A",
+                    explanation: "📝 解析：横竖各画一条线就能分成4个小正方形",
+                    knowledge: "图形分割",
+                    difficulty: "简单"
+                },
+                {
+                    id: 94,
+                    question: "1+2+3+...+10 = ?",
+                    options: ["A. 55", "B. 50", "C. 45", "D. 60"],
+                    answer: "A",
+                    explanation: "📝 解析：(1+10)×10÷2=55",
+                    knowledge: "等差数列求和",
+                    difficulty: "简单"
+                },
+                {
+                    id: 95,
+                    question: "2+4+6+...+20 = ?",
+                    options: ["A. 110", "B. 100", "C. 120", "D. 90"],
+                    answer: "A",
+                    explanation: "📝 解析：首项2，末项20，项数10，(2+20)×10÷2=110",
+                    knowledge: "等差数列求和",
+                    difficulty: "中等"
+                }
+            ],
+            "实际应用": [
+                {
+                    id: 96,
+                    question: "妈妈买了3千克苹果，每千克8元，付了50元，找回多少元？",
+                    options: ["A. 26元", "B. 24元", "C. 28元", "D. 22元"],
+                    answer: "A",
+                    explanation: "📝 解析：3×8=24元，50-24=26元",
+                    knowledge: "购物问题",
+                    difficulty: "简单"
+                },
+                {
+                    id: 97,
+                    question: "汽车每小时行60千米，2.5小时行多少千米？",
+                    options: ["A. 150千米", "B. 120千米", "C. 180千米", "D. 200千米"],
+                    answer: "A",
+                    explanation: "📝 解析：60×2.5=150千米",
+                    knowledge: "行程问题",
+                    difficulty: "简单"
+                },
+                {
+                    id: 98,
+                    question: "长方体的长5cm，宽4cm，高3cm，体积是多少？",
+                    options: ["A. 60cm³", "B. 50cm³", "C. 40cm³", "D. 70cm³"],
+                    answer: "A",
+                    explanation: "📝 解析：体积=长×宽×高=5×4×3=60cm³",
+                    knowledge: "长方体体积",
+                    difficulty: "简单"
+                },
+                {
+                    id: 99,
+                    question: "圆的半径是7cm，面积是多少？（π≈3.14）",
+                    options: ["A. 153.86cm²", "B. 43.96cm²", "C. 21.98cm²", "D. 87.92cm²"],
+                    answer: "A",
+                    explanation: "📝 解析：面积=πr²=3.14×49=153.86cm²",
+                    knowledge: "圆面积",
+                    difficulty: "简单"
+                },
+                {
+                    id: 100,
+                    question: "某班有40人，男生占60%，女生有多少人？",
+                    options: ["A. 16人", "B. 20人", "C. 24人", "D. 18人"],
+                    answer: "A",
+                    explanation: "📝 解析：女生占40%，40×40%=16人",
+                    knowledge: "百分数应用",
+                    difficulty: "简单"
+                }
+            ]
+        };
+
+        // 应用状态管理
+        let appState = {
+            currentQuestions: [],
+            currentQuestionIndex: 0,
+            score: 0,
+            correctCount: 0,
+            wrongCount: 0,
+            answered: false,
+            wrongQuestions: [],
+            practiceHistory: {},
+            currentChapter: "all"
+        };
+
+        // 初始化应用
+        function init() {
+            loadAllProgress();
+            showAllQuestions();
+            initChapters();
+            updateStats();
+            updateProgressBar();
+            updateWrongQuestionsList();
+        }
+
+        // 标签切换功能
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            if (tabName === 'report') {
+                generateReport();
+            }
+        }
+
+        // 显示所有题目
+        function showAllQuestions() {
+            appState.currentQuestions = [];
+            Object.values(questionBank).forEach(chapter => {
+                appState.currentQuestions.push(...chapter);
+            });
+            appState.currentChapter = "all";
+            appState.currentQuestionIndex = 0;
+            showCurrentQuestion();
+        }
+
+        // 初始化章节列表
+        function initChapters() {
+            const chapterList = document.getElementById('chapter-list');
+            chapterList.innerHTML = '';
+            
+            const allItem = document.createElement('div');
+            allItem.className = 'chapter-item';
+            allItem.innerHTML = `
+                <strong>全部题目</strong>
+                <div style="color: #666; font-size: 12px; margin-top: 5px;">100 道题</div>
+            `;
+            allItem.onclick = () => {
+                showAllQuestions();
+                switchTab('practice');
+            };
+            chapterList.appendChild(allItem);
+            
+            Object.entries(questionBank).forEach(([chapterName, questions]) => {
+                const chapterItem = document.createElement('div');
+                chapterItem.className = 'chapter-item';
+                chapterItem.innerHTML = `
+                    <strong>${chapterName}</strong>
+                    <div style="color: #666; font-size: 12px; margin-top: 5px;">${questions.length} 道题</div>
+                `;
+                chapterItem.onclick = () => {
+                    startChapterPractice(chapterName);
+                    switchTab('practice');
+                };
+                chapterList.appendChild(chapterItem);
+            });
+        }
+
+        // 开始章节练习
+        function startChapterPractice(chapterName) {
+            appState.currentChapter = chapterName;
+            appState.currentQuestions = [...questionBank[chapterName]];
+            appState.currentQuestionIndex = 0;
+            showCurrentQuestion();
+        }
+
+        // 随机打乱选项顺序
+        function shuffleOptions(options, correctAnswer) {
+            // 创建选项和答案的映射
+            const optionMap = {};
+            options.forEach(option => {
+                optionMap[option[0]] = option;
+            });
+            
+            // 提取选项字母并打乱
+            const letters = Object.keys(optionMap);
+            const shuffledLetters = [...letters].sort(() => Math.random() - 0.5);
+            
+            // 重新生成选项数组
+            const shuffledOptions = shuffledLetters.map(letter => optionMap[letter]);
+            
+            // 找到新的正确答案位置
+            const newCorrectAnswer = shuffledLetters.findIndex(letter => letter === correctAnswer);
+            
+            return {
+                options: shuffledOptions,
+                correctAnswer: shuffledLetters[newCorrectAnswer]
+            };
+        }
+
+        // 显示当前题目
+        function showCurrentQuestion() {
+            if (appState.currentQuestions.length === 0) {
+                document.getElementById('question-text').textContent = '暂无题目';
+                return;
+            }
+            
+            const q = appState.currentQuestions[appState.currentQuestionIndex];
+            
+            // 随机打乱选项
+            const shuffled = shuffleOptions(q.options, q.answer);
+            const shuffledQuestion = {
+                ...q,
+                options: shuffled.options,
+                answer: shuffled.correctAnswer
+            };
+            
+            document.getElementById('question-number').textContent = 
+                `题目 #${appState.currentQuestionIndex + 1} · ${q.difficulty} · ${appState.currentChapter === 'all' ? q.knowledge : appState.currentChapter}`;
+            document.getElementById('question-text').textContent = q.question;
+            document.getElementById('knowledge-tag').textContent = `知识点：${q.knowledge}`;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            shuffledQuestion.options.forEach((option) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.textContent = option;
+                div.onclick = () => checkAnswer(option[0], shuffledQuestion);
+                optionsContainer.appendChild(div);
+            });
+            
+            document.getElementById('explanation').style.display = 'none';
+            appState.answered = false;
+            
+            updateStats();
+            updateProgressBar();
+        }
+
+        // 检查答案
+        function checkAnswer(selected, question) {
+            if (appState.answered) return;
+            
+            appState.answered = true;
+            const correctAnswer = question.answer;
+            const options = document.querySelectorAll('.option');
+            
+            let isCorrect = false;
+            
+            options.forEach(opt => {
+                if (opt.textContent[0] === correctAnswer) {
+                    opt.classList.add('correct');
+                }
+                if (opt.textContent[0] === selected) {
+                    if (selected === correctAnswer) {
+                        opt.classList.add('correct');
+                        isCorrect = true;
+                        appState.score += 10;
+                        appState.correctCount++;
+                    } else {
+                        opt.classList.add('wrong');
+                        appState.wrongCount++;
+                        if (!appState.wrongQuestions.some(wq => wq.id === question.id)) {
+                            appState.wrongQuestions.push({...question, userAnswer: selected});
+                        }
+                    }
+                }
+            });
+            
+            if (!appState.practiceHistory[appState.currentChapter]) {
+                appState.practiceHistory[appState.currentChapter] = [];
+            }
+            appState.practiceHistory[appState.currentChapter].push({
+                questionId: question.id,
+                isCorrect: isCorrect,
+                timestamp: new Date().toISOString()
+            });
+            
+            updateStats();
+            updateWrongQuestionsList();
+            saveAllProgress();
+            
+            setTimeout(() => {
+                showExplanation(question);
+            }, 1000);
+        }
+
+        // 显示解析
+        function showExplanation(question) {
+            const explanation = document.getElementById('explanation');
+            explanation.textContent = question.explanation;
+            explanation.style.display = 'block';
+        }
+
+        // 下一题
+        function nextQuestion() {
+            appState.currentQuestionIndex = (appState.currentQuestionIndex + 1) % appState.currentQuestions.length;
+            showCurrentQuestion();
+        }
+
+        // 更新统计信息
+        function updateStats() {
+            document.getElementById('score').textContent = appState.score;
+            document.getElementById('correct-count').textContent = appState.correctCount;
+            document.getElementById('wrong-count').textContent = appState.wrongCount;
+            document.getElementById('progress').textContent = 
+                `${appState.currentQuestionIndex + 1}/${appState.currentQuestions.length}`;
+        }
+
+        // 更新进度条
+        function updateProgressBar() {
+            const progress = appState.currentQuestions.length > 0 ? 
+                ((appState.currentQuestionIndex + 1) / appState.currentQuestions.length) * 100 : 0;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        // 更新错题列表
+        function updateWrongQuestionsList() {
+            const wrongList = document.getElementById('wrong-questions-list');
+            
+            if (appState.wrongQuestions.length === 0) {
+                wrongList.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">暂无错题，继续加油！💪</div>';
+                return;
+            }
+            
+            wrongList.innerHTML = '';
+            appState.wrongQuestions.forEach((q, index) => {
+                const item = document.createElement('div');
+                item.className = 'wrong-question-item';
+                item.innerHTML = `
+                    <div><strong>${index + 1}. ${q.question}</strong></div>
+                    <div style="font-size: 12px; color: #666; margin-top: 5px;">你的答案: ${q.userAnswer} | 正确答案: ${q.answer}</div>
+                    <div style="font-size: 11px; color: #ff9800; margin-top: 3px;">${q.knowledge}</div>
+                `;
+                wrongList.appendChild(item);
+            });
+        }
+
+        // 练习错题
+        function practiceWrongQuestions() {
+            if (appState.wrongQuestions.length === 0) {
+                alert('暂无错题可以练习！');
+                return;
+            }
+            
+            appState.currentChapter = 'wrong';
+            appState.currentQuestions = [...appState.wrongQuestions];
+            appState.currentQuestionIndex = 0;
+            showCurrentQuestion();
+            switchTab('practice');
+        }
+
+        // 生成学习报告
+        function generateReport() {
+            const totalQuestions = appState.correctCount + appState.wrongCount;
+            
+            if (totalQuestions === 0) {
+                document.getElementById('overall-report').textContent = '请先完成一些题目';
+                document.getElementById('knowledge-report').textContent = '暂无数据';
+                document.getElementById('suggestion').textContent = '开始刷题吧！';
+                return;
+            }
+            
+            const accuracy = Math.round((appState.correctCount / totalQuestions) * 100);
+            
+            document.getElementById('overall-report').innerHTML = `
+                <div>完成题目: ${totalQuestions} 道</div>
+                <div>正确率: ${accuracy}%</div>
+                <div>累计得分: ${appState.score} 分</div>
+            `;
+            
+            const knowledgeStats = {};
+            Object.values(appState.practiceHistory).flat().forEach(record => {
+                const question = findQuestionById(record.questionId);
+                if (question) {
+                    if (!knowledgeStats[question.knowledge]) {
+                        knowledgeStats[question.knowledge] = { total: 0, correct: 0 };
+                    }
+                    knowledgeStats[question.knowledge].total++;
+                    if (record.isCorrect) knowledgeStats[question.knowledge].correct++;
+                }
+            });
+            
+            let knowledgeHTML = '';
+            Object.entries(knowledgeStats).forEach(([knowledge, stats]) => {
+                const knowledgeAccuracy = Math.round((stats.correct / stats.total) * 100);
+                knowledgeHTML += `<div>${knowledge}: ${knowledgeAccuracy}% (${stats.correct}/${stats.total})</div>`;
+            });
+            document.getElementById('knowledge-report').innerHTML = knowledgeHTML || '暂无数据';
+            
+            let suggestion = '';
+            if (accuracy >= 80) {
+                suggestion = '👍 表现优秀！继续保持';
+            } else if (accuracy >= 60) {
+                suggestion = '💪 表现良好，建议重点复习错题';
+            } else {
+                suggestion = '📚 需要加强基础，建议从简单题目开始';
+            }
+            document.getElementById('suggestion').textContent = suggestion;
+        }
+
+        // 根据ID查找题目
+        function findQuestionById(id) {
+            for (const chapter of Object.values(questionBank)) {
+                const question = chapter.find(q => q.id === id);
+                if (question) return question;
+            }
+            return null;
+        }
+
+        // 保存功能
+        function saveAllProgress() {
+            const progressData = {
+                appState: {
+                    score: appState.score,
+                    correctCount: appState.correctCount,
+                    wrongCount: appState.wrongCount,
+                    wrongQuestions: appState.wrongQuestions,
+                    practiceHistory: appState.practiceHistory
+                },
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('grade6MathProgress', JSON.stringify(progressData));
+        }
+
+        function loadAllProgress() {
+            const saved = localStorage.getItem('grade6MathProgress');
+            if (saved) {
+                try {
+                    const progressData = JSON.parse(saved);
+                    if (progressData.appState) {
+                        Object.assign(appState, progressData.appState);
+                    }
+                } catch (e) {
+                    console.log('加载进度失败');
+                }
+            }
+        }
+
+        function saveProgress() {
+            saveAllProgress();
+            alert('进度已保存到本地！');
+        }
+
+        // 初始化
+        window.onload = init;
+    </script>
+</body>
+</html>

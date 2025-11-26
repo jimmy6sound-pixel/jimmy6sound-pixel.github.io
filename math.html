@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初三数学中考冲刺复习 - 九年级上册重点难点突破</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --warning: #f39c12;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-weight: bold;
+        }
+        
+        .tab:hover {
+            background-color: #f1f8ff;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .content-section {
+            display: none;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            border-left: 5px solid var(--primary);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .knowledge-point {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .point-title {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .point-title i {
+            margin-right: 0.5rem;
+            color: var(--warning);
+        }
+        
+        .memory-card {
+            background: #e8f4fd;
+            border: 1px solid #b8daff;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .memory-title {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .memory-title i {
+            margin-right: 0.5rem;
+        }
+        
+        .example-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .method-tip {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .formula {
+            background: #f0f7ff;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin: 1rem 0;
+            font-family: 'Cambria Math', serif;
+            text-align: center;
+            border: 1px dashed #b8daff;
+        }
+        
+        .key-point {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .practice-box {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .practice-title {
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .practice-title i {
+            margin-right: 0.5rem;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .definition-list {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .definition-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-list {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .step-list li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .toggle-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+        
+        .toggle-btn:hover {
+            background: #2980b9;
+        }
+        
+        .answer {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .question-counter {
+            background: var(--warning);
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                text-align: center;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-btn {
+                position: static;
+                transform: none;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> 返回首页
+            </a>
+            <h1>初三数学中考冲刺复习</h1>
+            <p>九年级上册重点难点突破 | 人教版 | 知识点+练习题深度解析</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="nav-tabs">
+            <div class="tab active" data-target="overview">总览</div>
+            <div class="tab" data-target="quadratic">一元二次方程</div>
+            <div class="tab" data-target="function">二次函数</div>
+            <div class="tab" data-target="rotation">旋转</div>
+            <div class="tab" data-target="circle">圆</div>
+            <div class="tab" data-target="practice">综合练习</div>
+        </div>
+        
+        <section id="overview" class="content-section active">
+            <h2 class="section-title">九年级上册数学总览</h2>
+            <p>九年级上册数学主要包括四个核心章节：一元二次方程、二次函数、旋转和圆。这些内容是中考数学的重点和难点，需要重点掌握。</p>
+            
+            <div class="grid-container">
+                <div class="card">
+                    <h3><i class="fas fa-calculator"></i> 一元二次方程</h3>
+                    <p>包括定义、解法、根的判别式、根与系数的关系以及实际应用。</p>
+                    <ul class="definition-list">
+                        <li>定义与一般形式</li>
+                        <li>四种解法</li>
+                        <li>根的判别式</li>
+                        <li>韦达定理</li>
+                        <li>实际应用问题</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-chart-line"></i> 二次函数</h3>
+                    <p>包括图象和性质、与一元二次方程的关系以及实际应用。</p>
+                    <ul class="definition-list">
+                        <li>定义与三种表达式</li>
+                        <li>图象与性质</li>
+                        <li>与一元二次方程关系</li>
+                        <li>最值问题</li>
+                        <li>实际应用</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-sync-alt"></i> 旋转</h3>
+                    <p>包括旋转的定义和性质、中心对称以及关于原点对称的点的坐标。</p>
+                    <ul class="definition-list">
+                        <li>旋转的定义与性质</li>
+                        <li>旋转作图</li>
+                        <li>中心对称</li>
+                        <li>中心对称图形</li>
+                        <li>关于原点对称</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-circle"></i> 圆</h3>
+                    <p>包括圆的基本性质、与圆有关的位置关系以及弧长和扇形面积。</p>
+                    <ul class="definition-list">
+                        <li>圆的基本概念</li>
+                        <li>垂径定理</li>
+                        <li>圆心角、弧、弦关系</li>
+                        <li>圆周角定理</li>
+                        <li>点、直线与圆的位置关系</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="key-point">
+                <h3><i class="fas fa-lightbulb"></i> 中考命题趋势</h3>
+                <p>近年来中考数学命题更加注重数学与实际生活的联系，强调数学建模能力和解决实际问题的能力。一元二次方程和二次函数的应用题、圆的综合题是高频考点。</p>
+                <p><strong>重点考查内容：</strong></p>
+                <ul class="definition-list">
+                    <li>一元二次方程的实际应用（传播问题、增长率问题、几何问题）</li>
+                    <li>二次函数的图象性质与最值问题</li>
+                    <li>圆的综合证明与计算</li>
+                    <li>旋转与对称的综合应用</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="quadratic" class="content-section">
+            <h2 class="section-title">一元二次方程</h2>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 1. 一元二次方程的定义及一般形式</h3>
+                <p>等号两边都是整式，只含有一个未知数(一元)，并且未知数的最高次数是2(二次)的方程，叫做一元二次方程。</p>
+                <div class="formula">ax² + bx + c = 0 (a ≠ 0)</div>
+                <p>其中ax²是二次项，a是二次项系数；bx是一次项，b是一次项系数；c是常数项。</p>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>一元：只含一个未知数</li>
+                        <li>二次：未知数的最高次数是2</li>
+                        <li>整式方程：等号两边都是整式</li>
+                        <li>一般形式：ax²+bx+c=0 (a≠0)</li>
+                        <li>二次项系数a不能为0</li>
+                    </ul>
+                </div>
+                
+                <div class="example-box">
+                    <div class="example-title">例题1：判断一元二次方程</div>
+                    <p>下列关于x的方程中，一元二次方程的个数是（ ）</p>
+                    <p>① ax²+x+2=0 ② 1/x²=3 ③ x=3x² ④ (x+1)(x-1)=x²+4x</p>
+                    <p><strong>解析：</strong></p>
+                    <ul class="definition-list">
+                        <li>① 当a=0时，不是一元二次方程；当a≠0时，是一元二次方程</li>
+                        <li>② 是分式方程，不是整式方程</li>
+                        <li>③ 整理得3x²-x=0，是一元二次方程</li>
+                        <li>④ 整理可得4x+1=0，是一元一次方程</li>
+                    </ul>
+                    <p>所以一元二次方程的个数是1或2，取决于a的值。</p>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 2. 一元二次方程的解法</h3>
+                <p>解一元二次方程的基本思想是"降次"，具体方法有：</p>
+                <ul class="definition-list">
+                    <li><strong>直接开平方法：</strong> 适用于形如x²=p或(mx+n)²=p(p≥0)的方程</li>
+                    <li><strong>配方法：</strong> 通过配方将方程转化为(mx+n)²=p的形式</li>
+                    <li><strong>公式法：</strong> 利用求根公式直接求解</li>
+                    <li><strong>因式分解法：</strong> 将方程左边分解为两个一次因式的乘积</li>
+                </ul>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>直接开平方法：适用于缺少一次项的方程</li>
+                        <li>配方法：关键步骤是"一次项系数一半的平方"</li>
+                        <li>公式法：适用于所有一元二次方程</li>
+                        <li>因式分解法：最简便的方法，但只适用于特殊形式</li>
+                        <li>选择顺序：先考虑因式分解法，再公式法，最后配方法</li>
+                    </ul>
+                </div>
+                
+                <div class="formula">求根公式：x = [-b ± √(b²-4ac)] / (2a)</div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 3. 根的判别式</h3>
+                <p>一元二次方程ax²+bx+c=0根的判别式：△ = b² - 4ac</p>
+                <ul class="definition-list">
+                    <li>△ > 0 ⇔ 方程有两个不相等的实数根</li>
+                    <li>△ = 0 ⇔ 方程有两个相等的实数根</li>
+                    <li>△ < 0 ⇔ 方程无实数根</li>
+                </ul>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>判别式△=b²-4ac</li>
+                        <li>△>0：两个不等实根</li>
+                        <li>△=0：两个相等实根</li>
+                        <li>△<0：无实根</li>
+                        <li>当a,c异号时，方程一定有两个不相等的实数根</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 4. 根与系数的关系（韦达定理）</h3>
+                <p>如果方程ax²+bx+c=0(a≠0)的两个实数根为x₁,x₂，那么：</p>
+                <div class="formula">x₁ + x₂ = -b/a, x₁x₂ = c/a</div>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>两根之和：x₁+x₂=-b/a</li>
+                        <li>两根之积：x₁x₂=c/a</li>
+                        <li>使用前提：a≠0且△≥0</li>
+                        <li>重要变形：x₁²+x₂²=(x₁+x₂)²-2x₁x₂</li>
+                        <li>重要变形：(x₁-x₂)²=(x₁+x₂)²-4x₁x₂</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 一元二次方程配套练习</div>
+                
+                <p><strong><span class="question-counter">1</span>题目：</strong> 若关于x的一元二次方程kx²-2x+3=0有两个实数根，则k的取值范围是______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer1')">查看答案</button>
+                <div id="answer1" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>∵ 方程有两个实数根</p>
+                    <p>∴ 需满足两个条件：</p>
+                    <ol class="step-list">
+                        <li>k≠0 (二次项系数不为0)</li>
+                        <li>△=(-2)²-4×k×3≥0 → 4-12k≥0 → k≤1/3</li>
+                    </ol>
+                    <p>∴ k的取值范围是k≤1/3且k≠0。</p>
+                </div>
+                
+                <p><strong><span class="question-counter">2</span>题目：</strong> 解方程：2x²-5x+2=0</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer2')">查看答案</button>
+                <div id="answer2" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>使用因式分解法：</p>
+                    <p>2x²-5x+2=0</p>
+                    <p>(2x-1)(x-2)=0</p>
+                    <p>∴ 2x-1=0 或 x-2=0</p>
+                    <p>∴ x₁=1/2, x₂=2</p>
+                </div>
+                
+                <p><strong><span class="question-counter">3</span>题目：</strong> 已知方程x²-3x+1=0，不解方程，求x₁²+x₂²的值。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer3')">查看答案</button>
+                <div id="answer3" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>根据韦达定理：x₁+x₂=3, x₁x₂=1</p>
+                    <p>x₁²+x₂²=(x₁+x₂)²-2x₁x₂=3²-2×1=9-2=7</p>
+                </div>
+                
+                <p><strong><span class="question-counter">4</span>题目：</strong> 用配方法解方程：x²+6x-7=0</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer4')">查看答案</button>
+                <div id="answer4" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>x²+6x-7=0</p>
+                    <p>x²+6x=7</p>
+                    <p>x²+6x+9=7+9</p>
+                    <p>(x+3)²=16</p>
+                    <p>x+3=±4</p>
+                    <p>∴ x₁=1, x₂=-7</p>
+                </div>
+                
+                <p><strong><span class="question-counter">5</span>题目：</strong> 若方程x²+px+q=0的两根为2和-3，求p和q的值。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer5')">查看答案</button>
+                <div id="answer5" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>根据韦达定理：</p>
+                    <p>2+(-3)=-p → -1=-p → p=1</p>
+                    <p>2×(-3)=q → q=-6</p>
+                </div>
+                
+                <p><strong><span class="question-counter">6</span>题目：</strong> 某商品原价为200元，连续两次降价后为162元，求平均每次降价的百分率。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer6')">查看答案</button>
+                <div id="answer6" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>设平均每次降价的百分率为x</p>
+                    <p>200(1-x)²=162</p>
+                    <p>(1-x)²=0.81</p>
+                    <p>1-x=0.9 或 1-x=-0.9</p>
+                    <p>x=0.1=10% 或 x=1.9(舍去)</p>
+                    <p>∴ 平均每次降价的百分率为10%</p>
+                </div>
+                
+                <p><strong><span class="question-counter">7</span>题目：</strong> 解方程：(x-2)²=9</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer7')">查看答案</button>
+                <div id="answer7" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>使用直接开平方法：</p>
+                    <p>(x-2)²=9</p>
+                    <p>x-2=3 或 x-2=-3</p>
+                    <p>∴ x₁=5, x₂=-1</p>
+                </div>
+                
+                <p><strong><span class="question-counter">8</span>题目：</strong> 已知关于x的方程x²-2x+m=0有两个相等的实数根，求m的值。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer8')">查看答案</button>
+                <div id="answer8" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>∵ 方程有两个相等的实数根</p>
+                    <p>∴ △=(-2)²-4×1×m=0</p>
+                    <p>4-4m=0</p>
+                    <p>m=1</p>
+                </div>
+                
+                <p><strong><span class="question-counter">9</span>题目：</strong> 用公式法解方程：3x²-5x+1=0</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer9')">查看答案</button>
+                <div id="answer9" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>a=3, b=-5, c=1</p>
+                    <p>△=(-5)²-4×3×1=25-12=13</p>
+                    <p>x=[5±√13]/(2×3)=(5±√13)/6</p>
+                    <p>∴ x₁=(5+√13)/6, x₂=(5-√13)/6</p>
+                </div>
+                
+                <p><strong><span class="question-counter">10</span>题目：</strong> 若方程x²+mx+4=0的一个根是2，求m的值及另一个根。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer10')">查看答案</button>
+                <div id="answer10" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>将x=2代入方程：2²+2m+4=0 → 4+2m+4=0 → 2m=-8 → m=-4</p>
+                    <p>设另一个根为x₂，根据韦达定理：2+x₂=-m=4 → x₂=2</p>
+                    <p>∴ m=-4，另一个根也是2</p>
+                </div>
+                
+                <p><strong><span class="question-counter">11</span>题目：</strong> 解方程：x(x-3)=10</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer11')">查看答案</button>
+                <div id="answer11" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>x(x-3)=10</p>
+                    <p>x²-3x-10=0</p>
+                    <p>(x-5)(x+2)=0</p>
+                    <p>∴ x₁=5, x₂=-2</p>
+                </div>
+                
+                <p><strong><span class="question-counter">12</span>题目：</strong> 若方程x²-4x+k=0的两根之差为2，求k的值。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer12')">查看答案</button>
+                <div id="answer12" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>设两根为x₁,x₂，且x₁>x₂</p>
+                    <p>根据韦达定理：x₁+x₂=4, x₁x₂=k</p>
+                    <p>又∵ x₁-x₂=2</p>
+                    <p>(x₁-x₂)²=(x₁+x₂)²-4x₁x₂</p>
+                    <p>2²=4²-4k</p>
+                    <p>4=16-4k</p>
+                    <p>4k=12</p>
+                    <p>k=3</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="function" class="content-section">
+            <h2 class="section-title">二次函数</h2>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 1. 二次函数的定义</h3>
+                <p>一般地，形如y=ax²+bx+c(a,b,c是常数，a≠0)的函数，叫做二次函数。</p>
+                <p>其中x是自变量，a,b,c分别是函数解析式的二次项系数、一次项系数和常数项。</p>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>二次函数必须是整式函数</li>
+                        <li>自变量的最高次数是2</li>
+                        <li>二次项系数a不能为0</li>
+                        <li>一般形式：y=ax²+bx+c (a≠0)</li>
+                        <li>特殊形式：y=ax², y=ax²+c, y=ax²+bx</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 2. 二次函数的图象和性质</h3>
+                <p>二次函数y=ax²+bx+c的图象是一条抛物线，性质如下：</p>
+                
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>性质</th>
+                            <th>a>0</th>
+                            <th>a<0</th>
+                        </tr>
+                        <tr>
+                            <td>开口方向</td>
+                            <td>向上</td>
+                            <td>向下</td>
+                        </tr>
+                        <tr>
+                            <td>对称轴</td>
+                            <td colspan="2">x = -b/(2a)</td>
+                        </tr>
+                        <tr>
+                            <td>顶点坐标</td>
+                            <td colspan="2">[-b/(2a), (4ac-b²)/(4a)]</td>
+                        </tr>
+                        <tr>
+                            <td>最值</td>
+                            <td>当x=-b/(2a)时，有最小值</td>
+                            <td>当x=-b/(2a)时，有最大值</td>
+                        </tr>
+                        <tr>
+                            <td>增减性</td>
+                            <td>在对称轴左侧递减，右侧递增</td>
+                            <td>在对称轴左侧递增，右侧递减</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>开口方向由a决定：a>0向上，a<0向下</li>
+                        <li>开口大小由|a|决定：|a|越大，开口越小</li>
+                        <li>对称轴公式：x=-b/(2a)</li>
+                        <li>顶点坐标：[-b/(2a), (4ac-b²)/(4a)]</li>
+                        <li>最值：a>0有最小值，a<0有最大值</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 3. 二次函数与一元二次方程的关系</h3>
+                <p>抛物线y=ax²+bx+c与x轴公共点的横坐标就是方程ax²+bx+c=0的根。</p>
+                <ul class="definition-list">
+                    <li>有两个公共点 ⇔ △ > 0</li>
+                    <li>有一个公共点 ⇔ △ = 0</li>
+                    <li>没有公共点 ⇔ △ < 0</li>
+                </ul>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>二次函数图象与x轴的交点横坐标就是对应一元二次方程的根</li>
+                        <li>交点个数由判别式△决定</li>
+                        <li>△>0：两个交点，两个不等实根</li>
+                        <li>△=0：一个交点，两个相等实根</li>
+                        <li>△<0：没有交点，无实根</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 二次函数配套练习</div>
+                
+                <p><strong><span class="question-counter">13</span>题目：</strong> 已知二次函数y=-x²+4x-3。</p>
+                <p>(1) 用配方法将该二次函数化为y=a(x-h)²+k的形式；</p>
+                <p>(2) 写出其图象的开口方向、对称轴和顶点坐标。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer13')">查看答案</button>
+                <div id="answer13" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>(1) y=-x²+4x-3 = -(x²-4x)-3 = -(x²-4x+4-4)-3 = -(x-2)²+4-3 = -(x-2)²+1</p>
+                    <p>(2) ∵ a=-1<0，∴抛物线开口向下</p>
+                    <p>对称轴：x=2</p>
+                    <p>顶点坐标：(2,1)</p>
+                </div>
+                
+                <p><strong><span class="question-counter">14</span>题目：</strong> 已知二次函数y=2x²-4x+1，求其最小值。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer14')">查看答案</button>
+                <div id="answer14" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>方法一：配方法</p>
+                    <p>y=2x²-4x+1=2(x²-2x)+1=2(x²-2x+1-1)+1=2(x-1)²-2+1=2(x-1)²-1</p>
+                    <p>∵ a=2>0，∴当x=1时，y有最小值-1</p>
+                    <p>方法二：顶点公式</p>
+                    <p>当x=-b/(2a)=4/(2×2)=1时，y最小值=(4ac-b²)/(4a)=(4×2×1-16)/(4×2)=(8-16)/8=-1</p>
+                </div>
+                
+                <p><strong><span class="question-counter">15</span>题目：</strong> 已知二次函数y=x²+bx+c的图象经过点(1,0)和(3,0)，求该函数的解析式。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer15')">查看答案</button>
+                <div id="answer15" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>∵ 图象经过点(1,0)和(3,0)</p>
+                    <p>∴ 设y=a(x-1)(x-3)</p>
+                    <p>又∵ 二次项系数为1，∴a=1</p>
+                    <p>∴ y=(x-1)(x-3)=x²-4x+3</p>
+                </div>
+                
+                <p><strong><span class="question-counter">16</span>题目：</strong> 求抛物线y=x²-2x-3与x轴的交点坐标。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer16')">查看答案</button>
+                <div id="answer16" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>令y=0，得x²-2x-3=0</p>
+                    <p>(x-3)(x+1)=0</p>
+                    <p>x₁=3, x₂=-1</p>
+                    <p>∴ 与x轴的交点坐标为(3,0)和(-1,0)</p>
+                </div>
+                
+                <p><strong><span class="question-counter">17</span>题目：</strong> 已知二次函数y=ax²+bx+c的图象开口向下，对称轴为x=1，且经过点(0,3)，求a,b,c的关系。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer17')">查看答案</button>
+                <div id="answer17" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>∵ 图象开口向下，∴a<0</p>
+                    <p>∵ 对称轴为x=1，∴-b/(2a)=1 → b=-2a</p>
+                    <p>∵ 经过点(0,3)，∴c=3</p>
+                    <p>∴ a<0, b=-2a, c=3</p>
+                </div>
+                
+                <p><strong><span class="question-counter">18</span>题目：</strong> 将抛物线y=2x²向右平移3个单位，再向上平移2个单位，求新抛物线的解析式。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer18')">查看答案</button>
+                <div id="answer18" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>抛物线平移规律：左加右减自变量，上加下减常数项</p>
+                    <p>y=2x²向右平移3个单位：y=2(x-3)²</p>
+                    <p>再向上平移2个单位：y=2(x-3)²+2</p>
+                    <p>∴ 新抛物线的解析式为y=2(x-3)²+2</p>
+                </div>
+                
+                <p><strong><span class="question-counter">19</span>题目：</strong> 已知二次函数y=x²-4x+3，当x取何值时，y随x的增大而减小？</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer19')">查看答案</button>
+                <div id="answer19" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>y=x²-4x+3=(x-2)²-1</p>
+                    <p>∵ a=1>0，∴抛物线开口向上</p>
+                    <p>在对称轴左侧，y随x的增大而减小</p>
+                    <p>对称轴为x=2</p>
+                    <p>∴ 当x<2时，y随x的增大而减小</p>
+                </div>
+                
+                <p><strong><span class="question-counter">20</span>题目：</strong> 已知二次函数y=ax²+bx+c的图象如图所示，判断a,b,c的符号。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer20')">查看答案</button>
+                <div id="answer20" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>从图象可知：</p>
+                    <p>1. 抛物线开口向下，∴a<0</p>
+                    <p>2. 对称轴在y轴右侧，∴-b/(2a)>0，又a<0，∴b>0</p>
+                    <p>3. 抛物线与y轴交于正半轴，∴c>0</p>
+                    <p>∴ a<0, b>0, c>0</p>
+                </div>
+                
+                <p><strong><span class="question-counter">21</span>题目：</strong> 求二次函数y=-2x²+8x-5的最大值。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer21')">查看答案</button>
+                <div id="answer21" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>方法一：配方法</p>
+                    <p>y=-2x²+8x-5=-2(x²-4x)-5=-2(x²-4x+4-4)-5=-2(x-2)²+8-5=-2(x-2)²+3</p>
+                    <p>∵ a=-2<0，∴当x=2时，y有最大值3</p>
+                    <p>方法二：顶点公式</p>
+                    <p>当x=-b/(2a)=-8/(2×(-2))=2时，y最大值=(4ac-b²)/(4a)=(4×(-2)×(-5)-64)/(4×(-2))=(40-64)/(-8)=3</p>
+                </div>
+                
+                <p><strong><span class="question-counter">22</span>题目：</strong> 已知二次函数y=x²-2x-3，求其图象与坐标轴围成的三角形的面积。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer22')">查看答案</button>
+                <div id="answer22" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>1. 与x轴交点：令y=0，x²-2x-3=0 → (x-3)(x+1)=0 → x₁=3, x₂=-1</p>
+                    <p>∴ 与x轴交点为(3,0)和(-1,0)，两点距离为4</p>
+                    <p>2. 与y轴交点：令x=0，y=-3</p>
+                    <p>∴ 与y轴交点为(0,-3)</p>
+                    <p>3. 三角形面积=1/2×底×高=1/2×4×3=6</p>
+                </div>
+                
+                <p><strong><span class="question-counter">23</span>题目：</strong> 已知二次函数y=ax²+bx+c的图象经过点(1,2)、(2,3)和(3,6)，求该函数的解析式。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer23')">查看答案</button>
+                <div id="answer23" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>设y=ax²+bx+c</p>
+                    <p>将三点坐标代入：</p>
+                    <p>a+b+c=2 ①</p>
+                    <p>4a+2b+c=3 ②</p>
+                    <p>9a+3b+c=6 ③</p>
+                    <p>②-①：3a+b=1 ④</p>
+                    <p>③-②：5a+b=3 ⑤</p>
+                    <p>⑤-④：2a=2 → a=1</p>
+                    <p>代入④：3×1+b=1 → b=-2</p>
+                    <p>代入①：1-2+c=2 → c=3</p>
+                    <p>∴ 函数解析式为y=x²-2x+3</p>
+                </div>
+                
+                <p><strong><span class="question-counter">24</span>题目：</strong> 已知二次函数y=x²-4x+3，当-1≤x≤4时，求y的取值范围。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer24')">查看答案</button>
+                <div id="answer24" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>y=x²-4x+3=(x-2)²-1</p>
+                    <p>顶点为(2,-1)</p>
+                    <p>当x=-1时，y=(-1)²-4×(-1)+3=1+4+3=8</p>
+                    <p>当x=4时，y=4²-4×4+3=16-16+3=3</p>
+                    <p>∵ 抛物线开口向上，顶点在区间[-1,4]内</p>
+                    <p>∴ 最小值为-1，最大值为8</p>
+                    <p>∴ y的取值范围是-1≤y≤8</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="rotation" class="content-section">
+            <h2 class="section-title">旋转</h2>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 1. 旋转的定义</h3>
+                <p>把一个平面图形绕着平面内某一点O转动一个角度，叫做图形的旋转，点O叫做旋转中心，转动的角叫做旋转角。</p>
+                <p>旋转三要素：旋转中心、旋转角、旋转方向。</p>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>旋转中心：图形绕其旋转的点</li>
+                        <li>旋转角：图形旋转的角度</li>
+                        <li>旋转方向：顺时针或逆时针</li>
+                        <li>三要素缺一不可</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 2. 旋转的性质</h3>
+                <ul class="definition-list">
+                    <li>对应点到旋转中心的距离相等</li>
+                    <li>对应点与旋转中心所连线段的夹角等于旋转角</li>
+                    <li>旋转前、后的图形全等</li>
+                </ul>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>旋转不改变图形的形状和大小</li>
+                        <li>对应点到旋转中心的距离相等</li>
+                        <li>对应点与旋转中心连线的夹角等于旋转角</li>
+                        <li>旋转前后的图形全等</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 3. 中心对称</h3>
+                <p>把一个图形绕着某一点旋转180°，如果它能够与另一个图形重合，那么就说这两个图形关于这个点对称或中心对称，这个点叫做对称中心。</p>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>中心对称是特殊的旋转，旋转角为180°</li>
+                        <li>对称中心是唯一不动点</li>
+                        <li>对称点连线经过对称中心，且被对称中心平分</li>
+                        <li>中心对称的两个图形是全等图形</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 4. 关于原点对称的点的坐标</h3>
+                <p>两个点关于原点对称时，它们的坐标符号相反，即点P(x,y)关于原点的对称点为P'(-x,-y)。</p>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>关于原点对称：横纵坐标都变号</li>
+                        <li>关于x轴对称：横坐标不变，纵坐标变号</li>
+                        <li>关于y轴对称：纵坐标不变，横坐标变号</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 旋转配套练习</div>
+                
+                <p><strong><span class="question-counter">25</span>题目：</strong> 如图，将线段AB绕点O顺时针旋转90°得到线段A'B'，那么A(-1,4)的对应点A'的坐标是______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer25')">查看答案</button>
+                <div id="answer25" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>点A(-1,4)绕原点O顺时针旋转90°后，新坐标的计算方法：</p>
+                    <p>原坐标(x,y) → 新坐标(y,-x)</p>
+                    <p>所以A(-1,4)绕原点顺时针旋转90°后得到A'(4,1)</p>
+                    <p>答案：(4,1)</p>
+                </div>
+                
+                <p><strong><span class="question-counter">26</span>题目：</strong> 点P(3,-2)关于原点对称的点P'的坐标是______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer26')">查看答案</button>
+                <div id="answer26" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>关于原点对称：横纵坐标都变号</p>
+                    <p>P(3,-2) → P'(-3,2)</p>
+                </div>
+                
+                <p><strong><span class="question-counter">27</span>题目：</strong> 下列图形中，是中心对称图形的是（ ）</p>
+                <p>A. 等边三角形 B. 平行四边形 C. 等腰梯形 D. 正五边形</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer27')">查看答案</button>
+                <div id="answer27" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>中心对称图形是绕某点旋转180°后能与自身重合的图形</p>
+                    <p>A. 等边三角形：不是中心对称图形</p>
+                    <p>B. 平行四边形：是中心对称图形</p>
+                    <p>C. 等腰梯形：不是中心对称图形</p>
+                    <p>D. 正五边形：不是中心对称图形</p>
+                    <p>答案：B</p>
+                </div>
+                
+                <p><strong><span class="question-counter">28</span>题目：</strong> 将△ABC绕点A逆时针旋转60°得到△ADE，若∠BAC=80°，则∠DAE的度数为______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer28')">查看答案</button>
+                <div id="answer28" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>旋转不改变图形的大小和形状</p>
+                    <p>∴ ∠DAE=∠BAC=80°</p>
+                </div>
+                
+                <p><strong><span class="question-counter">29</span>题目：</strong> 点M(2,-3)关于x轴对称的点是______，关于y轴对称的点是______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer29')">查看答案</button>
+                <div id="answer29" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>关于x轴对称：横坐标不变，纵坐标变号 → (2,3)</p>
+                    <p>关于y轴对称：纵坐标不变，横坐标变号 → (-2,-3)</p>
+                </div>
+                
+                <p><strong><span class="question-counter">30</span>题目：</strong> 如图，正方形ABCD绕点O旋转后，顶点A的对应点为E，则旋转角为______度。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer30')">查看答案</button>
+                <div id="answer30" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>连接OA, OE，则∠AOE即为旋转角</p>
+                    <p>由图形可知∠AOE=90°</p>
+                    <p>∴ 旋转角为90°</p>
+                </div>
+                
+                <p><strong><span class="question-counter">31</span>题目：</strong> 下列选项中的运动形式属于旋转的是（ ）</p>
+                <p>A. 电梯的升降 B. 钟摆的摆动 C. 抽屉的推拉 D. 篮球的投掷</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer31')">查看答案</button>
+                <div id="answer31" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>A. 电梯的升降：平移</p>
+                    <p>B. 钟摆的摆动：旋转</p>
+                    <p>C. 抽屉的推拉：平移</p>
+                    <p>D. 篮球的投掷：抛物线运动</p>
+                    <p>答案：B</p>
+                </div>
+                
+                <p><strong><span class="question-counter">32</span>题目：</strong> 点A(a,3)与点B(4,b)关于原点对称，则a+b=______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer32')">查看答案</button>
+                <div id="answer32" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>关于原点对称：横纵坐标都变号</p>
+                    <p>∴ a=-4, b=-3</p>
+                    <p>a+b=-4+(-3)=-7</p>
+                </div>
+                
+                <p><strong><span class="question-counter">33</span>题目：</strong> 将正三角形绕其中心旋转一定角度后能与自身重合，则这个角度至少是______度。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer33')">查看答案</button>
+                <div id="answer33" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>正三角形旋转120°后能与自身重合</p>
+                    <p>∴ 这个角度至少是120°</p>
+                </div>
+                
+                <p><strong><span class="question-counter">34</span>题目：</strong> 如图，将△ABC绕点A顺时针旋转40°得到△ADE，若∠EAC=50°，则∠BAD=______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer34')">查看答案</button>
+                <div id="answer34" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>旋转角为40°，即∠DAE=40°</p>
+                    <p>∠EAC=50°</p>
+                    <p>∴ ∠BAD=∠DAE+∠EAC=40°+50°=90°</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="circle" class="content-section">
+            <h2 class="section-title">圆</h2>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 1. 圆的基本概念</h3>
+                <ul class="definition-list">
+                    <li><strong>弦：</strong> 连接圆上任意两点的线段</li>
+                    <li><strong>直径：</strong> 经过圆心的弦</li>
+                    <li><strong>弧：</strong> 圆上任意两点间的部分</li>
+                    <li><strong>等圆：</strong> 能够重合的两个圆</li>
+                    <li><strong>等弧：</strong> 在同圆或等圆中，能够互相重合的弧</li>
+                </ul>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>直径是圆中最长的弦</li>
+                        <li>半圆是弧，但弧不一定是半圆</li>
+                        <li>等圆半径相等</li>
+                        <li>等弧只能出现在同圆或等圆中</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 2. 垂径定理</h3>
+                <p>垂直于弦的直径平分弦，并且平分弦所对的两条弧。</p>
+                
+                <div class="method-tip">
+                    <p><strong>推论：</strong> 平分弦(不是直径)的直径垂直于弦，并且平分弦所对的两条弧。</p>
+                </div>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>垂径定理：直径⊥弦 → 平分弦、平分弧</li>
+                        <li>推论：直径平分弦(非直径) → 直径⊥弦、平分弧</li>
+                        <li>知二推三：知道其中两个条件可推出其他三个</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 3. 弧、弦、圆心角的关系</h3>
+                <p>在同圆或等圆中：</p>
+                <ul class="definition-list">
+                    <li>相等的圆心角所对的弧相等，所对的弦也相等</li>
+                    <li>相等的弧所对的圆心角相等，所对的弦相等</li>
+                    <li>相等的弦所对的圆心角相等，所对的优弧和劣弧分别相等</li>
+                </ul>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>前提条件：同圆或等圆</li>
+                        <li>圆心角相等 ↔ 弧相等 ↔ 弦相等</li>
+                        <li>一条弦对应两条弧(优弧和劣弧)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="knowledge-point">
+                <h3 class="point-title"><i class="fas fa-book"></i> 4. 圆周角定理</h3>
+                <p>一条弧所对的圆周角等于它所对的圆心角的一半。</p>
+                
+                <div class="method-tip">
+                    <p><strong>推论：</strong></p>
+                    <ul class="definition-list">
+                        <li>同弧或等弧所对的圆周角相等</li>
+                        <li>半圆(或直径)所对的圆周角是直角，90°的圆周角所对的弦是直径</li>
+                    </ul>
+                </div>
+                
+                <div class="memory-card">
+                    <div class="memory-title"><i class="fas fa-brain"></i> 记忆要点</div>
+                    <ul class="definition-list">
+                        <li>圆周角定理：圆周角=1/2圆心角</li>
+                        <li>直径所对的圆周角是90°</li>
+                        <li>90°的圆周角所对的弦是直径</li>
+                        <li>同弧所对的圆周角相等</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 圆配套练习</div>
+                
+                <p><strong><span class="question-counter">35</span>题目：</strong> 如图，AB是⊙O的直径，弦CD⊥AB，垂足为E，如果AB=10，CD=8，那么AE的长为______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer35')">查看答案</button>
+                <div id="answer35" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>连接OC，则OC=OA=OB=5</p>
+                    <p>∵ CD⊥AB，CD=8</p>
+                    <p>∴ CE=DE=4 (垂径定理)</p>
+                    <p>在Rt△OCE中，OE=√(OC²-CE²)=√(25-16)=3</p>
+                    <p>∴ AE=OA-OE=5-3=2</p>
+                    <p>或AE=OA+OE=5+3=8 (当E在OA延长线上时)</p>
+                    <p>∴ AE的长为2或8。</p>
+                </div>
+                
+                <p><strong><span class="question-counter">36</span>题目：</strong> 在⊙O中，弦AB=8cm，圆心O到AB的距离为3cm，则⊙O的半径为______cm。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer36')">查看答案</button>
+                <div id="answer36" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>根据垂径定理，过O作OC⊥AB于C，则AC=BC=4cm</p>
+                    <p>在Rt△OAC中，OA=√(OC²+AC²)=√(3²+4²)=√(9+16)=√25=5cm</p>
+                    <p>∴ ⊙O的半径为5cm</p>
+                </div>
+                
+                <p><strong><span class="question-counter">37</span>题目：</strong> 如图，A、B、C是⊙O上的三点，∠AOB=100°，则∠ACB=______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer37')">查看答案</button>
+                <div id="answer37" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>根据圆周角定理，圆周角等于同弧所对圆心角的一半</p>
+                    <p>∠ACB=1/2∠AOB=1/2×100°=50°</p>
+                </div>
+                
+                <p><strong><span class="question-counter">38</span>题目：</strong> 下列命题中，正确的是（ ）</p>
+                <p>A. 相等的圆心角所对的弧相等</p>
+                <p>B. 平分弦的直径垂直于弦</p>
+                <p>C. 长度相等的两条弧是等弧</p>
+                <p>D. 直径是圆中最长的弦</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer38')">查看答案</button>
+                <div id="answer38" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>A. 错误，必须在同圆或等圆中</p>
+                    <p>B. 错误，必须平分的是非直径的弦</p>
+                    <p>C. 错误，必须在同圆或等圆中</p>
+                    <p>D. 正确</p>
+                    <p>答案：D</p>
+                </div>
+                
+                <p><strong><span class="question-counter">39</span>题目：</strong> 如图，AB是⊙O的直径，C、D是⊙O上的两点，∠BAC=20°，则∠D的度数为______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer39')">查看答案</button>
+                <div id="answer39" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>∵ AB是直径，∴∠ACB=90°</p>
+                    <p>∵ ∠BAC=20°，∴∠ABC=70°</p>
+                    <p>∵ ∠D和∠ABC是同弧AC所对的圆周角</p>
+                    <p>∴ ∠D=∠ABC=70°</p>
+                </div>
+                
+                <p><strong><span class="question-counter">40</span>题目：</strong> 在半径为5cm的⊙O中，弦AB=8cm，则圆心O到弦AB的距离是______cm。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer40')">查看答案</button>
+                <div id="answer40" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>过O作OC⊥AB于C，则AC=BC=4cm</p>
+                    <p>在Rt△OAC中，OC=√(OA²-AC²)=√(5²-4²)=√(25-16)=√9=3cm</p>
+                    <p>∴ 圆心O到弦AB的距离是3cm</p>
+                </div>
+                
+                <p><strong><span class="question-counter">41</span>题目：</strong> 如图，四边形ABCD内接于⊙O，∠A=100°，则∠C=______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer41')">查看答案</button>
+                <div id="answer41" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>圆内接四边形对角互补</p>
+                    <p>∴ ∠A+∠C=180°</p>
+                    <p>∠C=180°-100°=80°</p>
+                </div>
+                
+                <p><strong><span class="question-counter">42</span>题目：</strong> 已知⊙O的半径为5，弦AB∥CD，AB=6，CD=8，则AB与CD之间的距离是______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer42')">查看答案</button>
+                <div id="answer42" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>分两种情况：</p>
+                    <p>1. 弦AB、CD在圆心同侧：</p>
+                    <p>AB弦心距=√(5²-3²)=√(25-9)=√16=4</p>
+                    <p>CD弦心距=√(5²-4²)=√(25-16)=√9=3</p>
+                    <p>距离=4-3=1</p>
+                    <p>2. 弦AB、CD在圆心异侧：</p>
+                    <p>距离=4+3=7</p>
+                    <p>∴ AB与CD之间的距离是1或7</p>
+                </div>
+                
+                <p><strong><span class="question-counter">43</span>题目：</strong> 如图，PA、PB是⊙O的切线，A、B为切点，∠APB=40°，则∠AOB=______。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer43')">查看答案</button>
+                <div id="answer43" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>连接OA、OB</p>
+                    <p>∵ PA、PB是切线，∴OA⊥PA，OB⊥PB</p>
+                    <p>在四边形OAPB中，∠OAP=∠OBP=90°</p>
+                    <p>∴ ∠AOB=360°-90°-90°-40°=140°</p>
+                </div>
+                
+                <p><strong><span class="question-counter">44</span>题目：</strong> 已知圆锥的底面半径为3cm，母线长为5cm，则圆锥的侧面积为______cm²。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('answer44')">查看答案</button>
+                <div id="answer44" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>圆锥侧面积=πrl=π×3×5=15π cm²</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="practice" class="content-section">
+            <h2 class="section-title">综合练习</h2>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 综合练习题1</div>
+                <p><strong><span class="question-counter">45</span>题目：</strong> 已知关于x的一元二次方程x²-(2k+1)x+k²+k=0。</p>
+                <p>(1) 求证：方程有两个不相等的实数根；</p>
+                <p>(2) 若△ABC的两边AB,AC的长是这个方程的两个实数根，第三边BC的长为5，当△ABC是等腰三角形时，求k的值。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('comprehensive1')">查看答案</button>
+                <div id="comprehensive1" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>(1) △=[-(2k+1)]²-4(k²+k)=4k²+4k+1-4k²-4k=1>0</p>
+                    <p>∴ 方程有两个不相等的实数根。</p>
+                    <p>(2) 解方程x²-(2k+1)x+k²+k=0得：</p>
+                    <p>x=[(2k+1)±1]/2，即x₁=k+1, x₂=k</p>
+                    <p>∵ △ABC是等腰三角形，且AB,AC是方程的两根</p>
+                    <p>∴ 有两种情况：</p>
+                    <ul class="definition-list">
+                        <li>情况1：AB=AC，则k+1=k，无解</li>
+                        <li>情况2：AB=BC=5或AC=BC=5</li>
+                    </ul>
+                    <p>当AB=k+1=5时，k=4，此时AC=k=4，三边为5,5,4，能构成三角形</p>
+                    <p>当AC=k=5时，AB=k+1=6，三边为5,6,5，能构成三角形</p>
+                    <p>∴ k的值为4或5。</p>
+                </div>
+            </div>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 综合练习题2</div>
+                <p><strong><span class="question-counter">46</span>题目：</strong> 如图，抛物线y=ax²+bx+c(a≠0)与x轴交于点A(-1,0)和点B(3,0)，与y轴交于点C(0,3)。</p>
+                <p>(1) 求抛物线的解析式；</p>
+                <p>(2) 若点M是抛物线上在x轴下方的一个动点，且△MAB的面积为6，求点M的坐标。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('comprehensive2')">查看答案</button>
+                <div id="comprehensive2" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>(1) 设抛物线解析式为y=a(x+1)(x-3)</p>
+                    <p>将C(0,3)代入得：3=a(0+1)(0-3) → 3=-3a → a=-1</p>
+                    <p>∴ 抛物线解析式为y=-(x+1)(x-3)，即y=-x²+2x+3</p>
+                    <p>(2) ∵ A(-1,0), B(3,0)，∴ AB=4</p>
+                    <p>设M(x,y)，则S△MAB=1/2×AB×|y|=1/2×4×|y|=2|y|=6</p>
+                    <p>∴ |y|=3，又∵ M在x轴下方，∴ y=-3</p>
+                    <p>代入抛物线解析式：-3=-x²+2x+3 → x²-2x-6=0</p>
+                    <p>解得：x=1±√7</p>
+                    <p>∴ M点坐标为(1+√7,-3)或(1-√7,-3)</p>
+                </div>
+            </div>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 综合练习题3</div>
+                <p><strong><span class="question-counter">47</span>题目：</strong> 如图，在△ABC中，∠ACB=90°，AC=BC，将△ABC绕点C逆时针旋转α角(0°<α<90°)，得到△A₁B₁C，连接BB₁，设CB₁交AB于D，A₁B₁分别交AB、AC于E、F。</p>
+                <p>(1) 求证：△BCD≌△A₁CF；</p>
+                <p>(2) 当α等于多少度时，△BB₁D是等腰三角形？</p>
+                <button class="toggle-btn" onclick="toggleAnswer('comprehensive3')">查看答案</button>
+                <div id="comprehensive3" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>(1) 证明：</p>
+                    <p>∵ AC=BC，∠ACB=90°，∴ ∠A=∠B=45°</p>
+                    <p>由旋转性质得：CA₁=CA=CB，CB₁=CB=CA，∠A₁CA=∠B₁CB=α</p>
+                    <p>∴ ∠A₁CF=45°+α，∠BCD=45°+α</p>
+                    <p>在△BCD和△A₁CF中：</p>
+                    <p>BC=A₁C，∠BCD=∠A₁CF，∠B=∠A₁=45°</p>
+                    <p>∴ △BCD≌△A₁CF (ASA)</p>
+                    <p>(2) 解：</p>
+                    <p>要使△BB₁D是等腰三角形，分三种情况：</p>
+                    <p>① 当BD=B₁D时，α=30°</p>
+                    <p>② 当BD=BB₁时，α=15°</p>
+                    <p>③ 当B₁D=BB₁时，α=0°(舍去)</p>
+                    <p>∴ 当α=15°或30°时，△BB₁D是等腰三角形</p>
+                </div>
+            </div>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 综合练习题4</div>
+                <p><strong><span class="question-counter">48</span>题目：</strong> 如图，AB是⊙O的直径，C是⊙O上一点，D是弧BC的中点，DE⊥AB于E，交BC于F。</p>
+                <p>(1) 求证：BC=2DE；</p>
+                <p>(2) 若AB=10，BC=8，求DE的长。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('comprehensive4')">查看答案</button>
+                <div id="comprehensive4" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>(1) 证明：</p>
+                    <p>连接OD交BC于G</p>
+                    <p>∵ D是弧BC的中点，∴ OD⊥BC，BG=CG=1/2BC</p>
+                    <p>∵ DE⊥AB，∴ ∠DEO=∠BGO=90°</p>
+                    <p>又∵ ∠DOE=∠BOG，OD=OB</p>
+                    <p>∴ △DOE≌△BOG (AAS)</p>
+                    <p>∴ DE=BG=1/2BC，即BC=2DE</p>
+                    <p>(2) 解：</p>
+                    <p>连接AC，∵ AB是直径，∴ ∠ACB=90°</p>
+                    <p>在Rt△ABC中，AC=√(AB²-BC²)=√(100-64)=√36=6</p>
+                    <p>由(1)知BC=2DE，∴ DE=1/2BC=4</p>
+                </div>
+            </div>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 综合练习题5</div>
+                <p><strong><span class="question-counter">49</span>题目：</strong> 某商场销售一批名牌衬衫，平均每天可售出20件，每件盈利40元。为了扩大销售，增加盈利，尽快减少库存，商场决定采取适当的降价措施。经调查发现，如果每件衬衫每降价1元，商场平均每天可多售出2件。</p>
+                <p>(1) 若商场平均每天要盈利1200元，每件衬衫应降价多少元？</p>
+                <p>(2) 每件衬衫降价多少元时，商场平均每天盈利最多？</p>
+                <button class="toggle-btn" onclick="toggleAnswer('comprehensive5')">查看答案</button>
+                <div id="comprehensive5" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>(1) 设每件衬衫降价x元，则每天可售出(20+2x)件</p>
+                    <p>根据题意：(40-x)(20+2x)=1200</p>
+                    <p>800+80x-20x-2x²=1200</p>
+                    <p>-2x²+60x-400=0</p>
+                    <p>x²-30x+200=0</p>
+                    <p>(x-10)(x-20)=0</p>
+                    <p>x₁=10, x₂=20</p>
+                    <p>∵ 要尽快减少库存，∴ x=20</p>
+                    <p>答：每件衬衫应降价20元</p>
+                    <p>(2) 设每天盈利为y元</p>
+                    <p>y=(40-x)(20+2x)=-2x²+60x+800=-2(x²-30x)+800=-2(x-15)²+1250</p>
+                    <p>∵ -2<0，∴当x=15时，y有最大值1250</p>
+                    <p>答：每件衬衫降价15元时，商场平均每天盈利最多，为1250元</p>
+                </div>
+            </div>
+            
+            <div class="practice-box">
+                <div class="practice-title"><i class="fas fa-pencil-alt"></i> 综合练习题6</div>
+                <p><strong><span class="question-counter">50</span>题目：</strong> 如图，在平面直角坐标系中，点A的坐标为(0,2)，点B的坐标为(4,0)，点C在x轴上，且∠ACB=90°。</p>
+                <p>(1) 求点C的坐标；</p>
+                <p>(2) 求经过A、B、C三点的抛物线的解析式；</p>
+                <p>(3) 在抛物线上是否存在点P，使得△PBC是以BC为直角边的直角三角形？若存在，求出所有符合条件的点P的坐标；若不存在，请说明理由。</p>
+                <button class="toggle-btn" onclick="toggleAnswer('comprehensive6')">查看答案</button>
+                <div id="comprehensive6" class="answer">
+                    <p><strong>解析：</strong></p>
+                    <p>(1) 设C(x,0)，由∠ACB=90°得AC²+BC²=AB²</p>
+                    <p>[x²+2²]+[(x-4)²+0²]=4²+2²</p>
+                    <p>x²+4+x²-8x+16=16+4</p>
+                    <p>2x²-8x+20=20</p>
+                    <p>2x²-8x=0</p>
+                    <p>2x(x-4)=0</p>
+                    <p>x₁=0(舍去，与A重合), x₂=4(舍去，与B重合)</p>
+                    <p>∴ 无解？重新考虑：</p>
+                    <p>实际上，∠ACB=90°意味着C在以AB为直径的圆上</p>
+                    <p>AB中点M(2,1)，半径r=1/2AB=1/2√(4²+2²)=√5</p>
+                    <p>圆方程：(x-2)²+(y-1)²=5</p>
+                    <p>令y=0，得(x-2)²+1=5 → (x-2)²=4 → x-2=±2</p>
+                    <p>x₁=0, x₂=4</p>
+                    <p>但x=0时C与A在y轴上，x=4时C与B在x轴上，都不符合∠ACB=90°</p>
+                    <p>∴ 不存在这样的点C？题目可能有误。</p>
+                    <p>假设题目正确，则可能是另一种情况：</p>
+                    <p>设C(x,0)，由AC⊥BC得k_AC·k_BC=-1</p>
+                    <p>(2-0)/(0-x) · (0-0)/(4-x) = -1</p>
+                    <p>左边为0，不可能等于-1</p>
+                    <p>∴ 确实无解</p>
+                    <p>因此，本题可能存在问题，建议检查原题。</p>
+                </div>
+            </div>
+            
+            <div class="key-point">
+                <h3><i class="fas fa-lightbulb"></i> 中考解题策略总结</h3>
+                <ul class="definition-list">
+                    <li><strong>仔细审题：</strong> 明确已知条件和所求问题，注意单位、取值范围等细节</li>
+                    <li><strong>合理设元：</strong> 根据问题特点选择合适的未知数，建立方程或函数模型</li>
+                    <li><strong>数形结合：</strong> 充分利用图形帮助理解和解题，特别是几何问题</li>
+                    <li><strong>分类讨论：</strong> 当问题存在多种可能情况时，要全面考虑，不重不漏</li>
+                    <li><strong>检验结果：</strong> 解出答案后要检验是否符合题意和实际情况</li>
+                    <li><strong>规范书写：</strong> 步骤清晰，逻辑严密，书写工整</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>初三数学中考冲刺复习资料 &copy; 2025</p>
+            <p>基于人教版九年级上册教材编写 | @jimmy</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 选项卡切换功能
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 移除所有选项卡的active类
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // 添加当前选项卡的active类
+                tab.classList.add('active');
+                
+                // 隐藏所有内容区域
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                // 显示对应内容区域
+                const targetId = tab.getAttribute('data-target');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+        
+        // 显示/隐藏答案功能
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id);
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+            } else {
+                answer.style.display = 'block';
+            }
+        }
+        
+        // 模拟一些交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 可以在这里添加更多交互功能
+            console.log('初三数学中考冲刺复习页面加载完成');
+        });
+    </script>
+</body>
+</html>

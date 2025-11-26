@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>九年级物理全一册 - 终极复习系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1976d2;       /* 科技蓝 */
+            --primary-bg: #e3f2fd;
+            --success: #388e3c;       /* 绿色 */
+            --error: #d32f2f;         /* 红色 */
+            --warning: #ffa000;       /* 橙色 */
+            --text: #333;
+            --gray: #757575;
+            --border-radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+        body { background-color: #f5f5f5; color: var(--text); padding-bottom: 80px; font-size: 15px; }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 0 15px; }
+
+        /* 头部 */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: relative; /* 为返回按钮定位 */
+            z-index: 10;
+        }
+        header h1 { font-size: 1.4rem; margin-bottom: 5px; font-weight: bold; padding-top: 10px;}
+        header p { font-size: 0.9rem; opacity: 0.9; }
+
+        /* 返回按钮样式 */
+        .back-btn {
+            position: absolute;
+            left: 15px;
+            top: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            opacity: 0.9;
+            font-weight: bold;
+            padding: 5px 10px 5px 0;
+        }
+        .back-btn:active { opacity: 0.6; }
+        .back-btn i { margin-right: 5px; font-size: 1.1rem; }
+
+        /* 手机端友好的导航栏 - 自动换行 */
+        .nav-container {
+            background: white;
+            padding: 15px 10px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap; /* 关键：自动换行 */
+            justify-content: center;
+            gap: 8px;
+        }
+        .nav-btn {
+            padding: 8px 12px;
+            border: 1px solid #eee;
+            background: #f9f9f9;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 0 0 auto; /* 不压缩 */
+        }
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 2px 5px rgba(25, 118, 210, 0.3);
+        }
+
+        /* 内容区 */
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .chapter-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+            margin: 20px 0 15px 0;
+            font-weight: bold;
+        }
+
+        /* 卡片通用样式 */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* 重点记忆 */
+        .memory-card { border-top: 3px solid var(--warning); }
+        .card-title { font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; font-size: 1.05rem; }
+        .card-title i { margin-right: 8px; }
+        .point-list { padding-left: 20px; }
+        .point-list li { margin-bottom: 8px; line-height: 1.6; }
+        .highlight { color: #d32f2f; font-weight: bold; background: #fff3e0; padding: 0 4px; border-radius: 4px; }
+
+        /* 详细公式卡片 */
+        .formula-detail-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .formula-header {
+            background: var(--primary-bg);
+            padding: 10px 15px;
+            color: var(--primary);
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .formula-main {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.3rem;
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            border-bottom: 1px dashed #eee;
+        }
+        .formula-desc { padding: 10px 15px; background: #fff; font-size: 0.9rem; color: #555; }
+        .formula-desc div { margin-bottom: 5px; }
+        .formula-label { display: inline-block; width: 60px; color: #999; font-size: 0.85rem; }
+
+        /* 练习题 */
+        .quiz-item {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .quiz-item:last-child { border-bottom: none; }
+        .q-text { font-weight: bold; margin-bottom: 15px; font-size: 1.05rem; line-height: 1.5; }
+        
+        .options-grid { display: flex; flex-direction: column; gap: 10px; }
+        .option-btn {
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 0.95rem;
+            color: #444;
+            position: relative;
+            transition: all 0.2s;
+        }
+        /* 激活状态 */
+        .option-btn:active { background: #e0e0e0; }
+        
+        /* 正误反馈 */
+        .option-btn.correct { background: #e8f5e9; border-color: var(--success); color: var(--success); font-weight: bold; }
+        .option-btn.wrong { background: #ffebee; border-color: var(--error); color: var(--error); opacity: 0.8; }
+        .option-btn i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); }
+
+        .answer-box {
+            margin-top: 15px;
+            padding: 12px;
+            background: #fff8e1;
+            border-left: 4px solid var(--warning);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: none; /* 默认隐藏 */
+            animation: fadeIn 0.3s;
+        }
+        
+        footer { text-align: center; font-size: 0.8rem; color: #999; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- 返回按钮 -->
+    <a href="index.html" class="back-btn"><i class="fas fa-chevron-left"></i> 返回</a>
+    
+    <h1>九年级物理全一册</h1>
+    <p>知识点 + 详解公式 + 海量题库</p>
+</header>
+
+<div class="nav-container">
+    <div class="nav-tabs" id="navBox">
+        <!-- JS 生成导航按钮 -->
+    </div>
+</div>
+
+<div class="container" id="contentBox">
+    <!-- JS 生成内容 -->
+</div>
+
+<footer>
+    <p>针对手机端优化 · 深度复习专用</p>
+</footer>
+
+<script>
+// ============================================
+// 核心数据结构
+// ============================================
+
+const physicsData = [
+    {
+        id: "formula",
+        title: "公式大全", // 单独的公式库栏目
+        type: "formula_library",
+        content: [
+            {
+                name: "热量计算",
+                f: "Q = cmΔt",
+                vars: [
+                    { s: "Q", d: "吸收或放出的热量", u: "焦耳 (J)" },
+                    { s: "c", d: "比热容", u: "J/(kg·℃)" },
+                    { s: "m", d: "质量", u: "千克 (kg)" },
+                    { s: "Δt", d: "温度变化量", u: "摄氏度 (℃)" }
+                ],
+                note: "适用于不发生物态变化时的升温吸热或降温放热。"
+            },
+            {
+                name: "燃料热值",
+                f: "Q放 = mq",
+                vars: [
+                    { s: "Q放", d: "完全燃烧放出的热量", u: "焦耳 (J)" },
+                    { s: "m", d: "燃料质量", u: "千克 (kg)" },
+                    { s: "q", d: "热值", u: "J/kg" }
+                ],
+                note: "如果是气体燃料，公式为 Q=Vq (V为体积)。"
+            },
+            {
+                name: "热机效率",
+                f: "η = W有 / Q放",
+                vars: [
+                    { s: "η", d: "效率", u: "百分比 (%)" },
+                    { s: "W有", d: "用来做有用功的能量", u: "焦耳 (J)" },
+                    { s: "Q放", d: "燃料完全燃烧放出的总能量", u: "焦耳 (J)" }
+                ],
+                note: "η 永远小于 100%。"
+            },
+            {
+                name: "欧姆定律",
+                f: "I = U / R",
+                vars: [
+                    { s: "I", d: "电流", u: "安培 (A)" },
+                    { s: "U", d: "电压", u: "伏特 (V)" },
+                    { s: "R", d: "电阻", u: "欧姆 (Ω)" }
+                ],
+                note: "适用于纯电阻电路。变形公式 U=IR, R=U/I。"
+            },
+            {
+                name: "电功 (通用)",
+                f: "W = UIt",
+                vars: [
+                    { s: "W", d: "电功", u: "焦耳 (J)" },
+                    { s: "t", d: "通电时间", u: "秒 (s)" }
+                ],
+                note: "1度电 = 1 kW·h = 3.6×10⁶ J。适用于所有电路。"
+            },
+            {
+                name: "电功率 (通用)",
+                f: "P = W / t = UI",
+                vars: [
+                    { s: "P", d: "电功率", u: "瓦特 (W)" }
+                ],
+                note: "表示电流做功的快慢。"
+            },
+            {
+                name: "电功率 (纯电阻)",
+                f: "P = I²R = U² / R",
+                vars: [],
+                note: "仅适用于纯电阻电路（如电热器、灯泡）。串联多用 I²R，并联多用 U²/R。"
+            },
+            {
+                name: "焦耳定律",
+                f: "Q = I²Rt",
+                vars: [
+                    { s: "Q", d: "产生的热量", u: "焦耳 (J)" }
+                ],
+                note: "计算电流产生的热量。纯电阻电路中 Q = W。"
+            },
+            {
+                name: "串联电路规律",
+                f: "I=I₁=I₂; U=U₁+U₂; R=R₁+R₂",
+                vars: [],
+                note: "电流处处相等，总电压等于各分电压之和，总电阻越串越大。"
+            },
+            {
+                name: "并联电路规律",
+                f: "I=I₁+I₂; U=U₁=U₂; 1/R=1/R₁+1/R₂",
+                vars: [],
+                note: "干路电流等于支路和，各支路电压相等，总电阻越并越小。"
+            }
+        ]
+    },
+    {
+        id: "ch13",
+        title: "13.内能",
+        memory: [
+            "<strong>分子热运动：</strong>一切物质的分子都在不停地做无规则运动（扩散现象）。温度越高，运动越剧烈。",
+            "<strong>分子间作用力：</strong>引力和斥力同时存在。破镜不能重圆是因为分子间距离太大，引力无法发挥作用。",
+            "<strong>内能：</strong>物体内部所有分子热运动的动能与分子势能的总和。<strong>一切物体</strong>在任何情况下都有内能（0℃的冰也有内能）。",
+            "<strong>改变内能的方式：</strong><br>1. <strong>做功</strong>（能量转化）：钻木取火、压缩气体（内能增、温度升）、气体膨胀（内能减、温度降）。<br>2. <strong>热传递</strong>（能量转移）：晒太阳、烧水。",
+            "<strong>比热容(c)：</strong>物质的特性。水的比热容大，常作冷却剂、暖气介质、调节气候。"
+        ],
+        quiz: [
+            { q: "下列现象能说明分子在不停地做无规则运动的是？", opts: ["A. 柳絮飞扬", "B. 尘土飞扬", "C. 花香四溢", "D. 黄沙漫天"], ans: 2, exp: "C正确。A、B、D是宏观物体的机械运动，肉眼可见；C是扩散现象，肉眼不可见。" },
+            { q: "关于内能，下列说法正确的是？", opts: ["A. 0℃的冰没有内能", "B. 物体运动越快内能越大", "C. 只有热传递能改变内能", "D. 物体温度升高，内能一定增加"], ans: 3, exp: "D正确。A错（一切物体都有内能）；B错（运动影响机械能）；C错（做功也可以）。" },
+            { q: "沿海地区昼夜温差小，主要原因是水的？", opts: ["A. 密度大", "B. 比热容大", "C. 传热快", "D. 内能大"], ans: 1, exp: "B正确。水的比热容大，吸收或放出相同热量时，温度变化小。" },
+            { q: "下列属于做功改变内能的是？", opts: ["A. 搓手取暖", "B. 围炉取暖", "C. 晒太阳", "D. 喝热茶"], ans: 0, exp: "A正确。搓手是克服摩擦做功；其他是热传递。" },
+            { q: "质量相等、初温相同的水和煤油，放出相等热量后（c水>c煤油），则？", opts: ["A. 水的末温低", "B. 煤油的末温低", "C. 末温相同", "D. 无法判断"], ans: 1, exp: "B正确。由Δt=Q/cm可知，煤油比热容小，降温幅度大，所以煤油末温更低。" },
+            { q: "两物体接触时没有发生热传递，是因为它们具有相同的？", opts: ["A. 内能", "B. 热量", "C. 温度", "D. 比热容"], ans: 2, exp: "C正确。热传递的条件是存在温度差。" },
+            { q: "将一瓶酒精倒去一半，剩余酒精的？", opts: ["A. 热值变为原来一半", "B. 比热容变为原来一半", "C. 密度变为原来一半", "D. 热值、比热容、密度均不变"], ans: 3, exp: "D正确。这些都是物质的特性，与质量无关。" },
+            { q: "固体很难被压缩，说明分子间？", opts: ["A. 存在引力", "B. 存在斥力", "C. 存在间隙", "D. 无作用力"], ans: 1, exp: "B正确。" },
+            { q: "火箭升空时，燃料燃烧将化学能转化为？", opts: ["A. 内能", "B. 机械能", "C. 电能", "D. 光能"], ans: 0, exp: "A正确。先转化为内能，再通过热机转化为机械能。" },
+            { q: "关于温度、热量、内能，正确的是？", opts: ["A. 物体吸热，温度一定升高", "B. 物体温度升高，一定吸收了热量", "C. 温度高的物体含有的热量多", "D. 热量从高温物体传向低温物体"], ans: 3, exp: "D正确。A错（晶体熔化）；B错（做功也可）；C错（热量是过程量，不能说含有）。" }
+        ]
+    },
+    {
+        id: "ch14",
+        title: "14.内能利用",
+        memory: [
+            "<strong>热机：</strong>将内能转化为机械能。四冲程：吸气、<span class='highlight'>压缩</span>（机械能→内能）、<span class='highlight'>做功</span>（内能→机械能）、排气。",
+            "<strong>工作循环：</strong>曲轴转2圈，活塞往复2次，做功1次。",
+            "<strong>热值(q)：</strong>1kg燃料完全燃烧放出的热量。只与种类有关。",
+            "<strong>热机效率(η)：</strong>有用功与燃料完全燃烧放出能量之比。总是小于100%。",
+            "<strong>能量守恒：</strong>能量不会凭空消失或产生，总量保持不变。"
+        ],
+        quiz: [
+            { q: "四冲程汽油机中，将机械能转化为内能的是？", opts: ["A. 吸气冲程", "B. 压缩冲程", "C. 做功冲程", "D. 排气冲程"], ans: 1, exp: "B正确。压缩冲程活塞向上运动，压缩气体做功，温度升高。" },
+            { q: "某汽油机飞轮转速1200r/min，每秒钟做功多少次？", opts: ["A. 10次", "B. 20次", "C. 40次", "D. 600次"], ans: 0, exp: "A正确。1200r/min=20r/s。2转做功1次，20/2=10次。" },
+            { q: "提高热机效率的途径中，错误的是？", opts: ["A. 让燃料充分燃烧", "B. 减少各种热损失", "C. 保证良好的润滑", "D. 增加热机工作时间"], ans: 3, exp: "D错误。时间长短与效率无关。" },
+            { q: "火箭使用液氢作为燃料，主要是因为液氢的？", opts: ["A. 密度小", "B. 热值大", "C. 沸点低", "D. 凝固点低"], ans: 1, exp: "B正确。相同质量的燃料，热值大放出的热量多。" },
+            { q: "一台柴油机的效率为40%，含义是？", opts: ["A. 柴油完全燃烧放出的热量40%做有用功", "B. 消耗的柴油40%转化为机械能", "C. 柴油不完全燃烧的热量40%做有用功", "D. 柴油机工作40s休息60s"], ans: 0, exp: "A正确。效率定义。" },
+            { q: "关于能量守恒定律，下列说法正确的是？", opts: ["A. 能量可以凭空产生", "B. 能量的转移和转化没有方向性", "C. 永动机是不可能制造出来的", "D. 能源取之不尽用之不竭"], ans: 2, exp: "C正确。永动机违背能量守恒定律。" },
+            { q: "汽车发动机用水做冷却剂，是因为水？", opts: ["A. 热值大", "B. 密度大", "C. 比热容大", "D. 沸点高"], ans: 2, exp: "C正确。吸热能力强。" },
+            { q: "在做功冲程中，气缸内的气体？", opts: ["A. 温度降低，内能减小", "B. 温度升高，内能增加", "C. 温度不变，内能不变", "D. 压强变大"], ans: 0, exp: "A正确。对外做功，内能转化为机械能，内能减小，温度降低。" },
+            { q: "热机工作时，废气带走的能量？", opts: ["A. 最少", "B. 最多", "C. 为零", "D. 无法确定"], ans: 1, exp: "B正确。废气带走的热量是热机能量损失中最大的一部分。" },
+            { q: "关于燃料的热值，正确的是？", opts: ["A. 燃烧越充分热值越大", "B. 2kg煤的热值大于1kg煤", "C. 热值是燃料特性，与质量无关", "D. 放热越多热值越大"], ans: 2, exp: "C正确。" }
+        ]
+    },
+    {
+        id: "ch15",
+        title: "15.电流电路",
+        memory: [
+            "<strong>电荷：</strong>同种排斥，异种吸引。摩擦起电实质是电子转移。",
+            "<strong>电流方向：</strong>规定正电荷定向移动方向。电源外部：正极→用电器→负极。",
+            "<strong>电路状态：</strong>通路、断路、短路（电源短路极危险）。",
+            "<strong>串联：</strong>一条路，一断全断，开关控制所有。",
+            "<strong>并联：</strong>多条路，互不影响，干路开关控所有。",
+            "<strong>电流表：</strong>串联、正进负出、不超量程。"
+        ],
+        quiz: [
+            { q: "与丝绸摩擦过的玻璃棒接触验电器，金属箔张开，说明？", opts: ["A. 同种电荷相互排斥", "B. 异种电荷相互吸引", "C. 创造了电荷", "D. 玻璃棒带负电"], ans: 0, exp: "A正确。验电器原理。" },
+            { q: "下列物品通常情况下属于绝缘体的是？", opts: ["A. 铅笔芯", "B. 橡胶手套", "C. 金属勺", "D. 人体"], ans: 1, exp: "B正确。" },
+            { q: "电路中能产生持续电流的条件是？", opts: ["A. 有电源", "B. 是通路", "C. 有电源且是通路", "D. 有电源和用电器"], ans: 2, exp: "C正确。" },
+            { q: "马路上的路灯同时亮灭，它们是？", opts: ["A. 串联", "B. 并联", "C. 无法判断", "D. 混联"], ans: 1, exp: "B正确。一只坏了其他仍亮，互不影响。" },
+            { q: "使用电流表时，指针偏转到右边没有刻度的地方，原因是？", opts: ["A. 正负接线柱接反", "B. 量程选小了", "C. 电流表短路", "D. 电源没电"], ans: 1, exp: "B正确。指针满偏过头，说明超量程。" },
+            { q: "连接电路时，开关应该？", opts: ["A. 闭合", "B. 断开", "C. 无所谓", "D. 拆除"], ans: 1, exp: "B正确。保护电路，防止短路。" },
+            { q: "三个轻质小球，甲吸乙，乙斥丙，甲带正电，则丙？", opts: ["A. 正电", "B. 负电", "C. 不带电", "D. 无法判断"], ans: 1, exp: "B正确。乙斥丙→乙丙同；甲(+)吸乙→乙可能(-)或无；但乙带电，故乙(-)，丙(-)。" },
+            { q: "关于电流方向，正确的是？", opts: ["A. 电子移动方向", "B. 正电荷定向移动方向", "C. 总是从负极流向正极", "D. 无法确定"], ans: 1, exp: "B正确。物理学规定。" },
+            { q: "串联电路中，电流的特点是？", opts: ["A. 处处相等", "B. 正极处大", "C. 负极处大", "D. 经过用电器变小"], ans: 0, exp: "A正确。" },
+            { q: "如图，若开关闭合后电源被短路，那一定是？", opts: ["A. L1和L2串联", "B. 开关并联在电源两端", "C. 开关和灯串联", "D. 灯丝断了"], ans: 1, exp: "B正确。开关直接接在电源两极。" },
+            { q: "两灯串联，L1比L2亮，通过的电流？", opts: ["A. L1大", "B. L2大", "C. 一样大", "D. 无法判断"], ans: 2, exp: "C正确。串联电流处处相等，亮是因为实际功率大。" },
+            { q: "绝缘体不容易导电是因为？", opts: ["A. 没有电荷", "B. 没有自由电荷", "C. 自由电荷很少", "D. 电子不能移动"], ans: 2, exp: "C正确。电荷几乎被束缚在原子核周围。" }
+        ]
+    },
+    {
+        id: "ch16",
+        title: "16.电压电阻",
+        memory: [
+            "<strong>电压(U)：</strong>形成电流的原因。一节干电池1.5V，家庭电路220V，安全电压≤36V。",
+            "<strong>电压表：</strong>并联在被测电路两端。电流正进负出。",
+            "<strong>电阻(R)：</strong>导体本身性质。影响因素：材料、长度（越长越大）、横截面积（越细越大）、温度。",
+            "<strong>滑动变阻器：</strong>一上一下连接。作用：保护电路、改变电流电压。"
+        ],
+        quiz: [
+            { q: "一节新干电池的电压是？", opts: ["A. 1.5V", "B. 2V", "C. 36V", "D. 220V"], ans: 0, exp: "A正确。" },
+            { q: "关于电压表的使用，错误的是？", opts: ["A. 并联在电路中", "B. 电流正进负出", "C. 可直接接电源两极", "D. 必须串联在电路中"], ans: 3, exp: "D错误。电压表内阻很大，串联相当于断路。" },
+            { q: "将导线对折后接入电路，其电阻？", opts: ["A. 变大", "B. 变小", "C. 不变", "D. 无法确定"], ans: 1, exp: "B正确。长度变短，面积变大，电阻显著变小。" },
+            { q: "导体电阻大小与下列哪个因素无关？", opts: ["A. 长度", "B. 横截面积", "C. 两端电压", "D. 材料"], ans: 2, exp: "C正确。电阻是导体本身属性。" },
+            { q: "滑动变阻器铭牌“50Ω 1.5A”，50Ω表示？", opts: ["A. 最小电阻", "B. 最大阻值", "C. 连入电阻", "D. 任意电阻"], ans: 1, exp: "B正确。" },
+            { q: "两灯串联，L1比L2亮，则电压关系？", opts: ["A. U1 > U2", "B. U1 < U2", "C. U1 = U2", "D. 无法判断"], ans: 0, exp: "A正确。串联电流同，P=UI，亮则P大，故U大。" },
+            { q: "连接电路时，滑动变阻器滑片应置于？", opts: ["A. 阻值最大处", "B. 阻值最小处", "C. 中间", "D. 任意"], ans: 0, exp: "A正确。保护电路，防止电流过大。" },
+            { q: "超导材料适合制造？", opts: ["A. 电饭锅发热体", "B. 输电导线", "C. 白炽灯丝", "D. 保险丝"], ans: 1, exp: "B正确。电阻为0，无热损耗。" },
+            { q: "串联电路中，若一个灯泡断路，用电压表测该灯两端，示数为？", opts: ["A. 0", "B. 接近电源电压", "C. 一半电源电压", "D. 无法确定"], ans: 1, exp: "B正确。电压表串联在电路中测电源电压。" },
+            { q: "电压的作用是？", opts: ["A. 产生电阻", "B. 产生电荷", "C. 使自由电荷定向移动形成电流", "D. 消耗电能"], ans: 2, exp: "C正确。" },
+            { q: "关于变阻器，下列说法错误的是？", opts: ["A. 电阻箱能读数", "B. 滑动变阻器不能读数", "C. 都能改变电阻", "D. 都要并联在电路中"], ans: 3, exp: "D错误。都要串联。" }
+        ]
+    },
+    {
+        id: "ch17",
+        title: "17.欧姆定律",
+        memory: [
+            "<strong>内容：</strong>导体中的电流，跟导体两端的电压成正比，跟导体的电阻成反比。",
+            "<strong>公式：</strong>I = U / R。注意同体性、同时性。",
+            "<strong>伏安法测电阻：</strong>原理 <span class='highlight'>R = U / I</span>。需多次测量求平均值。",
+            "<strong>串联总电阻：</strong>R = R₁ + R₂ （越串越大）。",
+            "<strong>并联总电阻：</strong>1/R = 1/R₁ + 1/R₂ （越并越小）。"
+        ],
+        quiz: [
+            { q: "由I=U/R变形得R=U/I，下列说法正确的是？", opts: ["A. R与U成正比", "B. R与I成反比", "C. R与U、I无关", "D. R由U、I决定"], ans: 2, exp: "C正确。电阻是本身属性，公式只是计算方法。" },
+            { q: "导体两端电压4V，电流0.5A，电压变8V，电阻和电流为？", opts: ["A. 8Ω, 1A", "B. 16Ω, 1A", "C. 8Ω, 0.5A", "D. 4Ω, 1A"], ans: 0, exp: "A正确。R=4/0.5=8Ω（不变），I'=8/8=1A。" },
+            { q: "R1=10Ω, R2=20Ω串联，电压之比U1:U2为？", opts: ["A. 1:2", "B. 2:1", "C. 1:1", "D. 1:3"], ans: 0, exp: "A正确。串联分压，U与R成正比。" },
+            { q: "R1=10Ω, R2=20Ω并联，电流之比I1:I2为？", opts: ["A. 1:2", "B. 2:1", "C. 1:1", "D. 1:3"], ans: 1, exp: "B正确。并联分流，I与R成反比。" },
+            { q: "伏安法测电阻中，滑动变阻器的主要作用是？", opts: ["A. 改变电源电压", "B. 改变电阻电压电流多次测量", "C. 改变电阻阻值", "D. 使读数更准"], ans: 1, exp: "B正确。同时也保护电路。" },
+            { q: "串联电路的总电阻？", opts: ["A. 等于各分电阻之和", "B. 小于任一分电阻", "C. 等于倒数之和", "D. 无法确定"], ans: 0, exp: "A正确。" },
+            { q: "定值电阻两端电压从5V增至10V，电流增加0.2A，则电阻为？", opts: ["A. 10Ω", "B. 25Ω", "C. 50Ω", "D. 5Ω"], ans: 1, exp: "B正确。R=ΔU/ΔI = 5V/0.2A = 25Ω。" },
+            { q: "有两个电阻，R1>R2，串联总阻R串，并联总阻R并，则？", opts: ["A. R串 > R1 > R2 > R并", "B. R1 > R串", "C. R并 > R2", "D. R并 > R串"], ans: 0, exp: "A正确。串联越串越大，并联越并越小。" },
+            { q: "闭合开关，滑片右移灯泡变亮，说明变阻器接入阻值？", opts: ["A. 变大", "B. 变小", "C. 不变", "D. 无法确定"], ans: 1, exp: "B正确。灯亮->电流大->电阻小。" },
+            { q: "测小灯泡电阻时，能否将多次测量结果求平均值？", opts: ["A. 能，减小误差", "B. 不能，灯丝电阻随温度变化", "C. 无所谓", "D. 视情况而定"], ans: 1, exp: "B正确。灯丝电阻随温度变化明显，求平均值无意义。" },
+            { q: "探究电流与电压关系时，应保持什么不变？", opts: ["A. 电流", "B. 电压", "C. 电阻", "D. 滑动变阻器"], ans: 2, exp: "C正确。控制变量法。" },
+            { q: "如图，开关闭合，电压表测L2电压，若L2断路，电压表？", opts: ["A. 无示数", "B. 示数接近电源电压", "C. 示数减小", "D. 烧坏"], ans: 1, exp: "B正确。电压表串联在电路中测电源电压。" }
+        ]
+    },
+    {
+        id: "ch18",
+        title: "18.电功率",
+        memory: [
+            "<strong>电功(W)：</strong>单位J或kW·h（度）。1度=3.6×10⁶J。电能表测量。",
+            "<strong>电功率(P)：</strong>做功快慢。公式：P=W/t=UI。",
+            "<strong>灯泡亮度：</strong>由<span class='highlight'>实际功率</span>决定。",
+            "<strong>焦耳定律：</strong>电热 Q = I²Rt。纯电阻电路 Q=W。",
+            "<strong>额定/实际：</strong>U实 > U额，P实 > P额（灯亮/烧坏）。"
+        ],
+        quiz: [
+            { q: "1度电可供“220V 40W”灯泡工作多久？", opts: ["A. 20h", "B. 40h", "C. 25h", "D. 10h"], ans: 2, exp: "C正确。t = W/P = 1kW·h / 0.04kW = 25h。" },
+            { q: "“220V 100W”接在110V电路中，实际功率？", opts: ["A. 100W", "B. 50W", "C. 25W", "D. 200W"], ans: 2, exp: "C正确。U变为1/2，由P=U²/R可知P变为1/4。" },
+            { q: "L1“6V 3W”和L2“6V 6W”串联，较亮的是？", opts: ["A. L1", "B. L2", "C. 一样亮", "D. 无法判断"], ans: 0, exp: "A正确。R1=12Ω, R2=6Ω。串联P=I²R，电阻大功率大，故L1亮。" },
+            { q: "电流通过导体产生热量与什么无关？", opts: ["A. 电流", "B. 电阻", "C. 时间", "D. 截面积"], ans: 3, exp: "D正确。焦耳定律Q=I²Rt，截面积间接影响R，但不直接出现在公式中。" },
+            { q: "利用电流热效应工作的是？", opts: ["A. 电视机", "B. 电风扇", "C. 电饭锅", "D. 电脑"], ans: 2, exp: "C正确。" },
+            { q: "额定电压相同的甲乙两灯串联，甲比乙亮，则？", opts: ["A. 甲额定功率大", "B. 乙额定功率大", "C. 甲电阻小", "D. 电流不同"], ans: 1, exp: "B正确。甲亮->P实大->R大(串联)->P额小(P额=U额²/R)。" },
+            { q: "关于电功率，正确的是？", opts: ["A. 做功越多功率越大", "B. 做功越快功率越大", "C. 消耗电能越多功率越大", "D. 时间越短功率越大"], ans: 1, exp: "B正确。功率表示做功快慢。" },
+            { q: "两电阻R1>R2并联，相同时间产热？", opts: ["A. Q1 > Q2", "B. Q1 < Q2", "C. Q1 = Q2", "D. 无法判断"], ans: 1, exp: "B正确。并联Q=U²t/R，电阻小产热多。" },
+            { q: "测量小灯泡电功率原理？", opts: ["A. R=U/I", "B. P=UI", "C. P=I²R", "D. Q=I²Rt"], ans: 1, exp: "B正确。" },
+            { q: "电能表用来测量？", opts: ["A. 电流", "B. 电压", "C. 电功率", "D. 电功"], ans: 3, exp: "D正确。测消耗电能。" },
+            { q: "某灯泡标有“220V 40W”，正常发光时电阻为？", opts: ["A. 1210Ω", "B. 5.5Ω", "C. 8800Ω", "D. 55Ω"], ans: 0, exp: "A正确。R=U²/P=220²/40=1210Ω。" },
+            { q: "焦耳定律公式 Q=I²Rt 适用于？", opts: ["A. 只有纯电阻电路", "B. 只有非纯电阻电路", "C. 任何电路", "D. 只有直流电路"], ans: 2, exp: "C正确。这是计算电热的普适公式。" }
+        ]
+    },
+    {
+        id: "ch19",
+        title: "19.生活用电",
+        memory: [
+            "<strong>家庭电路：</strong>进户线→电能表→总开关→保险丝→用电器。",
+            "<strong>连接：</strong>开关接<span class='highlight'>火线</span>。三孔插座：左零右火上接地。",
+            "<strong>电流过大原因：</strong>短路、总功率过大。",
+            "<strong>安全用电：</strong>不接触低压带电体，不靠近高压带电体。"
+        ],
+        quiz: [
+            { q: "控制灯泡的开关应接在？", opts: ["A. 零线上", "B. 火线上", "C. 地线上", "D. 都可以"], ans: 1, exp: "B正确。断开开关后灯泡不带电，确保安全。" },
+            { q: "空气开关跳闸，原因不可能是？", opts: ["A. 短路", "B. 总功率过大", "C. 插座接触不良", "D. 某电器短路"], ans: 2, exp: "C正确。接触不良是断路，不会跳闸。" },
+            { q: "发现有人触电，首先应？", opts: ["A. 用手拉开", "B. 大声呼救", "C. 切断电源", "D. 泼水"], ans: 2, exp: "C正确。切断电源是第一步。" },
+            { q: "三脚插头长脚连通用电器的？", opts: ["A. 内部电路", "B. 塑料外壳", "C. 金属外壳", "D. 开关"], ans: 2, exp: "C正确。接地防漏电。" },
+            { q: "家庭电路电压是？", opts: ["A. 36V", "B. 110V", "C. 220V", "D. 380V"], ans: 2, exp: "C正确。" },
+            { q: "测电笔氖管发光接触的是？", opts: ["A. 零线", "B. 火线", "C. 地线", "D. 墙壁"], ans: 1, exp: "B正确。" },
+            { q: "保险丝可以用铜丝代替吗？", opts: ["A. 可以", "B. 不可以", "C. 粗的可以", "D. 偶尔可以"], ans: 1, exp: "B正确。铜熔点高，起不到保险作用。" },
+            { q: "人体安全电压是？", opts: ["A. 220V", "B. 36V", "C. 不高于36V", "D. 1.5V"], ans: 2, exp: "C正确。" },
+            { q: "洗衣机用三孔插座是因为？", opts: ["A. 节约电", "B. 防止外壳漏电触电", "C. 延长寿命", "D. 稳固"], ans: 1, exp: "B正确。" },
+            { q: "家庭电路中，用电器的连接方式？", opts: ["A. 串联", "B. 并联", "C. 混联", "D. 无法确定"], ans: 1, exp: "B正确。互不影响。" }
+        ]
+    },
+    {
+        id: "ch20",
+        title: "20.电与磁",
+        memory: [
+            "<strong>奥斯特实验：</strong>电生磁（电流磁效应）。",
+            "<strong>安培定则：</strong>右手握螺线管，四指指电流，拇指指N极。",
+            "<strong>电动机：</strong>通电导体在磁场中<span class='highlight'>受力运动</span>（电转机械）。",
+            "<strong>发电机：</strong><span class='highlight'>电磁感应</span>现象（机械转电）。法拉第发现。"
+        ],
+        quiz: [
+            { q: "第一个发现电磁联系的科学家？", opts: ["A. 牛顿", "B. 奥斯特", "C. 焦耳", "D. 法拉第"], ans: 1, exp: "B正确。1820年奥斯特实验。" },
+            { q: "发电机原理是？", opts: ["A. 电流热效应", "B. 通电导体受力", "C. 电磁感应", "D. 电流磁效应"], ans: 2, exp: "C正确。磁生电。" },
+            { q: "电动机能量转化？", opts: ["A. 机械转电", "B. 电转机械", "C. 化学转电", "D. 内转机械"], ans: 1, exp: "B正确。" },
+            { q: "改变直流电动机转向的方法？", opts: ["A. 增电流", "B. 强磁场", "C. 对调磁极或电源极性", "D. 同时对调"], ans: 2, exp: "C正确。只改变一个条件即可反转。" },
+            { q: "动圈式话筒原理？", opts: ["A. 电铃", "B. 电磁感应", "C. 扬声器", "D. 电磁起重机"], ans: 1, exp: "B正确。声波带动线圈切割磁感线。" },
+            { q: "增强螺线管磁性错误的是？", opts: ["A. 增电流", "B. 增匝数", "C. 插铁芯", "D. 改电流方向"], ans: 3, exp: "D错误。方向只改变极性。" },
+            { q: "指南针静止时N极指向地理？", opts: ["A. 南方", "B. 北方", "C. 东方", "D. 西方"], ans: 1, exp: "B正确。地磁南极在地理北极附近。" },
+            { q: "磁场基本性质？", opts: ["A. 吸铁", "B. 对放入磁体有力作用", "C. 产生电流", "D. 发光"], ans: 1, exp: "B正确。" },
+            { q: "关于磁感线正确的是？", opts: ["A. 真实存在", "B. 外部从N回S", "C. 可以相交", "D. 只是假想"], ans: 1, exp: "B正确。A错（假想模型），C错（不相交）。" },
+            { q: "电磁继电器利用了？", opts: ["A. 电流热效应", "B. 电流磁效应", "C. 电磁感应", "D. 摩擦起电"], ans: 1, exp: "B正确。利用电磁铁控制电路。" }
+        ]
+    }
+];
+
+// ============================================
+// 页面渲染逻辑
+// ============================================
+
+const navBox = document.getElementById('navBox');
+const contentBox = document.getElementById('contentBox');
+
+function init() {
+    physicsData.forEach((chapter, index) => {
+        // 1. 生成导航按钮
+        const btn = document.createElement('div');
+        btn.className = `nav-btn ${index === 0 ? 'active' : ''}`;
+        btn.innerText = chapter.title;
+        btn.onclick = () => switchTab(index);
+        navBox.appendChild(btn);
+
+        // 2. 生成内容区块
+        const section = document.createElement('div');
+        section.className = `section ${index === 0 ? 'active' : ''}`;
+        
+        // 根据类型渲染不同内容
+        if (chapter.type === "formula_library") {
+            section.innerHTML = renderFormulaLibrary(chapter);
+        } else {
+            section.innerHTML = renderChapterContent(chapter, index);
+        }
+        
+        contentBox.appendChild(section);
+    });
+}
+
+function renderFormulaLibrary(data) {
+    let html = `<div class="chapter-title"><i class="fas fa-calculator"></i> ${data.title}</div>`;
+    data.content.forEach(item => {
+        html += `
+            <div class="formula-detail-card">
+                <div class="formula-header">
+                    <span>${item.name}</span>
+                </div>
+                <div class="formula-main">${item.f}</div>
+                <div class="formula-desc">
+                    ${item.vars.map(v => `<div><span class="formula-label">${v.s}</span>: ${v.d} [${v.u}]</div>`).join('')}
+                    <div style="margin-top:8px; color:#d32f2f; font-size:0.85rem;"><i class="fas fa-exclamation-circle"></i> ${item.note}</div>
+                </div>
+            </div>
+        `;
+    });
+    return html;
+}
+
+function renderChapterContent(chapter, chIdx) {
+    let html = `<div class="chapter-title"><i class="fas fa-book-open"></i> ${chapter.title}</div>`;
+
+    // 重点记忆
+    if (chapter.memory) {
+        html += `
+            <div class="card memory-card">
+                <div class="card-title"><i class="fas fa-star"></i> 核心考点背诵</div>
+                <ul class="point-list">
+                    ${chapter.memory.map(m => `<li>${m}</li>`).join('')}
+                </ul>
+            </div>
+        `;
+    }
+
+    // 练习题
+    html += `
+        <div class="card">
+            <div class="card-title" style="color:var(--text)"><i class="fas fa-pencil-alt"></i> 闯关练习 (${chapter.quiz.length}题)</div>
+            <div class="quiz-list">
+    `;
+    
+    chapter.quiz.forEach((q, qIdx) => {
+        html += `
+            <div class="quiz-item" id="q-${chIdx}-${qIdx}">
+                <div class="q-text">${qIdx + 1}. ${q.q}</div>
+                <div class="options-grid">
+                    ${q.opts.map((opt, oIdx) => `
+                        <div class="option-btn" onclick="checkAnswer(${chIdx}, ${qIdx}, ${oIdx}, this)">${opt}</div>
+                    `).join('')}
+                </div>
+                <div class="answer-box" id="ans-${chIdx}-${qIdx}">
+                    <strong>解析：</strong> ${q.exp}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `</div></div>`;
+    return html;
+}
+
+function switchTab(idx) {
+    const btns = document.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.section');
+    
+    btns.forEach((b, i) => b.classList.toggle('active', i === idx));
+    sections.forEach((s, i) => s.classList.toggle('active', i === idx));
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function checkAnswer(chIdx, qIdx, optIdx, btn) {
+    const chapter = physicsData[chIdx];
+    const qData = chapter.quiz[qIdx];
+    const parent = document.getElementById(`q-${chIdx}-${qIdx}`);
+    const ansBox = document.getElementById(`ans-${chIdx}-${qIdx}`);
+    
+    // 防止重复点击
+    if (parent.getAttribute('data-done')) return;
+    parent.setAttribute('data-done', 'true');
+    
+    const allOpts = parent.querySelectorAll('.option-btn');
+    
+    if (optIdx === qData.ans) {
+        // 答对了
+        btn.classList.add('correct');
+        btn.innerHTML += ' <i class="fas fa-check"></i>';
+    } else {
+        // 答错了
+        btn.classList.add('wrong');
+        btn.innerHTML += ' <i class="fas fa-times"></i>';
+        // 显示正确答案
+        allOpts[qData.ans].classList.add('correct');
+        allOpts[qData.ans].innerHTML += ' <i class="fas fa-check"></i>';
+    }
+    
+    ansBox.style.display = 'block';
+}
+
+// 启动程序
+init();
+
+</script>
+</body>
+</html>

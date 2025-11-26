@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九年级化学上册学习平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --light: #f9f9f9;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), #2980b9);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(52, 152, 219, 0.8), rgba(41, 128, 185, 0.9)), url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn:hover {
+            background: #27ae60;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin: 3rem 0 2rem;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        
+        .units {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .unit-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .unit-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .unit-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .unit-content {
+            padding: 1.5rem;
+        }
+        
+        .unit-content ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .unit-content li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .unit-content li:last-child {
+            border-bottom: none;
+        }
+        
+        .unit-content i {
+            color: var(--secondary);
+        }
+        
+        .quiz-container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+        }
+        
+        .option.selected {
+            border-color: var(--primary);
+            background: #e3f2fd;
+        }
+        
+        .quiz-controls {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--secondary);
+            width: 30%;
+            transition: width 0.3s;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 1.5rem;
+            margin: 2rem 0;
+            color: var(--dark);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .material-content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+        
+        .material-content h3 {
+            color: var(--primary);
+            margin: 1.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .material-content h4 {
+            color: var(--dark);
+            margin: 1.2rem 0 0.8rem;
+        }
+        
+        .material-content ul, .material-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .material-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .material-content th, .material-content td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        
+        .material-content th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        .material-content tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .tab-container {
+            margin-bottom: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            background: #f5f5f5;
+            margin-right: 5px;
+        }
+        
+        .tab.active {
+            background: white;
+            border-color: #ddd;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .concept-box {
+            background: #e8f4fc;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .example-box {
+            background: #f0f9f0;
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .warning-box {
+            background: #fef9e7;
+            border-left: 4px solid #f1c40f;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .formula {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .copyright {
+            padding-top: 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-flask"></i>
+                    <span>九年级化学学习平台</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">首页</a></li>
+                        <li><a href="#units">学习单元</a></li>
+                        <li><a href="#materials">学习资料</a></li>
+                        <li><a href="#quiz">在线测试</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>九年级化学上册学习平台</h1>
+            <a href="#units" class="btn btn-outline">开始学习</a>
+        </div>
+
+    </section>
+
+    <section id="units" class="container">
+        <h2 class="section-title">学习单元</h2>
+        <div class="units">
+            <div class="unit-card">
+                <div class="unit-header">
+                    <h3>第一单元</h3>
+                    <p>走进化学世界</p>
+                </div>
+                <div class="unit-content">
+                    <p>本单元主要介绍化学的基本概念和实验基础。</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 物质的变化和性质</li>
+                        <li><i class="fas fa-check"></i> 化学实验基础</li>
+                        <li><i class="fas fa-check"></i> 常用化学仪器</li>
+                    </ul>
+                    <a href="#" class="btn" style="margin-top: 1rem; width: 100%; text-align: center;" onclick="showMaterial('unit1')">开始学习</a>
+                </div>
+            </div>
+            
+            <div class="unit-card">
+                <div class="unit-header">
+                    <h3>第二单元</h3>
+                    <p>我们周围的空气</p>
+                </div>
+                <div class="unit-content">
+                    <p>学习空气的组成、氧气性质及制取方法。</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 空气的组成</li>
+                        <li><i class="fas fa-check"></i> 氧气的性质</li>
+                        <li><i class="fas fa-check"></i> 制取氧气</li>
+                    </ul>
+                    <a href="#" class="btn" style="margin-top: 1rem; width: 100%; text-align: center;" onclick="showMaterial('unit2')">开始学习</a>
+                </div>
+            </div>
+            
+            <div class="unit-card">
+                <div class="unit-header">
+                    <h3>第三单元</h3>
+                    <p>物质构成的奥秘</p>
+                </div>
+                <div class="unit-content">
+                    <p>探索物质的微观构成，学习分子、原子和元素。</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 分子和原子</li>
+                        <li><i class="fas fa-check"></i> 原子的结构</li>
+                        <li><i class="fas fa-check"></i> 元素</li>
+                    </ul>
+                    <a href="#" class="btn" style="margin-top: 1rem; width: 100%; text-align: center;" onclick="showMaterial('unit3')">开始学习</a>
+                </div>
+            </div>
+            
+            <div class="unit-card">
+                <div class="unit-header">
+                    <h3>第四单元</h3>
+                    <p>自然界的水</p>
+                </div>
+                <div class="unit-content">
+                    <p>了解水的性质、净化方法和组成。</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 爱护水资源</li>
+                        <li><i class="fas fa-check"></i> 水的净化</li>
+                        <li><i class="fas fa-check"></i> 水的组成</li>
+                    </ul>
+                    <a href="#" class="btn" style="margin-top: 1rem; width: 100%; text-align: center;" onclick="showMaterial('unit4')">开始学习</a>
+                </div>
+            </div>
+            
+            <div class="unit-card">
+                <div class="unit-header">
+                    <h3>第五单元</h3>
+                    <p>化学方程式</p>
+                </div>
+                <div class="unit-content">
+                    <p>学习质量守恒定律和化学方程式的书写。</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 质量守恒定律</li>
+                        <li><i class="fas fa-check"></i> 化学方程式</li>
+                        <li><i class="fas fa-check"></i> 化学计算</li>
+                    </ul>
+                    <a href="#" class="btn" style="margin-top: 1rem; width: 100%; text-align: center;" onclick="showMaterial('unit5')">开始学习</a>
+                </div>
+            </div>
+            
+            <div class="unit-card">
+                <div class="unit-header">
+                    <h3>第六单元</h3>
+                    <p>碳和碳的氧化物</p>
+                </div>
+                <div class="unit-content">
+                    <p>了解碳单质、二氧化碳和一氧化碳的性质。</p>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 碳单质</li>
+                        <li><i class="fas fa-check"></i> 二氧化碳</li>
+                        <li><i class="fas fa-check"></i> 一氧化碳</li>
+                    </ul>
+                    <a href="#" class="btn" style="margin-top: 1rem; width: 100%; text-align: center;" onclick="showMaterial('unit6')">开始学习</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="materials" class="container">
+        <h2 class="section-title">学习资料</h2>
+        
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab active" data-tab="unit1">第一单元</div>
+                <div class="tab" data-tab="unit2">第二单元</div>
+                <div class="tab" data-tab="unit3">第三单元</div>
+                <div class="tab" data-tab="unit4">第四单元</div>
+                <div class="tab" data-tab="unit5">第五单元</div>
+                <div class="tab" data-tab="unit6">第六单元</div>
+            </div>
+            
+            <div id="unit1" class="tab-content active">
+                <h3>第一单元：走进化学世界</h3>
+                
+                <div class="concept-box">
+                    <h4>核心概念</h4>
+                    <p>化学是在分子、原子层次上研究物质性质、组成、结构与变化规律的科学。</p>
+                </div>
+                
+                <h4>1. 物质的变化和性质</h4>
+                <p>物质的变化分为物理变化和化学变化：</p>
+                
+                <table>
+                    <tr>
+                        <th>变化类型</th>
+                        <th>定义</th>
+                        <th>特点</th>
+                        <th>示例</th>
+                    </tr>
+                    <tr>
+                        <td>物理变化</td>
+                        <td>没有新物质生成的变化</td>
+                        <td>物质的形态、状态改变</td>
+                        <td>冰融化、水蒸发</td>
+                    </tr>
+                    <tr>
+                        <td>化学变化</td>
+                        <td>有新物质生成的变化</td>
+                        <td>常伴随发光、放热、颜色变化等</td>
+                        <td>铁生锈、蜡烛燃烧</td>
+                    </tr>
+                </table>
+                
+                <h4>2. 化学实验基础</h4>
+                <p>化学是一门以实验为基础的科学，实验是学习化学的重要手段。</p>
+                
+                <div class="example-box">
+                    <h5>示例：蜡烛燃烧实验</h5>
+                    <p>观察蜡烛燃烧前、燃烧时和燃烧后的现象：</p>
+                    <ul>
+                        <li>燃烧前：白色固体，有气味，质软，密度比水小</li>
+                        <li>燃烧中：发出黄色火焰，放热，有黑烟</li>
+                        <li>燃烧后：生成水和二氧化碳</li>
+                    </ul>
+                </div>
+                
+                <h4>3. 常用化学仪器</h4>
+                <ul>
+                    <li>反应容器：试管、烧杯、烧瓶</li>
+                    <li>计量仪器：量筒、天平</li>
+                    <li>加热仪器：酒精灯</li>
+                    <li>其他：漏斗、玻璃棒、胶头滴管等</li>
+                </ul>
+                
+                <div class="warning-box">
+                    <h5>实验安全注意事项</h5>
+                    <p>进行化学实验时，必须遵守实验室规则，注意安全操作，防止事故发生。</p>
+                </div>
+            </div>
+            
+            <div id="unit2" class="tab-content">
+                <h3>第二单元：我们周围的空气</h3>
+                
+                <h4>1. 空气的组成</h4>
+                <p>空气是由多种气体组成的混合物，其主要成分及体积分数如下：</p>
+                
+                <table>
+                    <tr>
+                        <th>气体</th>
+                        <th>体积分数</th>
+                        <th>主要性质</th>
+                    </tr>
+                    <tr>
+                        <td>氮气</td>
+                        <td>约78%</td>
+                        <td>化学性质不活泼，常用作保护气</td>
+                    </tr>
+                    <tr>
+                        <td>氧气</td>
+                        <td>约21%</td>
+                        <td>支持燃烧，供给呼吸</td>
+                    </tr>
+                    <tr>
+                        <td>稀有气体</td>
+                        <td>约0.94%</td>
+                        <td>化学性质稳定，通电时发出不同颜色的光</td>
+                    </tr>
+                    <tr>
+                        <td>二氧化碳</td>
+                        <td>约0.03%</td>
+                        <td>不支持燃烧，能使澄清石灰水变浑浊</td>
+                    </tr>
+                </table>
+                
+                <h4>2. 氧气的性质</h4>
+                <p>氧气是一种无色、无味、不易溶于水的气体，化学性质比较活泼。</p>
+                
+                <div class="example-box">
+                    <h5>氧气与常见物质的反应</h5>
+                    <ul>
+                        <li>木炭在氧气中燃烧：发出白光，生成二氧化碳</li>
+                        <li>硫在氧气中燃烧：发出蓝紫色火焰，生成有刺激性气味的二氧化硫</li>
+                        <li>铁丝在氧气中燃烧：剧烈燃烧，火星四射，生成黑色固体四氧化三铁</li>
+                    </ul>
+                </div>
+                
+                <h4>3. 氧气的制取</h4>
+                <p>实验室制取氧气的方法：</p>
+                
+                <div class="formula">
+                    2KMnO<sub>4</sub> → K<sub>2</sub>MnO<sub>4</sub> + MnO<sub>2</sub> + O<sub>2</sub>↑
+                </div>
+                
+                <p>工业上通过分离液态空气制取氧气，这是物理变化。</p>
+            </div>
+            
+            <div id="unit3" class="tab-content">
+                <h3>第三单元：物质构成的奥秘</h3>
+                
+                <div class="concept-box">
+                    <h4>核心概念</h4>
+                    <p>物质是由微观粒子构成的，分子、原子和离子是构成物质的基本粒子。</p>
+                </div>
+                
+                <h4>1. 分子和原子</h4>
+                <p>分子是保持物质化学性质的最小粒子，原子是化学变化中的最小粒子。</p>
+                
+                <table>
+                    <tr>
+                        <th>比较项目</th>
+                        <th>分子</th>
+                        <th>原子</th>
+                    </tr>
+                    <tr>
+                        <td>定义</td>
+                        <td>保持物质化学性质的最小粒子</td>
+                        <td>化学变化中的最小粒子</td>
+                    </tr>
+                    <tr>
+                        <td>在化学变化中</td>
+                        <td>可以再分</td>
+                        <td>不能再分</td>
+                    </tr>
+                    <tr>
+                        <td>构成</td>
+                        <td>由原子构成</td>
+                        <td>由原子核和核外电子构成</td>
+                    </tr>
+                </table>
+                
+                <h4>2. 原子的结构</h4>
+                <p>原子由原子核和核外电子构成，原子核由质子和中子构成。</p>
+                
+                <div class="example-box">
+                    <h5>原子结构示意图</h5>
+                    <p>以钠原子为例：</p>
+                    <div class="formula">
+                        原子核：11个质子 + 12个中子<br>
+                        核外电子：11个（2,8,1排布）
+                    </div>
+                </div>
+                
+                <h4>3. 元素</h4>
+                <p>元素是具有相同核电荷数（即质子数）的一类原子的总称。</p>
+                
+                <ul>
+                    <li>元素符号：用拉丁字母表示，第一个字母大写，第二个字母小写</li>
+                    <li>元素周期表：按原子序数排列的元素表格</li>
+                    <li>地壳中含量前四位的元素：氧、硅、铝、铁</li>
+                </ul>
+                
+                <div class="warning-box">
+                    <h5>注意区分</h5>
+                    <p>元素是宏观概念，只讲种类不讲个数；原子是微观概念，既讲种类又讲个数。</p>
+                </div>
+            </div>
+            
+            <div id="unit4" class="tab-content">
+                <h3>第四单元：自然界的水</h3>
+                
+                <div class="concept-box">
+                    <h4>核心概念</h4>
+                    <p>水是宝贵的自然资源，了解水的性质、净化方法和组成对保护水资源至关重要。</p>
+                </div>
+                
+                <h4>1. 爱护水资源</h4>
+                <p>地球上的水资源分布不均，淡水资源有限，需要节约用水和保护水资源。</p>
+                
+                <ul>
+                    <li>水体污染源：工业废水、农业排水、生活污水</li>
+                    <li>防治措施：污水处理、减少污染物排放、加强监管</li>
+                </ul>
+                
+                <h4>2. 水的净化</h4>
+                <p>常用的水的净化方法：</p>
+                
+                <table>
+                    <tr>
+                        <th>方法</th>
+                        <th>原理</th>
+                        <th>作用</th>
+                    </tr>
+                    <tr>
+                        <td>沉淀</td>
+                        <td>重力作用</td>
+                        <td>除去较大颗粒杂质</td>
+                    </tr>
+                    <tr>
+                        <td>过滤</td>
+                        <td>颗粒大小不同</td>
+                        <td>除去不溶性杂质</td>
+                    </tr>
+                    <tr>
+                        <td>吸附</td>
+                        <td>活性炭的多孔结构</td>
+                        <td>除去色素和异味</td>
+                    </tr>
+                    <tr>
+                        <td>蒸馏</td>
+                        <td>沸点不同</td>
+                        <td>得到纯水，净化程度最高</td>
+                    </tr>
+                </table>
+                
+                <h4>3. 水的组成</h4>
+                <p>通过电解水实验可以证明水的组成：</p>
+                
+                <div class="formula">
+                    2H<sub>2</sub>O → 2H<sub>2</sub>↑ + O<sub>2</sub>↑
+                </div>
+                
+                <p>实验现象：</p>
+                <ul>
+                    <li>正极产生氧气，能使带火星的木条复燃</li>
+                    <li>负极产生氢气，能燃烧，产生淡蓝色火焰</li>
+                    <li>氢气与氧气的体积比为2:1</li>
+                </ul>
+                
+                <div class="example-box">
+                    <h5>硬水和软水</h5>
+                    <p>区分方法：加入肥皂水，泡沫多、浮渣少的是软水；泡沫少、浮渣多的是硬水。</p>
+                </div>
+            </div>
+            
+            <div id="unit5" class="tab-content">
+                <h3>第五单元：化学方程式</h3>
+                
+                <div class="concept-box">
+                    <h4>核心概念</h4>
+                    <p>化学方程式是用化学式表示化学反应的式子，它遵循质量守恒定律。</p>
+                </div>
+                
+                <h4>1. 质量守恒定律</h4>
+                <p>参加化学反应的各物质的质量总和，等于反应后生成的各物质的质量总和。</p>
+                
+                <div class="example-box">
+                    <h5>质量守恒的原因</h5>
+                    <p>在化学反应中：</p>
+                    <ul>
+                        <li>原子的种类不变</li>
+                        <li>原子的数目不变</li>
+                        <li>原子的质量不变</li>
+                    </ul>
+                </div>
+                
+                <h4>2. 化学方程式</h4>
+                <p>化学方程式的书写原则：</p>
+                
+                <ul>
+                    <li>以客观事实为基础</li>
+                    <li>遵守质量守恒定律</li>
+                </ul>
+                
+                <p>书写步骤：写、配、注、等</p>
+                
+                <div class="formula">
+                    4P + 5O<sub>2</sub> → 2P<sub>2</sub>O<sub>5</sub>
+                </div>
+                
+                <h4>3. 化学计算</h4>
+                <p>根据化学方程式进行计算：</p>
+                
+                <table>
+                    <tr>
+                        <th>计算类型</th>
+                        <th>方法</th>
+                        <th>示例</th>
+                    </tr>
+                    <tr>
+                        <td>反应物质量计算</td>
+                        <td>根据生成物质量求反应物质量</td>
+                        <td>已知生成CO₂ 44g，求需要C的质量</td>
+                    </tr>
+                    <tr>
+                        <td>生成物质量计算</td>
+                        <td>根据反应物质量求生成物质量</td>
+                        <td>已知O₂ 32g，求生成H₂O的质量</td>
+                    </tr>
+                    <tr>
+                        <td>含杂质计算</td>
+                        <td>考虑杂质含量</td>
+                        <td>含杂质10%的石灰石制取CO₂</td>
+                    </tr>
+                </table>
+                
+                <div class="warning-box">
+                    <h5>注意事项</h5>
+                    <p>化学计算中要注意：</p>
+                    <ul>
+                        <li>化学方程式必须配平</li>
+                        <li>相对分子质量计算要准确</li>
+                        <li>单位要统一</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="unit6" class="tab-content">
+                <h3>第六单元：碳和碳的氧化物</h3>
+                
+                <div class="concept-box">
+                    <h4>核心概念</h4>
+                    <p>碳元素可以形成多种单质和化合物，其中碳的氧化物在生活和生产中具有重要作用。</p>
+                </div>
+                
+                <h4>1. 碳单质</h4>
+                <p>碳元素形成的不同单质：</p>
+                
+                <table>
+                    <tr>
+                        <th>碳单质</th>
+                        <th>结构特点</th>
+                        <th>主要性质</th>
+                        <th>用途</th>
+                    </tr>
+                    <tr>
+                        <td>金刚石</td>
+                        <td>正四面体结构</td>
+                        <td>硬度大、不导电</td>
+                        <td>钻头、切割工具</td>
+                    </tr>
+                    <tr>
+                        <td>石墨</td>
+                        <td>层状结构</td>
+                        <td>质软、导电性好</td>
+                        <td>电极、铅笔芯</td>
+                    </tr>
+                    <tr>
+                        <td>C<sub>60</sub></td>
+                        <td>足球状分子</td>
+                        <td>特殊物理性质</td>
+                        <td>新材料、超导体</td>
+                    </tr>
+                </table>
+                
+                <h4>2. 二氧化碳</h4>
+                <p>二氧化碳的性质和用途：</p>
+                
+                <ul>
+                    <li>物理性质：无色无味气体，密度比空气大，能溶于水</li>
+                    <li>化学性质：不支持燃烧，能与水反应生成碳酸，能使澄清石灰水变浑浊</li>
+                    <li>用途：灭火、制饮料、人工降雨、气体肥料</li>
+                </ul>
+                
+                <div class="formula">
+                    CO<sub>2</sub> + H<sub>2</sub>O → H<sub>2</sub>CO<sub>3</sub><br>
+                    CO<sub>2</sub> + Ca(OH)<sub>2</sub> → CaCO<sub>3</sub>↓ + H<sub>2</sub>O
+                </div>
+                
+                <h4>3. 一氧化碳</h4>
+                <p>一氧化碳的性质和危害：</p>
+                
+                <ul>
+                    <li>物理性质：无色无味气体，密度略小于空气，难溶于水</li>
+                    <li>化学性质：可燃性、还原性、毒性</li>
+                    <li>危害：与血红蛋白结合能力强，造成人体缺氧</li>
+                    <li>用途：燃料、冶炼金属</li>
+                </ul>
+                
+                <div class="example-box">
+                    <h5>实验室制取二氧化碳</h5>
+                    <p>药品：石灰石（或大理石）和稀盐酸</p>
+                    <div class="formula">
+                        CaCO<sub>3</sub> + 2HCl → CaCl<sub>2</sub> + H<sub>2</sub>O + CO<sub>2</sub>↑
+                    </div>
+                </div>
+                
+                <div class="warning-box">
+                    <h5>安全提示</h5>
+                    <p>一氧化碳有毒，使用时要确保通风良好，防止中毒。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quiz" class="container">
+        <h2 class="section-title">在线测试</h2>
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <h3>化学知识测试</h3>
+                <div>题目 <span id="current-question">1</span>/<span id="total-questions">50</span></div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress" id="quiz-progress"></div>
+            </div>
+            
+            <div id="question-container">
+                <div class="question" id="question-text">
+                    下列变化中，属于化学变化的是？
+                </div>
+                
+                <div class="options">
+                    <div class="option" data-option="A">A. 水的沸腾</div>
+                    <div class="option" data-option="B">B. 汽油挥发</div>
+                    <div class="option" data-option="C">C. 铁生锈</div>
+                    <div class="option" data-option="D">D. 冰融化</div>
+                </div>
+                
+                <div class="quiz-controls">
+                    <button class="btn" id="prev-btn" disabled>上一题</button>
+                    <button class="btn" id="next-btn">下一题</button>
+                </div>
+            </div>
+            
+            <div id="results-container" class="hidden">
+                <div class="score-display">
+                    测试完成！您的得分是：<span id="score">0</span>/<span id="max-score">50</span>
+                </div>
+                <div style="text-align: center;">
+                    <button class="btn" id="restart-btn">重新测试</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2025 jimmy</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 测验数据 - 50道题目，涵盖所有单元
+        const quizData = [
+            // 第一单元题目 (8题)
+            {
+                question: "下列变化中，属于化学变化的是？",
+                options: [
+                    "A. 水的沸腾",
+                    "B. 汽油挥发",
+                    "C. 铁生锈",
+                    "D. 冰融化"
+                ],
+                correct: "C",
+                explanation: "化学变化的本质特征是有新物质生成。铁生锈是铁与氧气、水反应生成铁锈（主要成分Fe₂O₃），有新物质生成，属于化学变化。"
+            },
+            {
+                question: "下列物质的用途，主要利用其物理性质的是？",
+                options: [
+                    "A. 氧气可作火箭发动机助燃剂",
+                    "B. 酒精可作燃料",
+                    "C. 铜可用于制造导线",
+                    "D. 火药用于制作烟花"
+                ],
+                correct: "C",
+                explanation: "铜用于制造导线是利用其导电性，属于物理性质。其他选项都是利用物质的化学性质。"
+            },
+            {
+                question: "下列实验操作正确的是？",
+                options: [
+                    "A. 用嘴吹灭酒精灯",
+                    "B. 加热试管时，试管口对着自己",
+                    "C. 量筒读数时，视线与凹液面最低处保持水平",
+                    "D. 将实验剩余的药品放回原试剂瓶"
+                ],
+                correct: "C",
+                explanation: "量筒读数时，视线应与凹液面最低处保持水平，这是正确的读数方法。其他选项都是错误的实验操作。"
+            },
+            {
+                question: "下列仪器中，不能用于加热的是？",
+                options: [
+                    "A. 试管",
+                    "B. 烧杯",
+                    "C. 量筒",
+                    "D. 蒸发皿"
+                ],
+                correct: "C",
+                explanation: "量筒是计量仪器，不能用于加热，否则会导致仪器损坏或测量不准确。"
+            },
+            {
+                question: "蜡烛燃烧时，对火焰各层温度比较正确的是？",
+                options: [
+                    "A. 外焰 > 内焰 > 焰心",
+                    "B. 内焰 > 外焰 > 焰心",
+                    "C. 焰心 > 外焰 > 内焰",
+                    "D. 外焰 = 内焰 = 焰心"
+                ],
+                correct: "A",
+                explanation: "蜡烛火焰各层温度比较：外焰温度最高，内焰次之，焰心温度最低。"
+            },
+            {
+                question: "下列物质的性质中，属于化学性质的是？",
+                options: [
+                    "A. 颜色",
+                    "B. 状态",
+                    "C. 硬度",
+                    "D. 可燃性"
+                ],
+                correct: "D",
+                explanation: "化学性质是物质在化学变化中表现出来的性质，如可燃性、氧化性、稳定性等。"
+            },
+            {
+                question: "下列实验操作错误的是？",
+                options: [
+                    "A. 用镊子取用块状固体药品",
+                    "B. 用酒精灯直接加热烧杯",
+                    "C. 用药匙取用粉末状药品",
+                    "D. 用胶头滴管滴加少量液体"
+                ],
+                correct: "B",
+                explanation: "烧杯不能直接加热，需要垫上石棉网，否则容易因受热不均而破裂。"
+            },
+            {
+                question: "下列变化中，属于物理变化的是？",
+                options: [
+                    "A. 食物腐败",
+                    "B. 钢铁生锈",
+                    "C. 酒精挥发",
+                    "D. 木炭燃烧"
+                ],
+                correct: "C",
+                explanation: "酒精挥发只是物质状态的变化，没有新物质生成，属于物理变化。"
+            },
+
+            // 第二单元题目 (8题)
+            {
+                question: "空气中含量最多的气体是？",
+                options: [
+                    "A. 氧气",
+                    "B. 氮气",
+                    "C. 二氧化碳",
+                    "D. 稀有气体"
+                ],
+                correct: "B",
+                explanation: "空气中氮气的体积分数约为78%，是含量最多的气体。"
+            },
+            {
+                question: "测定空气中氧气含量的实验中，集气瓶内剩余的气体主要是？",
+                options: [
+                    "A. 氮气",
+                    "B. 二氧化碳",
+                    "C. 氧气",
+                    "D. 水蒸气"
+                ],
+                correct: "A",
+                explanation: "红磷燃烧消耗氧气，剩余的气体主要是氮气，因为氮气化学性质稳定，不与红磷反应。"
+            },
+            {
+                question: "下列物质在氧气中燃烧，产生大量白烟的是？",
+                options: [
+                    "A. 木炭",
+                    "B. 硫粉",
+                    "C. 红磷",
+                    "D. 铁丝"
+                ],
+                correct: "C",
+                explanation: "红磷在氧气中燃烧产生大量白烟，生成五氧化二磷固体小颗粒。"
+            },
+            {
+                question: "实验室用高锰酸钾制取氧气时，试管口要放一团棉花，其作用是？",
+                options: [
+                    "A. 防止水倒吸入试管",
+                    "B. 防止高锰酸钾粉末进入导管",
+                    "C. 防止氧气逸出",
+                    "D. 增加氧气产量"
+                ],
+                correct: "B",
+                explanation: "试管口放一团棉花是为了防止加热时高锰酸钾粉末进入导管，堵塞导管。"
+            },
+            {
+                question: "下列有关催化剂的说法正确的是？",
+                options: [
+                    "A. 催化剂能增加生成物的质量",
+                    "B. 催化剂在化学反应前后质量和化学性质都不变",
+                    "C. 不使用催化剂物质就不能发生化学反应",
+                    "D. 二氧化锰是所有化学反应的催化剂"
+                ],
+                correct: "B",
+                explanation: "催化剂在化学反应前后质量和化学性质都不变，但能改变化学反应速率。"
+            },
+            {
+                question: "下列气体中，属于空气污染物的是？",
+                options: [
+                    "A. 氮气",
+                    "B. 氧气",
+                    "C. 二氧化碳",
+                    "D. 二氧化硫"
+                ],
+                correct: "D",
+                explanation: "二氧化硫是空气污染物，会导致酸雨。"
+            },
+            {
+                question: "下列物质在氧气中燃烧，生成物是气体的是？",
+                options: [
+                    "A. 铁丝",
+                    "B. 红磷",
+                    "C. 木炭",
+                    "D. 镁条"
+                ],
+                correct: "C",
+                explanation: "木炭在氧气中燃烧生成二氧化碳气体。"
+            },
+            {
+                question: "下列有关氧气的叙述正确的是？",
+                options: [
+                    "A. 氧气极易溶于水",
+                    "B. 氧气可以燃烧",
+                    "C. 氧气可以使带火星的木条复燃",
+                    "D. 氧气在空气中的体积分数最大"
+                ],
+                correct: "C",
+                explanation: "氧气可以使带火星的木条复燃，这是氧气的检验方法。"
+            },
+
+            // 第三单元题目 (8题)
+            {
+                question: "下列物质由原子直接构成的是？",
+                options: [
+                    "A. 氧气",
+                    "B. 水",
+                    "C. 金刚石",
+                    "D. 氯化钠"
+                ],
+                correct: "C",
+                explanation: "金刚石是由碳原子直接构成的。氧气由氧分子构成，水由水分子构成，氯化钠由钠离子和氯离子构成。"
+            },
+            {
+                question: "下列元素符号书写正确的是？",
+                options: [
+                    "A. 镁 MG",
+                    "B. 钠 NA",
+                    "C. 铝 al",
+                    "D. 铜 Cu"
+                ],
+                correct: "D",
+                explanation: "元素符号的书写规则：第一个字母大写，第二个字母小写。"
+            },
+            {
+                question: "关于分子和原子的说法正确的是？",
+                options: [
+                    "A. 分子大，原子小",
+                    "B. 分子能直接构成物质，原子不能",
+                    "C. 在化学变化中，分子可以再分，原子不能再分",
+                    "D. 分子之间有间隔，原子之间没有间隔"
+                ],
+                correct: "C",
+                explanation: "在化学变化中，分子可以分裂成原子，原子重新组合成新分子，但原子本身不能再分。"
+            },
+            {
+                question: "某原子的核内质子数为19，中子数为20，则该原子的相对原子质量约为？",
+                options: [
+                    "A. 19",
+                    "B. 20",
+                    "C. 39",
+                    "D. 40"
+                ],
+                correct: "C",
+                explanation: "相对原子质量 ≈ 质子数 + 中子数 = 19 + 20 = 39。"
+            },
+            {
+                question: "地壳中含量最多的金属元素是？",
+                options: [
+                    "A. 氧",
+                    "B. 硅",
+                    "C. 铝",
+                    "D. 铁"
+                ],
+                correct: "C",
+                explanation: "地壳中含量最多的元素是氧，含量最多的金属元素是铝。"
+            },
+            {
+                question: "下列粒子中，带正电荷的是？",
+                options: [
+                    "A. 原子",
+                    "B. 电子",
+                    "C. 质子",
+                    "D. 中子"
+                ],
+                correct: "C",
+                explanation: "质子带正电荷，电子带负电荷，中子不带电，原子整体呈电中性。"
+            },
+            {
+                question: "下列各组元素中，元素符号的大写字母相同的一组是？",
+                options: [
+                    "A. 金、银",
+                    "B. 氯、碳",
+                    "C. 铝、氯",
+                    "D. 钙、铜"
+                ],
+                correct: "D",
+                explanation: "钙（Ca）和铜（Cu）的元素符号第一个字母都是C。"
+            },
+            {
+                question: "关于原子的说法错误的是？",
+                options: [
+                    "A. 原子是化学变化中的最小粒子",
+                    "B. 原子在不断地运动",
+                    "C. 有些物质是由原子直接构成的",
+                    "D. 原子核是由质子和电子构成的"
+                ],
+                correct: "D",
+                explanation: "原子核是由质子和中子构成的，电子在原子核外运动。"
+            },
+
+            // 第四单元题目 (8题)
+            {
+                question: "电解水实验中，正极和负极产生气体的体积比约为？",
+                options: [
+                    "A. 1:2",
+                    "B. 1:1",
+                    "C. 2:1",
+                    "D. 1:8"
+                ],
+                correct: "A",
+                explanation: "电解水时，正极产生氧气，负极产生氢气，两者的体积比为1:2。"
+            },
+            {
+                question: "硬水和软水的本质区别是？",
+                options: [
+                    "A. 硬水含杂质多，软水含杂质少",
+                    "B. 硬水是混合物，软水是纯净物",
+                    "C. 硬水含较多可溶性钙、镁化合物，软水不含或含较少",
+                    "D. 硬水不能饮用，软水可以饮用"
+                ],
+                correct: "C",
+                explanation: "硬水和软水的本质区别是所含可溶性钙、镁化合物的量不同。"
+            },
+            {
+                question: "下列净化水的操作中，净化程度最高的是？",
+                options: [
+                    "A. 沉淀",
+                    "B. 过滤",
+                    "C. 吸附",
+                    "D. 蒸馏"
+                ],
+                correct: "D",
+                explanation: "蒸馏可以得到纯水，是净化程度最高的方法。"
+            },
+            {
+                question: "下列物质中，属于氧化物的是？",
+                options: [
+                    "A. O₂",
+                    "B. KClO₃",
+                    "C. H₂O",
+                    "D. H₂SO₄"
+                ],
+                correct: "C",
+                explanation: "氧化物是由两种元素组成，且其中一种元素是氧元素的化合物。H₂O符合这一定义。"
+            },
+            {
+                question: "下列有关水的说法错误的是？",
+                options: [
+                    "A. 水是一种宝贵的自然资源",
+                    "B. 水体有自净能力，污水可直接排放",
+                    "C. 用肥皂水可以区分硬水和软水",
+                    "D. 蒸馏是净化程度较高的净水方法"
+                ],
+                correct: "B",
+                explanation: "虽然水体有自净能力，但污水不能直接排放，需要经过处理达标后才能排放。"
+            },
+            {
+                question: "水通电分解时，变化的微粒是？",
+                options: [
+                    "A. 水分子",
+                    "B. 氢原子和氧原子",
+                    "C. 氢元素和氧元素",
+                    "D. 氢分子和氧分子"
+                ],
+                correct: "A",
+                explanation: "水通电分解时，水分子分裂成氢原子和氧原子，然后原子重新组合成氢分子和氧分子。"
+            },
+            {
+                question: "下列净水方法中，能除去水中不溶性杂质的是？",
+                options: [
+                    "A. 沉淀",
+                    "B. 过滤",
+                    "C. 吸附",
+                    "D. 蒸馏"
+                ],
+                correct: "B",
+                explanation: "过滤能除去水中不溶性杂质。"
+            },
+            {
+                question: "下列有关水的组成的说法正确的是？",
+                options: [
+                    "A. 水是由氢气和氧气组成的",
+                    "B. 水是由氢分子和氧原子组成的",
+                    "C. 水是由氢元素和氧元素组成的",
+                    "D. 水是由两个氢原子和一个氧原子构成的"
+                ],
+                correct: "C",
+                explanation: "水是由氢元素和氧元素组成的。"
+            },
+
+            // 第五单元题目 (9题)
+            {
+                question: "化学反应前后肯定没有变化的是？①原子数目 ②分子数目 ③元素种类 ④物质种类 ⑤原子种类 ⑥物质的总质量",
+                options: [
+                    "A. ①③④⑥",
+                    "B. ①③⑤⑥",
+                    "C. ①②⑤⑥",
+                    "D. ②③⑤"
+                ],
+                correct: "B",
+                explanation: "根据质量守恒定律，化学反应前后原子的种类、数目、质量不变，元素的种类不变，物质的总质量不变。"
+            },
+            {
+                question: "在反应A + 2B = 2C + D中，已知A和B的相对分子质量之比为32:17，当6.4g A与一定量B恰好完全反应后，生成9.6g C，则生成D的质量为？",
+                options: [
+                    "A. 0.2g",
+                    "B. 1.8g",
+                    "C. 3.6g",
+                    "D. 4.4g"
+                ],
+                correct: "C",
+                explanation: "根据质量守恒定律，反应物总质量等于生成物总质量。A的质量为6.4g，设B的质量为x，则6.4 + x = 9.6 + D的质量。通过比例计算可得D的质量为3.6g。"
+            },
+            {
+                question: "下列化学方程式书写正确的是？",
+                options: [
+                    "A. Mg + O₂ = MgO₂",
+                    "B. 2KMnO₄ = K₂MnO₄ + MnO₂ + O₂↑",
+                    "C. 2H₂O₂ = 2H₂O + O₂↑",
+                    "D. S + O₂ = SO₂"
+                ],
+                correct: "B",
+                explanation: "选项A中氧化镁化学式错误，应为MgO；选项C缺少反应条件；选项D缺少反应条件。"
+            },
+            {
+                question: "在化学反应中，反应前后一定不变的是？",
+                options: [
+                    "A. 物质的种类",
+                    "B. 元素的化合价",
+                    "C. 原子的种类和数目",
+                    "D. 分子的种类"
+                ],
+                correct: "C",
+                explanation: "根据质量守恒定律，化学反应前后原子的种类和数目不变。"
+            },
+            {
+                question: "下列反应属于分解反应的是？",
+                options: [
+                    "A. 氢气 + 氧气 → 水",
+                    "B. 铁 + 氧气 → 四氧化三铁",
+                    "C. 碳酸 → 水 + 二氧化碳",
+                    "D. 甲烷 + 氧气 → 水 + 二氧化碳"
+                ],
+                correct: "C",
+                explanation: "分解反应是一种物质生成两种或两种以上其他物质的反应。碳酸分解生成水和二氧化碳属于分解反应。"
+            },
+            {
+                question: "根据化学方程式不能获得的信息是？",
+                options: [
+                    "A. 反应中的反应物和生成物",
+                    "B. 各反应物和生成物的质量比",
+                    "C. 化学反应的快慢",
+                    "D. 反应发生所需要的条件"
+                ],
+                correct: "C",
+                explanation: "化学方程式不能表示化学反应的快慢。"
+            },
+            {
+                question: "在化学反应A + B = C + D中，10g A与24g B恰好完全反应生成14g C，则生成D的质量为？",
+                options: [
+                    "A. 20g",
+                    "B. 15g",
+                    "C. 14g",
+                    "D. 10g"
+                ],
+                correct: "A",
+                explanation: "根据质量守恒定律，反应物总质量等于生成物总质量。10 + 24 = 14 + D，所以D = 20g。"
+            },
+            {
+                question: "下列化学方程式中，书写完全正确的是？",
+                options: [
+                    "A. 4Fe + 3O₂ = 2Fe₂O₃",
+                    "B. 2KMnO₄ = K₂MnO₄ + MnO₂ + O₂↑",
+                    "C. CaCO₃ + HCl = CaCl₂ + H₂O + CO₂↑",
+                    "D. CO + CuO = Cu + CO₂"
+                ],
+                correct: "B",
+                explanation: "选项A中铁燃烧生成四氧化三铁，不是氧化铁；选项C未配平；选项D缺少反应条件。"
+            },
+            {
+                question: "关于质量守恒定律，下列叙述正确的是？",
+                options: [
+                    "A. 煤燃烧后剩余煤灰的质量比煤的质量小，这不符合质量守恒定律",
+                    "B. 24g镁在32g氧气中完全燃烧生成56g氧化镁",
+                    "C. 一切化学反应都遵循质量守恒定律",
+                    "D. 质量守恒定律只适用于有气体参加或有气体生成的反应"
+                ],
+                correct: "C",
+                explanation: "一切化学反应都遵循质量守恒定律。"
+            },
+
+            // 第六单元题目 (9题)
+            {
+                question: "下列气体既有可燃性又有还原性的是？",
+                options: [
+                    "A. 氧气",
+                    "B. 氮气",
+                    "C. 二氧化碳",
+                    "D. 一氧化碳"
+                ],
+                correct: "D",
+                explanation: "一氧化碳既有可燃性（2CO + O₂ → 2CO₂），又有还原性（CuO + CO → Cu + CO₂）。"
+            },
+            {
+                question: "实验室制取二氧化碳常用的药品是？",
+                options: [
+                    "A. 碳酸钠和稀盐酸",
+                    "B. 石灰石和稀硫酸",
+                    "C. 石灰石和稀盐酸",
+                    "D. 碳酸钙和浓盐酸"
+                ],
+                correct: "C",
+                explanation: "实验室常用石灰石（或大理石，主要成分CaCO₃）与稀盐酸反应制取二氧化碳。"
+            },
+            {
+                question: "下列有关碳单质的说法错误的是？",
+                options: [
+                    "A. 金刚石是天然存在的最硬的物质",
+                    "B. 石墨具有优良的导电性",
+                    "C. 活性炭有吸附性，可用于净水",
+                    "D. C₆₀是一种新型的化合物"
+                ],
+                correct: "D",
+                explanation: "C₆₀是由碳元素组成的单质，不是化合物。"
+            },
+            {
+                question: "二氧化碳的下列用途，既跟它的物理性质有关，又跟它的化学性质有关的是？",
+                options: [
+                    "A. 制干冰",
+                    "B. 制化肥",
+                    "C. 制纯碱",
+                    "D. 灭火"
+                ],
+                correct: "D",
+                explanation: "二氧化碳用于灭火，既利用了它密度比空气大的物理性质，又利用了它不支持燃烧的化学性质。"
+            },
+            {
+                question: "区别一氧化碳和二氧化碳的方法错误的是？",
+                options: [
+                    "A. 分别通入紫色石蕊试液",
+                    "B. 分别通过灼热的氧化铜",
+                    "C. 分别通入澄清石灰水",
+                    "D. 用燃着的木条分别伸入集气瓶中"
+                ],
+                correct: "B",
+                explanation: "一氧化碳能与灼热的氧化铜反应，但二氧化碳不能，但这不是常用的鉴别方法。其他选项都是常用的鉴别方法。"
+            },
+            {
+                question: "下列物质中，碳元素的化合价相同的是？",
+                options: [
+                    "A. CO和CO₂",
+                    "B. CO₂和H₂CO₃",
+                    "C. C和CO",
+                    "D. CH₄和CO₂"
+                ],
+                correct: "B",
+                explanation: "CO₂和H₂CO₃中碳元素的化合价都是+4价。"
+            },
+            {
+                question: "下列气体中，能用排水法收集的是？",
+                options: [
+                    "A. 二氧化碳",
+                    "B. 一氧化碳",
+                    "C. 氧气",
+                    "D. 氯化氢"
+                ],
+                correct: "C",
+                explanation: "氧气不易溶于水，可以用排水法收集。"
+            },
+            {
+                question: "下列有关二氧化碳的说法正确的是？",
+                options: [
+                    "A. 二氧化碳有毒",
+                    "B. 二氧化碳能使紫色石蕊试液变红",
+                    "C. 二氧化碳能燃烧",
+                    "D. 二氧化碳是空气污染物"
+                ],
+                correct: "B",
+                explanation: "二氧化碳溶于水生成碳酸，碳酸能使紫色石蕊试液变红。"
+            },
+            {
+                question: "下列物质的用途与其化学性质无关的是？",
+                options: [
+                    "A. 用二氧化碳灭火",
+                    "B. 用一氧化碳冶炼金属",
+                    "C. 用石墨作电极",
+                    "D. 用焦炭冶炼生铁"
+                ],
+                correct: "C",
+                explanation: "用石墨作电极是利用其导电性，属于物理性质。"
+            }
+        ];
+
+        // DOM元素
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.querySelector('.options');
+        const currentQuestionElement = document.getElementById('current-question');
+        const totalQuestionsElement = document.getElementById('total-questions');
+        const progressBar = document.getElementById('quiz-progress');
+        const prevButton = document.getElementById('prev-btn');
+        const nextButton = document.getElementById('next-btn');
+        const questionContainer = document.getElementById('question-container');
+        const resultsContainer = document.getElementById('results-container');
+        const scoreElement = document.getElementById('score');
+        const maxScoreElement = document.getElementById('max-score');
+        const restartButton = document.getElementById('restart-btn');
+
+        // 测验状态
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+
+        // 初始化测验
+        function initQuiz() {
+            totalQuestionsElement.textContent = quizData.length;
+            maxScoreElement.textContent = quizData.length;
+            showQuestion();
+            updateProgressBar();
+        }
+
+        // 显示当前问题
+        function showQuestion() {
+            const question = quizData[currentQuestion];
+            questionText.textContent = question.question;
+            
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.dataset.option = String.fromCharCode(65 + index); // A, B, C, D
+                
+                if (userAnswers[currentQuestion] === optionElement.dataset.option) {
+                    optionElement.classList.add('selected');
+                }
+                
+                optionElement.addEventListener('click', selectOption);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            currentQuestionElement.textContent = currentQuestion + 1;
+            
+            // 更新按钮状态
+            prevButton.disabled = currentQuestion === 0;
+            nextButton.textContent = currentQuestion === quizData.length - 1 ? '提交答案' : '下一题';
+        }
+
+        // 选择选项
+        function selectOption(e) {
+            const selectedOption = e.currentTarget;
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            selectedOption.classList.add('selected');
+            userAnswers[currentQuestion] = selectedOption.dataset.option;
+        }
+
+        // 更新进度条
+        function updateProgressBar() {
+            const progress = ((currentQuestion + 1) / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // 下一题
+        function nextQuestion() {
+            if (userAnswers[currentQuestion] === null) {
+                alert('请选择一个答案！');
+                return;
+            }
+            
+            if (currentQuestion < quizData.length - 1) {
+                currentQuestion++;
+                showQuestion();
+                updateProgressBar();
+            } else {
+                calculateScore();
+                showResults();
+            }
+        }
+
+        // 上一题
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+                updateProgressBar();
+            }
+        }
+
+        // 计算分数
+        function calculateScore() {
+            score = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer === quizData[index].correct) {
+                    score++;
+                }
+            });
+        }
+
+        // 显示结果
+        function showResults() {
+            questionContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            scoreElement.textContent = score;
+        }
+
+        // 重新开始测验
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers.fill(null);
+            resultsContainer.classList.add('hidden');
+            questionContainer.classList.remove('hidden');
+            showQuestion();
+            updateProgressBar();
+        }
+
+        // 标签页切换功能
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // 移除所有active类
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // 添加active类到当前标签和内容
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+
+        // 显示学习资料
+        function showMaterial(unitId) {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // 移除所有active类
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            
+            // 添加active类到指定单元
+            document.querySelector(`.tab[data-tab="${unitId}"]`).classList.add('active');
+            document.getElementById(unitId).classList.add('active');
+            
+            // 滚动到学习资料区域
+            document.getElementById('materials').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 事件监听
+        prevButton.addEventListener('click', prevQuestion);
+        nextButton.addEventListener('click', nextQuestion);
+        restartButton.addEventListener('click', restartQuiz);
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initQuiz();
+            initTabs();
+        });
+    </script>
+</body>
+</html>

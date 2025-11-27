@@ -18,7 +18,7 @@
             color: #333;
             line-height: 1.6;
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
         }
         
         .container {
@@ -28,19 +28,19 @@
         
         header {
             text-align: center;
-            padding: 30px 0;
+            padding: 20px 0;
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         header p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             opacity: 0.9;
             max-width: 600px;
             margin: 0 auto;
@@ -48,10 +48,10 @@
         
         .motivation-section {
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -63,15 +63,15 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7);
         }
         
         .motivation-text {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             position: relative;
             display: inline-block;
         }
@@ -82,60 +82,65 @@
             bottom: -5px;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 2px;
             background: linear-gradient(90deg, transparent, #3498db, transparent);
         }
         
         .quote-author {
             font-style: italic;
             color: #7f8c8d;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .daily-tip {
             background: #e8f4f8;
             border-left: 4px solid #3498db;
-            padding: 15px;
-            margin-top: 20px;
-            border-radius: 0 8px 8px 0;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 0 6px 6px 0;
             text-align: left;
         }
         
         .daily-tip h3 {
             color: #2c3e50;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
+            font-size: 1rem;
         }
         
         .daily-tip h3 i {
-            margin-right: 10px;
+            margin-right: 8px;
             color: #3498db;
+        }
+        
+        .daily-tip p {
+            font-size: 0.9rem;
         }
         
         .subjects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
         }
         
         .subject-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             position: relative;
         }
         
         .subject-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
         
         .card-header {
-            padding: 25px 20px 20px;
+            padding: 15px 10px 10px;
             color: white;
             text-align: center;
             position: relative;
@@ -162,44 +167,53 @@
         .history .card-header { background: linear-gradient(135deg, #D4FC79, #96E6A1); }
         
         .card-icon {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
+            font-size: 2rem;
+            margin-bottom: 8px;
             position: relative;
             z-index: 2;
         }
         
         .card-header h2 {
-            font-size: 1.6rem;
-            margin-bottom: 5px;
+            font-size: 1.1rem;
+            margin-bottom: 3px;
             position: relative;
             z-index: 2;
         }
         
+        .card-header p {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+        
         .card-content {
-            padding: 20px;
+            padding: 12px;
             position: relative;
         }
         
         .card-content p {
             color: #666;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         
         .btn {
             display: block;
             width: 100%;
-            padding: 12px;
+            padding: 8px;
             text-align: center;
             background: #f5f5f5;
             color: #333;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: bold;
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.85rem;
             position: relative;
             z-index: 2;
         }
@@ -231,61 +245,62 @@
         
         .countdown {
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
         
         .countdown h3 {
             color: #2c3e50;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
         }
         
         .countdown-timer {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 8px;
         }
         
         .countdown-item {
             background: #3498db;
             color: white;
-            padding: 10px 15px;
-            border-radius: 8px;
-            min-width: 70px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            min-width: 55px;
         }
         
         .countdown-number {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: bold;
         }
         
         .countdown-label {
-            font-size: 0.8rem;
-            margin-top: 5px;
+            font-size: 0.7rem;
+            margin-top: 3px;
         }
         
         footer {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 30px;
             color: rgba(255, 255, 255, 0.7);
-            padding: 20px 0;
-            font-size: 0.9rem;
+            padding: 15px 0;
+            font-size: 0.8rem;
         }
         
         @media (max-width: 768px) {
             .subjects-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             }
             
             header h1 {
-                font-size: 2.2rem;
+                font-size: 1.8rem;
             }
             
             .motivation-text {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .countdown-timer {
@@ -295,15 +310,38 @@
         
         @media (max-width: 480px) {
             .subjects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .motivation-text {
+                font-size: 1rem;
+            }
+            
+            .countdown-item {
+                min-width: 45px;
+                padding: 6px 8px;
+            }
+            
+            .countdown-number {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .subjects-grid {
                 grid-template-columns: 1fr;
             }
             
             header h1 {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
             }
             
             .motivation-text {
-                font-size: 1.1rem;
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -355,7 +393,7 @@
                         <i class="fas fa-book-open"></i>
                     </div>
                     <h2>语文</h2>
-                    <p>基础知识 · 阅读理解 · 作文</p>
+                    <p>基础·阅读·作文</p>
                 </div>
                 <div class="card-content">
                     <p>掌握文言文阅读技巧，提升现代文理解能力，优化作文表达。</p>
@@ -370,7 +408,7 @@
                         <i class="fas fa-calculator"></i>
                     </div>
                     <h2>数学</h2>
-                    <p>代数 · 几何 · 函数</p>
+                    <p>代数·几何·函数</p>
                 </div>
                 <div class="card-content">
                     <p>掌握解题技巧，突破重点难点，提升数学思维能力。</p>
@@ -385,7 +423,7 @@
                         <i class="fas fa-language"></i>
                     </div>
                     <h2>英语</h2>
-                    <p>词汇 · 语法 · 阅读 · 写作</p>
+                    <p>词汇·语法·写作</p>
                 </div>
                 <div class="card-content">
                     <p>强化词汇记忆，掌握语法规则，提升阅读与写作能力。</p>
@@ -400,7 +438,7 @@
                         <i class="fas fa-atom"></i>
                     </div>
                     <h2>物理</h2>
-                    <p>力学 · 电学 · 光学</p>
+                    <p>力学·电学·光学</p>
                 </div>
                 <div class="card-content">
                     <p>理解物理概念，掌握实验方法，提高解题能力。</p>
@@ -415,7 +453,7 @@
                         <i class="fas fa-flask"></i>
                     </div>
                     <h2>化学</h2>
-                    <p>元素 · 反应 · 实验</p>
+                    <p>元素·反应·实验</p>
                 </div>
                 <div class="card-content">
                     <p>掌握化学方程式，理解物质性质，熟悉实验操作。</p>
@@ -430,7 +468,7 @@
                         <i class="fas fa-balance-scale"></i>
                     </div>
                     <h2>政治</h2>
-                    <p>法律 · 道德 · 时事</p>
+                    <p>法律·道德·时事</p>
                 </div>
                 <div class="card-content">
                     <p>理解政治概念，掌握答题技巧，关注时事热点。</p>
@@ -445,7 +483,7 @@
                         <i class="fas fa-monument"></i>
                     </div>
                     <h2>历史</h2>
-                    <p>古代史 · 近代史 · 世界史</p>
+                    <p>古代·近代·世界</p>
                 </div>
                 <div class="card-content">
                     <p>梳理历史脉络，掌握重要事件，理解历史意义。</p>
@@ -533,4 +571,3 @@
     </script>
 </body>
 </html>
-

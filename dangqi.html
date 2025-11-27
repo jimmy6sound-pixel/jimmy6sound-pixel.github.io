@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏化背单词 - 初中3500词</title>
+    <style>
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --accent-color: #ff6b6b;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #51cf66;
+            --warning-color: #ffd43b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            min-height: 100vh;
+            color: var(--dark-color);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .categories-panel {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .study-panel {
+            flex: 2;
+            min-width: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-list {
+            list-style: none;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .category-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: var(--light-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .category-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .category-item.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .word-count {
+            background: var(--accent-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+        
+        .word-card {
+            text-align: center;
+            padding: 30px;
+            background: var(--light-color);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .word-english {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .word-phonetic {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .word-chinese {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .pronunciation-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pronunciation-btn:hover {
+            background: var(--secondary-color);
+            transform: scale(1.05);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+        }
+        
+        .btn-secondary {
+            background: var(--light-color);
+            color: var(--dark-color);
+            border: 2px solid #dee2e6;
+        }
+        
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--success-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .game-modes {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .game-mode-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px;
+            background: var(--light-color);
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .game-mode-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .game-mode-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .stat-item {
+            padding: 10px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+                @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            header {
+                margin-bottom: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .main-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .categories-panel, .study-panel {
+                min-width: 100%;
+            }
+            
+            .category-list {
+                max-height: 200px;
+            }
+            
+            .word-card {
+                padding: 20px;
+                min-height: 250px;
+            }
+            
+            .word-english {
+                font-size: 2.2rem;
+            }
+            
+            .word-phonetic {
+                font-size: 1.2rem;
+            }
+            
+            .word-chinese {
+                font-size: 1.4rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                padding: 15px 25px;
+                font-size: 1.1rem;
+            }
+            
+            .game-modes {
+                flex-direction: column;
+            }
+            
+            .game-mode-btn {
+                min-width: 100%;
+                padding: 12px;
+                font-size: 1rem;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .stat-item {
+                padding: 8px;
+            }
+            
+            .stat-value {
+                font-size: 1.8rem;
+            }        /* 超小屏幕优化（针对小手机） */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .word-english {
+                font-size: 1.8rem;
+            }
+            
+            .word-chinese {
+                font-size: 1.2rem;
+            }
+            
+            .pronunciation-btn {
+                padding: 12px 24px;
+                font-size: 1.1rem;
+            }
+        }
+
+        /* 触摸优化（让按钮更容易点击） */
+        .category-item, .btn, .game-mode-btn, .pronunciation-btn {
+            min-height: 44px;
+            touch-action: manipulation;
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>15天背完初中3500词</h1>
+            <p class="subtitle">游戏化学习，轻松暴涨词汇量！</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="categories-panel">
+                <h2>单词分类</h2>
+                <ul class="category-list" id="categoryList">
+                    <!-- 分类将通过JavaScript动态生成 -->
+                </ul>
+            </div>
+            
+            <div class="study-panel">
+                <div class="word-card">
+                    <div class="word-english" id="wordEnglish">pink</div>
+                    <div class="word-phonetic" id="wordPhonetic">[piŋk]</div>
+                    <div class="word-chinese" id="wordChinese">粉红色；粉红的</div>
+                    <button class="pronunciation-btn" id="pronunciationBtn">
+                        🔊 发音
+                    </button>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn btn-secondary" id="prevBtn">上一个</button>
+                    <button class="btn btn-primary" id="nextBtn">下一个</button>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>进度: <span id="progressText">0%</span></span>
+                        <span id="wordCount">0/0</span>
+                    </div>
+                </div>
+                
+                <div class="game-modes">
+                    <div class="game-mode-btn active">学习模式</div>
+                    <div class="game-mode-btn">拼写测试</div>
+                    <div class="game-mode-btn">选择题</div>
+                    <div class="game-mode-btn">记忆卡片</div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="learnedCount">0</div>
+                        <div class="stat-label">已学习</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="masteredCount">0</div>
+                        <div class="stat-label">已掌握</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="streakCount">0</div>
+                        <div class="stat-label">连续天数</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 单词数据 - 这里只包含部分数据作为示例
+       
+   const wordData = {
+    "颜色": [
+        { english: "pink", phonetic: "[pɪŋk]", chinese: "粉红色；粉红的" },
+        { english: "brown", phonetic: "[braʊn]", chinese: "褐色，棕色" },
+        { english: "chocolate", phonetic: "[ˈtʃɒklət]", chinese: "深褐色" },
+        { english: "camel", phonetic: "[ˈkæməl]", chinese: "驼色的" },
+        { english: "green", phonetic: "[ɡriːn]", chinese: "绿色；绿色的" },
+        { english: "blue", phonetic: "[bluː]", chinese: "蓝色；蓝色的" },
+        { english: "red", phonetic: "[red]", chinese: "红色；红色的" },
+        { english: "purple", phonetic: "[ˈpɜːpl]", chinese: "紫色的" },
+        { english: "violet", phonetic: "[ˈvaɪələt]", chinese: "紫罗兰色的" },
+        { english: "white", phonetic: "[waɪt]", chinese: "白色；白色的" },
+        { english: "ivory", phonetic: "[ˈaɪvəri]", chinese: "乳白色的" },
+        { english: "gray", phonetic: "[ɡreɪ]", chinese: "灰色；灰色的" },
+        { english: "scarlet", phonetic: "[ˈskɑːlɪt]", chinese: "猩红色" },
+        { english: "golden", phonetic: "[ˈɡəʊldən]", chinese: "金色的" },
+        { english: "orange", phonetic: "[ˈɒrɪndʒ]", chinese: "橙色的" },
+        { english: "silver", phonetic: "[ˈsɪlvə]", chinese: "银白色" },
+        { english: "yellow", phonetic: "[ˈjeləʊ]", chinese: "黄色" }
+    ],
+    "家庭亲属": [
+        { english: "family", phonetic: "[ˈfæməli]", chinese: "家庭，亲属" },
+        { english: "marriage", phonetic: "[ˈmærɪdʒ]", chinese: "结婚" },
+        { english: "couple", phonetic: "[ˈkʌpl]", chinese: "夫妇，夫妻" },
+        { english: "parent", phonetic: "[ˈpeərənt]", chinese: "父母" },
+        { english: "single", phonetic: "[ˈsɪŋɡl]", chinese: "单身的" },
+        { english: "male", phonetic: "[meɪl]", chinese: "男的" },
+        { english: "female", phonetic: "[ˈfiːmeɪl]", chinese: "女的" },
+        { english: "husband", phonetic: "[ˈhʌzbənd]", chinese: "丈夫" },
+        { english: "father", phonetic: "[ˈfɑːðə]", chinese: "父亲" },
+        { english: "foster", phonetic: "[ˈfɒstə]", chinese: "领养的" },
+        { english: "mother", phonetic: "[ˈmʌðə]", chinese: "母亲" },
+        { english: "wife", phonetic: "[waɪf]", chinese: "妻子" },
+        { english: "son", phonetic: "[sʌn]", chinese: "儿子" },
+        { english: "grandson", phonetic: "[ˈɡrænsʌn]", chinese: "孙子" },
+        { english: "granddaughter", phonetic: "[ˈɡrændɔːtə]", chinese: "孙女；外孙女" },
+        { english: "daughter", phonetic: "[ˈdɔːtə]", chinese: "女儿" },
+        { english: "child", phonetic: "[tʃaɪld]", chinese: "孩子，儿童" },
+        { english: "heir", phonetic: "[eə]", chinese: "继承人" },
+        { english: "brother", phonetic: "[ˈbrʌðə]", chinese: "兄弟" },
+        { english: "sister", phonetic: "[ˈsɪstə]", chinese: "姐妹" },
+        { english: "twin", phonetic: "[twɪn]", chinese: "双胞胎的" },
+        { english: "grandfather", phonetic: "[ˈɡrænfɑːðə]", chinese: "祖父" },
+        { english: "grandmother", phonetic: "[ˈɡrænmʌðə]", chinese: "祖母" },
+        { english: "granny", phonetic: "[ˈɡræni]", chinese: "奶奶；外婆" },
+        { english: "grandma", phonetic: "[ˈɡrænmɑː]", chinese: "奶奶" },
+        { english: "grandad", phonetic: "[ˈɡrændæd]", chinese: "爷爷" },
+        { english: "grandpa", phonetic: "[ˈɡrænpɑː]", chinese: "爷爷；外公" },
+        { english: "son-in-law", phonetic: "[ˈsʌnɪnlɔː]", chinese: "女婿" },
+        { english: "daughter-in-law", phonetic: "[ˈdɔːtərɪnlɔː]", chinese: "儿媳" },
+        { english: "father-in-law", phonetic: "[ˈfɑːðərɪnlɔː]", chinese: "岳父（公公）" },
+        { english: "mother-in-law", phonetic: "[ˈmʌðərɪnlɔː]", chinese: "岳母（婆婆）" },
+        { english: "stepfather", phonetic: "[ˈstepfɑːðə]", chinese: "继父" },
+        { english: "stepmother", phonetic: "[ˈstepmʌðə]", chinese: "继母" },
+        { english: "uncle", phonetic: "[ˈʌŋkl]", chinese: "叔叔，伯父" },
+        { english: "aunt", phonetic: "[ɑːnt]", chinese: "阿姨，舅妈，姑妈" },
+        { english: "nephew", phonetic: "[ˈnefjuː]", chinese: "侄子，外甥" },
+        { english: "niece", phonetic: "[niːs]", chinese: "侄女，外甥女" },
+        { english: "cousin", phonetic: "[ˈkʌzn]", chinese: "堂兄弟姐妹" },
+        { english: "generation", phonetic: "[ˌdʒenəˈreɪʃən]", chinese: "一代人；一代" },
+        { english: "descent", phonetic: "[dɪˈsent]", chinese: "血统" },
+        { english: "offspring", phonetic: "[ˈɒfsprɪŋ]", chinese: "后代" }
+    ],
+    "公共设施": [
+        { english: "school", phonetic: "[skuːl]", chinese: "学校" },
+        { english: "university", phonetic: "[ˌjuːnɪˈvɜːsəti]", chinese: "大学" },
+        { english: "college", phonetic: "[ˈkɒlɪdʒ]", chinese: "学院" },
+        { english: "institute", phonetic: "[ˈɪnstɪtjuːt]", chinese: "学会，协会；学院" },
+        { english: "hospital", phonetic: "[ˈhɒspɪtl]", chinese: "医院" },
+        { english: "clinic", phonetic: "[ˈklɪnɪk]", chinese: "诊所" },
+        { english: "shop", phonetic: "[ʃɒp]", chinese: "商店（英）" },
+        { english: "store", phonetic: "[stɔː]", chinese: "商店（美）" },
+        { english: "bookshop", phonetic: "[ˈbʊkʃɒp]", chinese: "书店" },
+        { english: "bookstore", phonetic: "[ˈbʊkstɔː]", chinese: "书店" },
+        { english: "market", phonetic: "[ˈmɑːkɪt]", chinese: "市场，集市" },
+        { english: "supermarket", phonetic: "[ˈsuːpəmɑːkɪt]", chinese: "超市" },
+        { english: "hotel", phonetic: "[həʊˈtel]", chinese: "旅馆，客栈" },
+        { english: "restaurant", phonetic: "[ˈrestrɒnt]", chinese: "餐厅" },
+        { english: "bar", phonetic: "[bɑː]", chinese: "酒吧" },
+        { english: "cafe", phonetic: "[ˈkæfeɪ]", chinese: "咖啡馆" },
+        { english: "dining-room", phonetic: "[ˈdaɪnɪŋruːm]", chinese: "餐厅，食堂" },
+        { english: "bank", phonetic: "[bæŋk]", chinese: "银行" },
+        { english: "court", phonetic: "[kɔːt]", chinese: "法院" },
+        { english: "port", phonetic: "[pɔːt]", chinese: "港口" },
+        { english: "library", phonetic: "[ˈlaɪbrəri]", chinese: "图书馆" },
+        { english: "airport", phonetic: "[ˈeəpɔːt]", chinese: "飞机场" },
+        { english: "church", phonetic: "[tʃɜːtʃ]", chinese: "教堂" },
+        { english: "kindergarten", phonetic: "[ˈkɪndəɡɑːtn]", chinese: "幼儿园" },
+        { english: "museum", phonetic: "[mjuˈziːəm]", chinese: "博物馆" },
+        { english: "station", phonetic: "[ˈsteɪʃən]", chinese: "车站" },
+        { english: "cinema", phonetic: "[ˈsɪnəmə]", chinese: "电影院" },
+        { english: "theater", phonetic: "[ˈθɪətə]", chinese: "剧院，戏院" },
+        { english: "club", phonetic: "[klʌb]", chinese: "俱乐部" },
+        { english: "gymnasium", phonetic: "[dʒɪmˈneɪziəm]", chinese: "体育馆，健身房" },
+        { english: "gym", phonetic: "[dʒɪm]", chinese: "体育馆，健身房" },
+        { english: "park", phonetic: "[pɑːk]", chinese: "公园，停车场" },
+        { english: "zoo", phonetic: "[zuː]", chinese: "动物园" },
+        { english: "post office", phonetic: "[ˈpəʊst ɒfɪs]", chinese: "邮局" }
+    ],
+    "蔬菜": [
+        { english: "tomato", phonetic: "[təˈmɑːtəʊ]", chinese: "西红柿" },
+        { english: "asparagus", phonetic: "[əˈspærəɡəs]", chinese: "芦笋" },
+        { english: "cucumber", phonetic: "[ˈkjuːkʌmbə]", chinese: "黄瓜" },
+        { english: "eggplant", phonetic: "[ˈeɡplɑːnt]", chinese: "茄子" },
+        { english: "bean", phonetic: "[biːn]", chinese: "豆，菜豆" },
+        { english: "beetroot", phonetic: "[ˈbiːtruːt]", chinese: "甜菜根" },
+        { english: "potato", phonetic: "[pəˈteɪtəʊ]", chinese: "马铃薯" },
+        { english: "carrot", phonetic: "[ˈkærət]", chinese: "胡萝卜" },
+        { english: "cauliflower", phonetic: "[ˈkɒliflaʊə]", chinese: "花菜" },
+        { english: "pumpkin", phonetic: "[ˈpʌmpkɪn]", chinese: "南瓜" },
+        { english: "cabbage", phonetic: "[ˈkæbɪdʒ]", chinese: "卷心菜" },
+        { english: "chilli", phonetic: "[ˈtʃɪli]", chinese: "红辣椒" },
+        { english: "capsicum", phonetic: "[ˈkæpsɪkəm]", chinese: "辣椒" },
+        { english: "garlic", phonetic: "[ˈɡɑːlɪk]", chinese: "蒜" },
+        { english: "fennel", phonetic: "[ˈfenl]", chinese: "茴香" },
+        { english: "melon", phonetic: "[ˈmelən]", chinese: "香瓜，甜瓜" },
+        { english: "celery", phonetic: "[ˈseləri]", chinese: "芹菜" },
+        { english: "onion", phonetic: "[ˈʌnjən]", chinese: "葱" },
+        { english: "leek", phonetic: "[liːk]", chinese: "韭菜" },
+        { english: "radish", phonetic: "[ˈrædɪʃ]", chinese: "萝卜" },
+        { english: "mushroom", phonetic: "[ˈmʌʃrʊm]", chinese: "蘑菇" },
+        { english: "lettuce", phonetic: "[ˈletɪs]", chinese: "莴苣，生菜" },
+        { english: "pea", phonetic: "[piː]", chinese: "豌豆" },
+        { english: "spinach", phonetic: "[ˈspɪnɪdʒ]", chinese: "菠菜" }
+    ],
+    "体育运动": [
+        { english: "dash", phonetic: "[dæʃ]", chinese: "短跑（美）" },
+        { english: "race", phonetic: "[reɪs]", chinese: "赛跑" },
+        { english: "high jump", phonetic: "[haɪ dʒʌmp]", chinese: "跳高" },
+        { english: "long jump", phonetic: "[lɒŋ dʒʌmp]", chinese: "跳远" },
+        { english: "throwing", phonetic: "[ˈθrəʊɪŋ]", chinese: "投掷" },
+        { english: "walk", phonetic: "[wɔːk]", chinese: "竞走" },
+        { english: "football", phonetic: "[ˈfʊtbɔːl]", chinese: "足球（美式橄榄球）" },
+        { english: "basketball", phonetic: "[ˈbɑːskɪtbɔːl]", chinese: "篮球" },
+        { english: "volleyball", phonetic: "[ˈvɒlɪbɔːl]", chinese: "排球" },
+        { english: "badminton", phonetic: "[ˈbædmɪntən]", chinese: "羽毛球" },
+        { english: "tennis", phonetic: "[ˈtenɪs]", chinese: "网球" },
+        { english: "table tennis", phonetic: "[ˈteɪbl tenɪs]", chinese: "乒乓球" },
+        { english: "baseball", phonetic: "[ˈbeɪsbɔːl]", chinese: "棒球" },
+        { english: "wrestling", phonetic: "[ˈreslɪŋ]", chinese: "摔跤" },
+        { english: "boxing", phonetic: "[ˈbɒksɪŋ]", chinese: "拳击" },
+        { english: "soccer", phonetic: "[ˈsɒkə]", chinese: "足球" },
+        { english: "chess", phonetic: "[tʃes]", chinese: "国际象棋" },
+        { english: "bridge", phonetic: "[brɪdʒ]", chinese: "桥牌" },
+        { english: "marathon", phonetic: "[ˈmærəθən]", chinese: "马拉松" },
+        { english: "pole vault", phonetic: "[pəʊl vɔːlt]", chinese: "撑竿跳" },
+        { english: "shot put", phonetic: "[ʃɒt pʊt]", chinese: "推铅球" },
+        { english: "discus", phonetic: "[ˈdɪskəs]", chinese: "铁饼" },
+        { english: "hammer", phonetic: "[ˈhæmə]", chinese: "链球" },
+        { english: "javelin", phonetic: "[ˈdʒævlɪn]", chinese: "标枪" },
+        { english: "gymnastics", phonetic: "[dʒɪmˈnæstɪks]", chinese: "体操" },
+        { english: "horizontal bar", phonetic: "[ˌhɒrɪˈzɒntl bɑː]", chinese: "单杠" },
+        { english: "parallel bars", phonetic: "[ˈpærəlel bɑːz]", chinese: "双杠" },
+        { english: "rings", phonetic: "[rɪŋz]", chinese: "吊环" },
+        { english: "weight-lifting", phonetic: "[ˈweɪt lɪftɪŋ]", chinese: "举重" },
+        { english: "judo", phonetic: "[ˈdʒuːdəʊ]", chinese: "柔道" },
+        { english: "fencing", phonetic: "[ˈfensɪŋ]", chinese: "击剑" },
+        { english: "skiing", phonetic: "[ˈskiːɪŋ]", chinese: "滑雪" },
+        { english: "skating", phonetic: "[ˈskeɪtɪŋ]", chinese: "滑冰" },
+        { english: "figure skating", phonetic: "[ˈfɪɡə skeɪtɪŋ]", chinese: "花样滑冰" },
+        { english: "bobsleigh", phonetic: "[ˈbɒbsleɪ]", chinese: "雪橇" },
+        { english: "handball", phonetic: "[ˈhændbɔːl]", chinese: "手球" },
+        { english: "hockey", phonetic: "[ˈhɒki]", chinese: "曲棍球" },
+        { english: "golf", phonetic: "[ɡɒlf]", chinese: "高尔夫球" },
+        { english: "cricket", phonetic: "[ˈkrɪkɪt]", chinese: "板球" },
+        { english: "ice hockey", phonetic: "[aɪs ˈhɒki]", chinese: "冰球" },
+        { english: "swim", phonetic: "[swɪm]", chinese: "游泳" },
+        { english: "breaststroke", phonetic: "[ˈbreststrəʊk]", chinese: "蛙泳" },
+        { english: "backstroke", phonetic: "[ˈbækstrəʊk]", chinese: "仰泳" },
+        { english: "freestyle", phonetic: "[ˈfriːstaɪl]", chinese: "自由泳" },
+        { english: "diving", phonetic: "[ˈdaɪvɪŋ]", chinese: "跳水" },
+        { english: "polo", phonetic: "[ˈpəʊləʊ]", chinese: "马球；水球" },
+        { english: "water polo", phonetic: "[ˈwɔːtə pəʊləʊ]", chinese: "水球" },
+        { english: "rowing", phonetic: "[ˈrəʊɪŋ]", chinese: "划船，赛艇" },
+        { english: "canoe", phonetic: "[kəˈnuː]", chinese: "独木舟" },
+        { english: "sailing", phonetic: "[ˈseɪlɪŋ]", chinese: "帆船运动" },
+        { english: "rally", phonetic: "[ˈræli]", chinese: "汽车拉力赛" }
+    ],
+    "水果": [
+        { english: "apple", phonetic: "[ˈæpl]", chinese: "苹果" },
+        { english: "pear", phonetic: "[peə]", chinese: "梨" },
+        { english: "apricot", phonetic: "[ˈeɪprɪkɒt]", chinese: "杏" },
+        { english: "peach", phonetic: "[piːtʃ]", chinese: "桃" },
+        { english: "grape", phonetic: "[ɡreɪp]", chinese: "葡萄" },
+        { english: "banana", phonetic: "[bəˈnɑːnə]", chinese: "香蕉" },
+        { english: "pineapple", phonetic: "[ˈpaɪnæpl]", chinese: "菠萝" },
+        { english: "plum", phonetic: "[plʌm]", chinese: "李子" },
+        { english: "watermelon", phonetic: "[ˈwɔːtəmelən]", chinese: "西瓜" },
+        { english: "orange", phonetic: "[ˈɒrɪndʒ]", chinese: "橙，桔子" },
+        { english: "lemon", phonetic: "[ˈlemən]", chinese: "柠檬" },
+        { english: "mango", phonetic: "[ˈmæŋɡəʊ]", chinese: "芒果" },
+        { english: "strawberry", phonetic: "[ˈstrɔːbəri]", chinese: "草莓" },
+        { english: "loquat", phonetic: "[ˈləʊkwɒt]", chinese: "枇杷" },
+        { english: "mulberry", phonetic: "[ˈmʌlbəri]", chinese: "桑椹" },
+        { english: "cherry", phonetic: "[ˈtʃeri]", chinese: "樱桃" },
+        { english: "pomegranate", phonetic: "[ˈpɒmɪɡrænɪt]", chinese: "石榴" },
+        { english: "fig", phonetic: "[fɪɡ]", chinese: "无花果" },
+        { english: "persimmon", phonetic: "[pəˈsɪmən]", chinese: "柿子" },
+        { english: "walnut", phonetic: "[ˈwɔːlnʌt]", chinese: "核桃" },
+        { english: "hazelnut", phonetic: "[ˈheɪzəlnʌt]", chinese: "榛子" },
+        { english: "peanut", phonetic: "[ˈpiːnʌt]", chinese: "花生" },
+        { english: "date", phonetic: "[deɪt]", chinese: "枣" },
+        { english: "chestnut", phonetic: "[ˈtʃesnʌt]", chinese: "粟子" },
+        { english: "coconut", phonetic: "[ˈkəʊkənʌt]", chinese: "椰子" },
+        { english: "guava", phonetic: "[ˈɡwɑːvə]", chinese: "番石榴" },
+        { english: "sugarcane", phonetic: "[ˈʃʊɡəkeɪn]", chinese: "甘蔗" }
+    ],
+    "肉类": [
+        { english: "meat", phonetic: "[miːt]", chinese: "肉" },
+        { english: "beef", phonetic: "[biːf]", chinese: "牛肉" },
+        { english: "veal", phonetic: "[viːl]", chinese: "小牛肉" },
+        { english: "lamb", phonetic: "[læm]", chinese: "羔羊肉" },
+        { english: "mutton", phonetic: "[ˈmʌtn]", chinese: "羊肉" },
+        { english: "sirloin", phonetic: "[ˈsɜːlɔɪn]", chinese: "牛里脊肉" },
+        { english: "steak", phonetic: "[steɪk]", chinese: "牛排" },
+        { english: "chop", phonetic: "[tʃɒp]", chinese: "排骨" },
+        { english: "cutlet", phonetic: "[ˈkʌtlɪt]", chinese: "肉条" },
+        { english: "stew", phonetic: "[stjuː]", chinese: "焖；炖肉" },
+        { english: "roast", phonetic: "[rəʊst]", chinese: "烤肉" },
+        { english: "pork", phonetic: "[pɔːk]", chinese: "猪肉" },
+        { english: "ham", phonetic: "[hæm]", chinese: "火腿" },
+        { english: "bacon", phonetic: "[ˈbeɪkən]", chinese: "培根；熏肉" },
+        { english: "sausage", phonetic: "[ˈsɒsɪdʒ]", chinese: "香肠；腊肠" },
+        { english: "chicken", phonetic: "[ˈtʃɪkɪn]", chinese: "鸡肉" },
+        { english: "turkey", phonetic: "[ˈtɜːki]", chinese: "火鸡" },
+        { english: "duck", phonetic: "[dʌk]", chinese: "鸭" },
+        { english: "fish", phonetic: "[fɪʃ]", chinese: "鱼" },
+        { english: "broth", phonetic: "[brɒθ]", chinese: "肉汤" }
+    ],
+    "交通工具": [
+        { english: "ambulance", phonetic: "[ˈæmbjələns]", chinese: "救护车" },
+        { english: "bike", phonetic: "[baɪk]", chinese: "自行车（口语）" },
+        { english: "bicycle", phonetic: "[ˈbaɪsɪkl]", chinese: "自行车" },
+        { english: "motorcycle", phonetic: "[ˈməʊtəsaɪkl]", chinese: "摩托车" },
+        { english: "cart", phonetic: "[kɑːt]", chinese: "二轮马车" },
+        { english: "carriage", phonetic: "[ˈkærɪdʒ]", chinese: "四轮马车" },
+        { english: "car", phonetic: "[kɑː]", chinese: "小汽车" },
+        { english: "jeep", phonetic: "[dʒiːp]", chinese: "吉普车" },
+        { english: "tractor", phonetic: "[ˈtræktə]", chinese: "拖拉机" },
+        { english: "lorry", phonetic: "[ˈlɒri]", chinese: "重型卡车" },
+        { english: "truck", phonetic: "[trʌk]", chinese: "卡车" },
+        { english: "bus", phonetic: "[bʌs]", chinese: "公共汽车" },
+        { english: "coach", phonetic: "[kəʊtʃ]", chinese: "四轮大马车" },
+        { english: "van", phonetic: "[væn]", chinese: "厢式货车" },
+        { english: "taxi", phonetic: "[ˈtæksi]", chinese: "出租车" },
+        { english: "subway", phonetic: "[ˈsʌbweɪ]", chinese: "地铁" },
+        { english: "railway", phonetic: "[ˈreɪlweɪ]", chinese: "铁路" },
+        { english: "train", phonetic: "[treɪn]", chinese: "火车" },
+        { english: "locomotive", phonetic: "[ˈləʊkəməʊtɪv]", chinese: "火车头，机车" },
+        { english: "express", phonetic: "[ɪkˈspres]", chinese: "快客列车，快车" },
+        { english: "boat", phonetic: "[bəʊt]", chinese: "小船" },
+        { english: "ship", phonetic: "[ʃɪp]", chinese: "船" },
+        { english: "yacht", phonetic: "[jɒt]", chinese: "游艇" },
+        { english: "vessel", phonetic: "[ˈvesl]", chinese: "大船" },
+        { english: "warship", phonetic: "[ˈwɔːʃɪp]", chinese: "军舰，战船" },
+        { english: "aeroplane", phonetic: "[ˈeərəpleɪn]", chinese: "飞机" },
+        { english: "plane", phonetic: "[pleɪn]", chinese: "飞机" },
+        { english: "aircraft", phonetic: "[ˈeəkrɑːft]", chinese: "飞机" },
+        { english: "airplane", phonetic: "[ˈeəpleɪn]", chinese: "飞机" },
+        { english: "jet", phonetic: "[dʒet]", chinese: "喷气式飞机" },
+        { english: "spaceship", phonetic: "[ˈspeɪsʃɪp]", chinese: "宇宙飞船" },
+        { english: "space shuttle", phonetic: "[speɪs ˈʃʌtl]", chinese: "航天飞机" },
+        { english: "helicopter", phonetic: "[ˈhelɪkɒptə]", chinese: "直升机" }
+    ],
+    "时间": [
+        { english: "season", phonetic: "[ˈsiːzn]", chinese: "四季" },
+        { english: "meridiem", phonetic: "[məˈrɪdiəm]", chinese: "正午" },
+        { english: "A.M.", phonetic: "[ˌeɪ ˈem]", chinese: "上午" },
+        { english: "morning", phonetic: "[ˈmɔːnɪŋ]", chinese: "上午" },
+        { english: "P.M.", phonetic: "[ˌpiː ˈem]", chinese: "下午" },
+        { english: "afternoon", phonetic: "[ˌɑːftəˈnuːn]", chinese: "下午" },
+        { english: "spring", phonetic: "[sprɪŋ]", chinese: "春天" },
+        { english: "summer", phonetic: "[ˈsʌmə]", chinese: "夏天" },
+        { english: "fall", phonetic: "[fɔːl]", chinese: "秋天" },
+        { english: "winter", phonetic: "[ˈwɪntə]", chinese: "冬天" },
+        { english: "yesterday", phonetic: "[ˈjestədeɪ]", chinese: "昨天" },
+        { english: "tomorrow", phonetic: "[təˈmɒrəʊ]", chinese: "明天" },
+        { english: "Monday", phonetic: "[ˈmʌndeɪ]", chinese: "周一" },
+        { english: "Tuesday", phonetic: "[ˈtjuːzdeɪ]", chinese: "周二" },
+        { english: "Wednesday", phonetic: "[ˈwenzdeɪ]", chinese: "周三" },
+        { english: "Thursday", phonetic: "[ˈθɜːzdeɪ]", chinese: "周四" },
+        { english: "Friday", phonetic: "[ˈfraɪdeɪ]", chinese: "周五" },
+        { english: "Saturday", phonetic: "[ˈsætədeɪ]", chinese: "周六" },
+        { english: "Sunday", phonetic: "[ˈsʌndeɪ]", chinese: "星期天" },
+        { english: "weekend", phonetic: "[ˌwiːkˈend]", chinese: "周末" },
+        { english: "January", phonetic: "[ˈdʒænjuəri]", chinese: "一月" },
+        { english: "February", phonetic: "[ˈfebruəri]", chinese: "二月" },
+        { english: "March", phonetic: "[mɑːtʃ]", chinese: "三月" },
+        { english: "April", phonetic: "[ˈeɪprəl]", chinese: "四月" },
+        { english: "May", phonetic: "[meɪ]", chinese: "五月" },
+        { english: "June", phonetic: "[dʒuːn]", chinese: "六月" },
+        { english: "July", phonetic: "[dʒuˈlaɪ]", chinese: "七月" },
+        { english: "August", phonetic: "[ˈɔːɡəst]", chinese: "八月" },
+        { english: "September", phonetic: "[sepˈtembə]", chinese: "九月" },
+        { english: "October", phonetic: "[ɒkˈtəʊbə]", chinese: "十月" },
+        { english: "November", phonetic: "[nəʊˈvembə]", chinese: "十一月" },
+        { english: "December", phonetic: "[dɪˈsembə]", chinese: "十二月" }
+    ],
+    "饮食": [
+        { english: "nutrition", phonetic: "[njuˈtrɪʃən]", chinese: "营养" },
+        { english: "appetite", phonetic: "[ˈæpɪtaɪt]", chinese: "胃口" },
+        { english: "hunger", phonetic: "[ˈhʌŋɡə]", chinese: "饥饿" },
+        { english: "thirst", phonetic: "[θɜːst]", chinese: "口渴" },
+        { english: "hungry", phonetic: "[ˈhʌŋɡri]", chinese: "饥饿的" },
+        { english: "thirsty", phonetic: "[ˈθɜːsti]", chinese: "口渴的" },
+        { english: "gluttony", phonetic: "[ˈɡlʌtəni]", chinese: "暴食" },
+        { english: "greed", phonetic: "[ɡriːd]", chinese: "贪嘴" },
+        { english: "overfeeding", phonetic: "[ˌəʊvəˈfiːdɪŋ]", chinese: "吃得过多" },
+        { english: "diet", phonetic: "[ˈdaɪət]", chinese: "食谱" },
+        { english: "banquet", phonetic: "[ˈbæŋkwɪt]", chinese: "宴会" },
+        { english: "breakfast", phonetic: "[ˈbrekfəst]", chinese: "早餐" },
+        { english: "lunch", phonetic: "[lʌntʃ]", chinese: "午餐" },
+        { english: "dinner", phonetic: "[ˈdɪnə]", chinese: "正餐" },
+        { english: "supper", phonetic: "[ˈsʌpə]", chinese: "晚饭" },
+        { english: "Soup", phonetic: "[suːp]", chinese: "汤" },
+        { english: "entree", phonetic: "[ˈɒntreɪ]", chinese: "正菜" },
+        { english: "dessert", phonetic: "[dɪˈzɜːt]", chinese: "甜点" },
+        { english: "snack", phonetic: "[snæk]", chinese: "点心小吃" },
+        { english: "can", phonetic: "[kæn]", chinese: "罐头" },
+        { english: "tin", phonetic: "[tɪn]", chinese: "听，罐头" },
+        { english: "fruit", phonetic: "[fruːt]", chinese: "水果" },
+        { english: "vegetable", phonetic: "[ˈvedʒtəbl]", chinese: "蔬菜" },
+        { english: "beancurd", phonetic: "[ˈbiːnkɜːd]", chinese: "豆腐" },
+        { english: "crisp", phonetic: "[krɪsp]", chinese: "炸土豆片" },
+        { english: "chips", phonetic: "[tʃɪps]", chinese: "炸薯条" },
+        { english: "milk", phonetic: "[mɪlk]", chinese: "奶" },
+        { english: "egg", phonetic: "[eɡ]", chinese: "蛋" }
+    ],
+    "调料": [
+        { english: "spice", phonetic: "[spaɪs]", chinese: "调料" },
+        { english: "salt", phonetic: "[sɔːlt]", chinese: "盐" },
+        { english: "vinegar", phonetic: "[ˈvɪnɪɡə]", chinese: "醋" },
+        { english: "sauce", phonetic: "[sɔːs]", chinese: "酱油" },
+        { english: "oil", phonetic: "[ɔɪl]", chinese: "油" },
+        { english: "salad", phonetic: "[ˈsæləd]", chinese: "色拉" },
+        { english: "salad oil", phonetic: "[ˈsæləd ɔɪl]", chinese: "色拉油" },
+        { english: "pepper", phonetic: "[ˈpepə]", chinese: "辣椒；胡椒" },
+        { english: "mustard", phonetic: "[ˈmʌstəd]", chinese: "芥末" },
+        { english: "clove", phonetic: "[kləʊv]", chinese: "丁香" },
+        { english: "cheese", phonetic: "[tʃiːz]", chinese: "奶酪" },
+        { english: "butter", phonetic: "[ˈbʌtə]", chinese: "奶油" }
+    ],
+    "主食": [
+        { english: "noodle", phonetic: "[ˈnuːdl]", chinese: "面条" },
+        { english: "rice", phonetic: "[raɪs]", chinese: "米饭" },
+        { english: "loaf", phonetic: "[ləʊf]", chinese: "长面包" },
+        { english: "biscuit", phonetic: "[ˈbɪskɪt]", chinese: "饼干；小甜品" },
+        { english: "cracker", phonetic: "[ˈkrækə]", chinese: "饼干（美）" },
+        { english: "Pizza", phonetic: "[ˈpiːtsə]", chinese: "比萨饼" },
+        { english: "bread", phonetic: "[bred]", chinese: "面包" },
+        { english: "crust", phonetic: "[krʌst]", chinese: "面包皮" },
+        { english: "cake", phonetic: "[keɪk]", chinese: "蛋糕" },
+        { english: "cookie", phonetic: "[ˈkʊki]", chinese: "甜饼干，曲奇饼" },
+        { english: "mooncake", phonetic: "[ˈmuːnkeɪk]", chinese: "月饼" },
+        { english: "pie", phonetic: "[paɪ]", chinese: "馅饼" },
+        { english: "hamburg", phonetic: "[ˈhæmbɜːɡ]", chinese: "汉堡包" },
+        { english: "pancake", phonetic: "[ˈpænkeɪk]", chinese: "薄煎饼" },
+        { english: "sandwich", phonetic: "[ˈsænwɪdʒ]", chinese: "三明治" }
+    ],
+    "天气": [
+        { english: "meteorology", phonetic: "[ˌmiːtiəˈrɒlədʒi]", chinese: "气象学" },
+        { english: "atmosphere", phonetic: "[ˈætməsfɪə]", chinese: "大气" },
+        { english: "climate", phonetic: "[ˈklaɪmət]", chinese: "气候" },
+        { english: "weather", phonetic: "[ˈweðə]", chinese: "天气" },
+        { english: "fine", phonetic: "[faɪn]", chinese: "晴天" },
+        { english: "sunny", phonetic: "[ˈsʌni]", chinese: "晴朗的" },
+        { english: "rainy", phonetic: "[ˈreɪni]", chinese: "下雨的" },
+        { english: "dull", phonetic: "[dʌl]", chinese: "阴天的，多云的" },
+        { english: "windy", phonetic: "[ˈwɪndi]", chinese: "刮风的" },
+        { english: "temperature", phonetic: "[ˈtemprətʃə]", chinese: "气温，温度" },
+        { english: "season", phonetic: "[ˈsiːzn]", chinese: "季节，四季" },
+        { english: "spring", phonetic: "[sprɪŋ]", chinese: "春天" },
+        { english: "summer", phonetic: "[ˈsʌmə]", chinese: "夏天" },
+        { english: "autumn", phonetic: "[ˈɔːtəm]", chinese: "秋天" },
+        { english: "fall", phonetic: "[fɔːl]", chinese: "（美）秋天，秋季" },
+        { english: "winter", phonetic: "[ˈwɪntə]", chinese: "冬天，冬季" },
+        { english: "frost", phonetic: "[frɒst]", chinese: "霜" },
+        { english: "hail", phonetic: "[heɪl]", chinese: "冰雹" },
+        { english: "snow", phonetic: "[snəʊ]", chinese: "雪" },
+        { english: "thunder", phonetic: "[ˈθʌndə]", chinese: "雷" },
+        { english: "wind", phonetic: "[wɪnd]", chinese: "风" },
+        { english: "mist", phonetic: "[mɪst]", chinese: "薄雾" },
+        { english: "cloud", phonetic: "[klaʊd]", chinese: "云，阴云" },
+        { english: "haze", phonetic: "[heɪz]", chinese: "阴霾，薄雾" },
+        { english: "rain", phonetic: "[reɪn]", chinese: "雨" },
+        { english: "downpour", phonetic: "[ˈdaʊnpɔː]", chinese: "暴雨" },
+        { english: "shower", phonetic: "[ˈʃaʊə]", chinese: "阵雨" },
+        { english: "storm", phonetic: "[stɔːm]", chinese: "暴风雨，风暴" },
+        { english: "lightning", phonetic: "[ˈlaɪtnɪŋ]", chinese: "闪电" },
+        { english: "hurricane", phonetic: "[ˈhʌrɪkən]", chinese: "暴风" },
+        { english: "cyclone", phonetic: "[ˈsaɪkləʊn]", chinese: "旋风" },
+        { english: "typhoon", phonetic: "[taɪˈfuːn]", chinese: "台风" },
+        { english: "tornado", phonetic: "[tɔːˈneɪdəʊ]", chinese: "龙卷风" },
+        { english: "gale", phonetic: "[ɡeɪl]", chinese: "季节风，大风" },
+        { english: "breeze", phonetic: "[briːz]", chinese: "微风" },
+        { english: "monsoon", phonetic: "[mɒnˈsuːn]", chinese: "季风" },
+        { english: "fog", phonetic: "[fɒɡ]", chinese: "浓雾" },
+        { english: "dew", phonetic: "[djuː]", chinese: "露水" },
+        { english: "humidity", phonetic: "[hjuːˈmɪdəti]", chinese: "潮湿" },
+        { english: "freeze", phonetic: "[friːz]", chinese: "冰冻" },
+        { english: "drought", phonetic: "[draʊt]", chinese: "干旱" },
+        { english: "rainbow", phonetic: "[ˈreɪnbəʊ]", chinese: "彩虹" },
+        { english: "flood", phonetic: "[flʌd]", chinese: "洪水" },
+        { english: "tide", phonetic: "[taɪd]", chinese: "潮汐，潮水" },
+        { english: "earthquake", phonetic: "[ˈɜːθkweɪk]", chinese: "地震" },
+        { english: "sunlight", phonetic: "[ˈsʌnlaɪt]", chinese: "阳光,日光" },
+        { english: "sunshine", phonetic: "[ˈsʌnʃaɪn]", chinese: "阳光" }
+    ]
+    // 由于字数限制，这里只展示了部分分类
+};
+// 继续添加其他分类：日用品、工具、植物鲜花、家畜、野生动物、鸟类、其他动物、职业、国家语言、货币、山河湖海、学科、普通形容词、经济、法律、宇宙、文学、绘画雕塑、音乐、政治、艺术流派等
+ // ← 这个分号和大括号应该在所有分类结束后
+
+// 应用状态
+let currentCategory = "颜色";
+let currentWordIndex = 0;
+let learnedWords = new Set();
+let masteredWords = new Set();
+        
+        // DOM元素
+        const categoryList = document.getElementById('categoryList');
+        const wordEnglish = document.getElementById('wordEnglish');
+        const wordPhonetic = document.getElementById('wordPhonetic');
+        const wordChinese = document.getElementById('wordChinese');
+        const pronunciationBtn = document.getElementById('pronunciationBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const wordCount = document.getElementById('wordCount');
+        const learnedCount = document.getElementById('learnedCount');
+        const masteredCount = document.getElementById('masteredCount');
+        const streakCount = document.getElementById('streakCount');
+        
+        // 初始化分类列表
+        function initCategories() {
+            categoryList.innerHTML = '';
+            Object.keys(wordData).forEach(category => {
+                const item = document.createElement('li');
+                item.className = 'category-item';
+                if (category === currentCategory) {
+                    item.classList.add('active');
+                }
+                
+                item.innerHTML = `
+                    ${category}
+                    <span class="word-count">${wordData[category].length}</span>
+                `;
+                
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.category-item').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    currentCategory = category;
+                    currentWordIndex = 0;
+                    updateWordDisplay();
+                });
+                
+                categoryList.appendChild(item);
+            });
+        }
+        
+        // 更新单词显示
+        function updateWordDisplay() {
+            const words = wordData[currentCategory];
+            const word = words[currentWordIndex];
+            
+            wordEnglish.textContent = word.english;
+            wordPhonetic.textContent = word.phonetic;
+            wordChinese.textContent = word.chinese;
+            
+            // 更新进度
+            const progress = ((currentWordIndex + 1) / words.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `${Math.round(progress)}%`;
+            wordCount.textContent = `${currentWordIndex + 1}/${words.length}`;
+            
+            // 更新统计
+            learnedCount.textContent = learnedWords.size;
+            masteredCount.textContent = masteredWords.size;
+            
+            // 设置连续天数（示例数据）
+            streakCount.textContent = Math.floor(Math.random() * 10) + 1;
+        }
+        
+        // 发音功能
+        function speakWord() {
+            const word = wordData[currentCategory][currentWordIndex].english;
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('您的浏览器不支持语音合成功能，请使用Chrome或Edge浏览器');
+            }
+        }
+        
+        // 事件监听
+        pronunciationBtn.addEventListener('click', speakWord);
+        
+        prevBtn.addEventListener('click', () => {
+            if (currentWordIndex > 0) {
+                currentWordIndex--;
+                updateWordDisplay();
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            const words = wordData[currentCategory];
+            if (currentWordIndex < words.length - 1) {
+                currentWordIndex++;
+                updateWordDisplay();
+                
+                // 标记为已学习
+                const wordKey = `${currentCategory}-${words[currentWordIndex].english}`;
+                learnedWords.add(wordKey);
+            } else {
+                // 循环到第一个单词
+                currentWordIndex = 0;
+                updateWordDisplay();
+            }
+        });
+        
+        // 游戏模式切换
+        document.querySelectorAll('.game-mode-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.game-mode-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // 这里可以添加不同游戏模式的逻辑
+                alert(`切换到${this.textContent}模式`);
+            });
+        });
+        
+        // 初始化应用
+        function initApp() {
+            initCategories();
+            updateWordDisplay();
+        }
+        
+        // 启动应用
+        initApp();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>道德与法治刷题系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 基础变量定义 - 可定制主题色 */
+        :root {
+            --primary: #1976d2;
+            --primary-light: #e3f2fd;
+            --primary-dark: #1565c0;
+            --secondary: #7e57c2;
+            --success: #4caf50;
+            --error: #f44336;
+            --warning: #ff9800;
+            --text: #2c3e50;
+            --text-light: #546e7a;
+            --gray: #90a4ae;
+            --light-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
+        }
+
+        /* 暗色主题 */
+        .dark-theme {
+            --primary: #2196f3;
+            --primary-light: #0d47a1;
+            --primary-dark: #0a3d7a;
+            --text: #e0e0e0;
+            --text-light: #b0b0b0;
+            --light-bg: #121212;
+            --card-bg: #1e1e1e;
+            --shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        /* 基础重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 头部区域 */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 25px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            background: rgba(255,255,255,0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .back-btn, .theme-toggle, .search-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover, .theme-toggle:hover, .search-toggle:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        /* 搜索区域 */
+        .search-container {
+            background: var(--card-bg);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        .search-container.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid var(--primary-light);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
+        }
+
+        .search-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* 导航区域 */
+        .nav-container {
+            background: var(--card-bg);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            padding: 12px 20px;
+            background: var(--light-bg);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
+        }
+
+        .progress-badge {
+            background: var(--success);
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* 内容区域 */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            border-left: 5px solid var(--primary);
+            padding: 15px 20px;
+            margin: 30px 0 25px 0;
+            font-weight: bold;
+            background: var(--card-bg);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            box-shadow: var(--shadow);
+        }
+
+        /* 卡片通用样式 */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+            gap: 10px;
+        }
+
+        /* 重点记忆卡片 */
+        .memory-card {
+            border-top: 4px solid var(--warning);
+            background: linear-gradient(135deg, #fffbf0 0%, var(--card-bg) 100%);
+        }
+
+        .point-list {
+            padding-left: 25px;
+        }
+
+        .point-list li {
+            margin-bottom: 15px;
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(0,0,0,0.1);
+        }
+
+        .point-list li:last-child {
+            border-bottom: none;
+        }
+
+        .highlight {
+            color: var(--error);
+            font-weight: bold;
+            background: #fff3e0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin: 0 2px;
+        }
+
+        /* 练习题样式 */
+        .quiz-item {
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            padding: 30px 0;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .quiz-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .quiz-item.correct {
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e8 100%);
+            border-radius: var(--border-radius);
+            padding: 30px 25px;
+            margin: 20px -15px;
+        }
+
+        .quiz-item.wrong {
+            background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%);
+            border-radius: var(--border-radius);
+            padding: 30px 25px;
+            margin: 20px -15px;
+        }
+
+        .q-text {
+            font-weight: bold;
+            margin-bottom: 25px;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            padding: 18px 25px;
+            background: var(--light-bg);
+            border: 2px solid rgba(0,0,0,0.1);
+            border-radius: 10px;
+            text-align: left;
+            font-size: 1.05rem;
+            color: var(--text);
+            position: relative;
+            transition: var(--transition);
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .option-btn:hover {
+            background: rgba(0,0,0,0.05);
+            border-color: var(--primary-light);
+            transform: translateX(5px);
+        }
+
+        .option-btn.correct {
+            background: #e8f5e9;
+            border-color: var(--success);
+            color: var(--success);
+            font-weight: bold;
+            transform: scale(1.02);
+        }
+
+        .option-btn.wrong {
+            background: #ffebee;
+            border-color: var(--error);
+            color: var(--error);
+            opacity: 0.8;
+        }
+
+        .option-btn i {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        .answer-box {
+            margin-top: 25px;
+            padding: 25px;
+            background: linear-gradient(135deg, #fff3e0 0%, #fff8e1 100%);
+            border-left: 5px solid var(--warning);
+            border-radius: 8px;
+            font-size: 1rem;
+            line-height: 1.6;
+            display: none;
+            animation: slideIn 0.4s ease;
+        }
+
+        .answer-box strong {
+            color: var(--warning);
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        /* 进度条 */
+        .progress-container {
+            background: var(--card-bg);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--light-bg);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), #4caf50);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* 页脚 */
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 50px;
+            padding: 30px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container { padding: 0 15px; }
+            .header-content { flex-direction: column; gap: 20px; text-align: center; }
+            .logo { justify-content: center; }
+            .nav-btn { padding: 10px 15px; font-size: 0.9rem; }
+            .card { padding: 20px; }
+            .quiz-item { padding: 25px 0; }
+            .option-btn { padding: 15px 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 10px; }
+            .nav-btn { padding: 8px 12px; font-size: 0.85rem; }
+            .card { padding: 15px; margin-bottom: 20px; }
+            .quiz-item { padding: 20px 0; }
+            .option-btn { padding: 12px 15px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部区域 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>道德与法治刷题系统</h1>
+                        <p>知识点梳理 + 智能练习 + 错题回顾</p>
+                    </div>
+                </div>
+                <div class="header-controls">
+                    <!-- 新增返回按钮 -->
+                    <button class="back-btn" title="返回首页" onclick="goBackToIndex()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button class="search-toggle" title="搜索">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="theme-toggle" title="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 搜索区域 -->
+    <div class="container">
+        <div class="search-container" id="searchContainer">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="搜索知识点或题目...">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导航区域 -->
+    <div class="container">
+        <div class="nav-container">
+            <div class="nav-tabs" id="navBox">
+                <!-- 导航按钮将由JS生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="container">
+        <div id="contentBox">
+            <!-- 内容将由JS生成 -->
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>道德与法治学习系统 · 多终端适配 · 个性化学习路径</p>
+            <p>© 2025 道德与法治学习平台 | 版本 1.0</p>
+        </div>
+    </footer>
+
+    <script>
+        // 返回首页功能
+        function goBackToIndex() {
+            window.location.href = 'index.html';
+        }
+
+        // 主题切换功能
+        const themeToggle = document.querySelector('.theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            if (document.body.classList.contains('dark-theme')) {
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // 加载保存的主题
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+            themeIcon.className = 'fas fa-sun';
+        }
+
+        // 搜索功能
+        const searchToggle = document.querySelector('.search-toggle');
+        const searchContainer = document.getElementById('searchContainer');
+        
+        searchToggle.addEventListener('click', () => {
+            searchContainer.classList.toggle('active');
+        });
+
+        // 道德与法治题目数据（已根据正确答案修正）
+        const subjectData = [
+            {
+                id: "unit1",
+                title: "第一单元 富强与创新",
+                icon: "fas fa-flag",
+                progress: 0,
+                quiz: [
+                    {
+                        q: "改革开放是中华民族历史上一次伟大觉醒，推动了中国特色社会主义事业的伟大飞跃。下面有关历史进程的叙述中，观点不正确的是：<br>A. 完成新民主主义革命，建立中华人民共和国，中华民族终于站起来了，中国发展从此开启了新纪元。<br>B. 完成社会主义革命，确立社会主义基本制度，为中国发展富强、人民生活富裕奠定了坚实基础。<br>C. 推进改革开放，极大解放和发展社会生产力，人民生活显著改善。<br>D. 党的十八大以来，中国特色社会主义进入新时代，我国建成了现代化强国。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。我国尚未建成现代化强国，而是正在全面建设社会主义现代化国家。",
+                        page: "P168"
+                    },
+                    {
+                        q: "改革开放是决定当代中国命运的关键抉择。充分说明改革开放是：<br>A. 中国特色社会主义的最大优势。<br>B. 中国特色社会主义最本质的特征。<br>C. 决定当代中国命运的关键抉择。<br>D. 我国社会主义现代化建设的中心工作。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。改革开放是决定当代中国命运的关键抉择，是党和人民事业大踏步赶上时代的重要法宝。",
+                        page: "P168"
+                    },
+                    {
+                        q: "邓小平指出'要实现中华民族伟大复兴，最合适的主题是：<br>A. 改革开放 B. 走共同富裕 C. 依法治国 D. 坚持生态文明。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。改革开放是实现中华民族伟大复兴的关键一招。",
+                        page: "P168"
+                    },
+                    {
+                        q: "图示（四项基本原则、改革开放、动力、经济）的基本核心内容是：<br>A. 坚持四项基本原则，坚持改革开放<br>B. 坚持和完善的社会主义现代化强国<br>C. 改革开放是强国之基，是解决我国一切问题的基础<br>D. 改革开放是决定当代中国命运的关键抉择，也是实现中华民族伟大复兴的基础",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。改革开放是决定当代中国命运的关键抉择，也是实现中华民族伟大复兴的基础。",
+                        page: "P169"
+                    },
+                    {
+                        q: "(2022 浙江中考) 中国共产党秉持的初心和使命是：<br>A. 为中国人民谋幸福，促进民族的全面发展。<br>B. 全面建成小康社会，推进依法治国。<br>C. 为中国人民谋幸福，为中华民族谋复兴。<br>D. 全面建成小康社会，全面推进乡村振兴。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。中国共产党人的初心和使命，就是为中国人民谋幸福，为中华民族谋复兴。",
+                        page: "P169"
+                    },
+                    {
+                        q: "（2022 四川自贡中考）1978年，党的十一届三中全会开启了改革开放的历史抉择...这充分说明改革开放是：<br>A. 坚持依法治国 B. 坚持改革开放 C. 坚持乡村振兴 D. 坚持绿色发展。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。改革开放是决定当代中国命运的关键一招，也是实现中华民族伟大复兴的关键一招。",
+                        page: "P169"
+                    },
+                    {
+                        q: "进入新时代，我国社会主要矛盾已经转化为...下列选项与'矛盾转变'不符合的是：<br>A. 人口问题与经济快速发展之间的矛盾。<br>B. 经济发展和生态环境保护之间的矛盾。<br>C. 人民日益增长的物质文化需要同落后的社会生产之间的矛盾。<br>D. 人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。这是我国过去的社会主要矛盾，现在已经转化为人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾。",
+                        page: "P170"
+                    },
+                    {
+                        q: "(2022 黑龙江绥化中考) 发展是'天地之大，黎元为先'。发展的根本目的是：<br>A. 增进民生福祉 B. 争取民族解放 C. 追求物质生活 D. 追求精神生活。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。发展的根本目的是增进民生福祉，让发展成果更多更公平惠及全体人民。",
+                        page: "P171"
+                    },
+                    {
+                        q: "(2023 河南洛阳中考) 提高就业质量和居民收入水平体现了党中央的发展理念，下列能支撑这一思想的有：<br>①提高就业质量和居民收入水平 ②加固防脱贫攻坚成果 ③举办二十四届中国国际高新技术成果交易会 ④实施健康中国战略。<br>A. ①②③ B. ①②④ C. ①③④ D. ②③④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。提高就业质量和居民收入水平、巩固脱贫攻坚成果、实施健康中国战略都是增进民生福祉的重要举措。",
+                        page: "P113"
+                    },
+                    {
+                        q: "(2023 河北保定中考) 冰箱不仅能保鲜储，还能自动下单购买食材...给我们生活带来美好变化，下列说法不正确的是：<br>A. 网络丰富日常生活 B. 创新让生活更美好 C. 科技可以解决一切问题 D. 科技取代了人类所有劳动。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。科技不能取代人类所有劳动，而是辅助人类劳动，提高生产效率。",
+                        page: "P177"
+                    },
+                    {
+                        q: "下列行为中属于创新的是：<br>①针对一道数学难题，经过多角度思考论证 ②给家人做了一个富有创意的水果拼盘 ③在学校组织的创新大赛中，使用废旧的包装盒创作了一个多功能的笔筒 ④以智能生活为主题，撰写了一篇作文。<br>A. ①②③ B. ②③④ C. ①②④ D. ①③④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。创新不仅指科技创新，还包括思维创新、方法创新等。",
+                        page: "P177"
+                    },
+                    {
+                        q: "(2023 江苏扬州中考) 近年来，我国在多个领域实施了科教兴国战略，并取得了巨大的成就，这表明：<br>A. 科技创新是改革开放的生命线 B. 科技发展水平已全面领先世界 C. 已跨入了世界发达国家行列 D. 坚定不移走自主创新道路。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。我国实施科教兴国战略，坚定不移走自主创新道路，取得了巨大成就。",
+                        page: "P174"
+                    },
+                    {
+                        q: "创新是引领先发展的第一动力，国家兴旺发达的不竭源泉。这是因为：<br>①创新已经成为世界各国发展的战略的重心 ②在激烈的国际竞争中，唯创新者进，唯创新者强，唯创新者胜 ③创新驱动是国家经济发展的长远要求... ④创新是引领发展的第一动力...<br>A. ①②③ B. ①③④ C. ②③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。创新是引领发展的第一动力，是国家兴旺发达的不竭源泉，在激烈的国际竞争中，唯创新者进，唯创新者强，唯创新者胜。",
+                        page: "P172"
+                    },
+                    {
+                        q: "(2023 山东泰安中考) 改革与创新是人类得以进步的主要动力之一，是历史发展的永恒主题。下列关于改革与创新关系正确的是：<br>①改革在不断创新中提升发展品质 ②创新通过改革渗透到社会生活的方方面面 ③改革创新是发展的根本目的 ④国家用改革之手激活创新引擎。<br>A. ①②③ B. ①②④ C. ②③④ D. ①③④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。改革与创新相互促进，改革在不断创新中提升发展品质，创新通过改革渗透到社会生活的方方面面，国家用改革之手激活创新引擎。",
+                        page: "P123"
+                    },
+                    {
+                        q: "(2022 黑龙江绥化中考) 综合国力竞争的决定性因素是：<br>A. 人口数量 B. 国土面积 C. 石油储备 D. 科技创新能力。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。科技创新能力是综合国力竞争的决定性因素。",
+                        page: "P174"
+                    },
+                    {
+                        q: "种子有'农业芯片'之称...这说明：<br>①发展水平总体不高 ②对经济社会发展的支撑能力不足 ③对创新发展支持力度不够 ④对经济增长的贡献率远高于发达国家水平。<br>A. ①②③ B. ①②④ C. ①③④ D. ②③④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。我国在种子等关键核心技术方面发展水平总体不高，对经济社会发展的支撑能力不足，对创新发展支持力度不够。",
+                        page: "P174"
+                    },
+                    {
+                        q: "(2022 山东泰安中考) 航天成就表明：<br>A. 我国在世界前列 B. 我国整体科技实力显著提升 C. 航天创新成为战略重心 D. 坚定不移走自主创新道路。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。我国航天成就表明我国整体科技实力显著提升。",
+                        page: "P175"
+                    },
+                    {
+                        q: "(2023 河北张家口中考) 改革开放是一个逐步深化的历程。下列有关改革开放的说法错误的是：<br>①党的十一届三中全会作出了改革开放历史抉择 ②中国的对外改革首先从农村开始 ③安徽省凤阳县小岗村的'大包干'拉开了中国对内改革的序幕 ④我国逐步形成了公有制为主体，多种分配方式并存的经济制度。<br>A. ①④ B. ②④ C. ①③ D. ③④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。中国的改革首先从农村开始，而不是对外改革；我国逐步形成了公有制为主体，多种所有制经济共同发展的经济制度，而不是多种分配方式并存。",
+                        page: "P117"
+                    },
+                    {
+                        q: "党的二十大报告指出'江山就是人民，人民就是江山'。这句饱含深情的凝练之语：<br>A. 解决了历史遗留问题 B. 坚定了改革开放 C. 凝聚了中国力量 D. 强调了人民是历史的创造者。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。'江山就是人民，人民就是江山'强调了人民是历史的创造者，是决定党和国家前途命运的根本力量。",
+                        page: "P117"
+                    },
+                    {
+                        q: "(2022 辽宁沈阳中考) 中国特色社会主义民主是：<br>A. 人民当家作主 B. 走向共同富裕 C. 增进民生福祉 D. 参与民主生活。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。中国特色社会主义民主的本质和核心是人民当家作主。",
+                        page: "P179"
+                    }
+                ]
+            },
+            {
+                id: "unit2",
+                title: "第二单元 民主与法治",
+                icon: "fas fa-gavel",
+                progress: 0,
+                quiz: [
+                    {
+                        q: "(2023 北京海淀期中) 全过程人民民主鲜明地反映了我国人民的价值底色，诠释着'人民至上'的价值追求。这体现：<br>①人的意愿得到充分反映 ②人民的要求都能充分实现 ③人的合法权利得到保障 ④民主的愿望都已成为现实。<br>A. ①② B. ①③ C. ②④ D. ③④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。全过程人民民主体现了人民的意愿得到充分反映，合法权利得到保障。",
+                        page: "P179"
+                    },
+                    {
+                        q: "(2022 辽宁沈阳中考) 基层民主治理的制度是：<br>A. '一国两制'制度 B. 社会主义制度 C. 基层群众自治制度 D. 政治协商制度。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。基层群众自治制度是我国基层民主治理的基本制度。",
+                        page: "P119"
+                    },
+                    {
+                        q: "(2022 湖南岳阳中考) 全国'两会'的召开体现了我们坚持的制度是：<br>A. 人民代表大会制度 B. 公有制为主体，多种所有制经济共同发展 C. 区域自治制度 D. 中国共产党领导的多党合作和政治协商制度。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。全国'两会'体现了人民代表大会制度。",
+                        page: "P119"
+                    },
+                    {
+                        q: "(2023 湖南怀化中考) 选举产生村（居）民代表，接受群众的监督和共议。对此理解的是：<br>A. 社会主义民主是一种新型的民主 B. 协商民主是社会主义民主政治的本质特征 C. 民主选举是公民直接参与国家管理的一种重要形式 D. 公民要增强民主意识，参与民主生活。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。选举产生村（居）民代表体现了公民要增强民主意识，参与民主生活。",
+                        page: "P121"
+                    },
+                    {
+                        q: "(2023 江苏扬州中考) 下表事例与途径对应正确的是：<br>①袁老师成为市人大代表的候选人—民主选举 ②袁大姐参加了市政府召开的听证会—民主决策 ③陈师傅拨打政务服务便民热线投诉—民主协商 ④李医生作市政协委员参与了政协会议并发表意见—民主监督。<br>A. ①②③ B. ②③④ C. ①③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。①对应民主选举，②对应民主决策，④对应民主监督。③拨打政务服务便民热线投诉属于民主监督，不是民主协商。",
+                        page: "P181"
+                    },
+                    {
+                        q: "(2023 河南安阳中考) 漫画体现建设法治中国的：<br>①依法行政 ②科学立法 ③严格执法 ④全民守法。<br>A. ①②③④ B. ①③④ C. ②③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。漫画体现了建设法治中国的依法行政、严格执法、全民守法。",
+                        page: "P122"
+                    },
+                    {
+                        q: "(2023 安徽芜湖中考) '不是什么法都能治国...越是要提高立法质量'...下列正确的是：<br>A. 法治要求实行善治 B. 法治意味着依法治理 C. 法律制定要良法善治 D. 法治要求实行民族区域自治。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。法律制定要良法善治，不是什么法都能治国，越是要提高立法质量。",
+                        page: "P182"
+                    },
+                    {
+                        q: "漫画'这儿我说了算'体现了：<br>A. 漠视规则的普遍适用性 B. 坚持法律面前人人平等 C. 滥用权力 D. 维护正义。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。漫画'这儿我说了算'体现了漠视规则的普遍适用性。",
+                        page: "P183"
+                    },
+                    {
+                        q: "(2023 湖北荆州中考) 法律的启示是：<br>①要通过严格执法、公正司法、全民守法 ②建设法治中国 ③全体社会成员必须在宪法法律的范围内行使权利，履行义务 ④法律反映人民群众的意愿和利益，反映社会发展的规律。<br>A. ①②③ B. ①③④ C. ②③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。法律的启示是要通过严格执法、公正司法、全民守法；全体社会成员必须在宪法法律的范围内行使权利，履行义务；法律反映人民群众的意愿和利益，反映社会发展的规律。",
+                        page: "P123"
+                    },
+                    {
+                        q: "(2022 辽宁沈阳中考) 现代法治政府行使权力普遍遵循的原则是：<br>A. 以德治国 B. 依法治国 C. 依法行政 D. 依法治府。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。现代法治政府行使权力普遍遵循的原则是依法行政。",
+                        page: "P185"
+                    },
+                    {
+                        q: "建设法治政府是全面依法治国的重点任务和主体工程。下列对法治政府的认识不正确的是：<br>A. 建设法治政府必须依法行政，防范行政权力的滥用<br>B. 建设法治政府要求提高政府的公信力，维护公民群众的一切权益<br>C. 法治政府的各项权力都应该在法治轨道上运行<br>D. 政府及其工作人员要提高运用法治思维和法治方式深化改革...",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。建设法治政府要求提高政府的公信力，维护公民群众的合法权益，但不是一切权益。",
+                        page: "P185"
+                    },
+                    {
+                        q: "(2022 天津中考) 全过程人民民主是：<br>A. 最真实的民主 B. 最广泛、最管用的民主 C. 民主选举 D. 民主决策。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。全过程人民民主是最广泛、最真实、最管用的社会主义民主。",
+                        page: "P125"
+                    },
+                    {
+                        q: "(2023 山东菏泽中考) 小明对学习活动的观点评价错误的是：<br>A. 实施依法治国必须坚持厉行法治 B. 厉行法治是国家机关的事<br>C. 与我们公民个人没有关系 D. 我们没有必要参与<br>A. ①②③ B. ①③④ C. ②③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。实施依法治国必须坚持厉行法治，但BCD选项的观点都是错误的，厉行法治不仅是国家机关的事，也与公民个人密切相关，公民有必要参与。",
+                        page: "P124"
+                    },
+                    {
+                        q: "(2023 河南洛阳中考) 关于公民参与，下列观点错误的是：<br>A. 民主监督是行使公民监督权的具体体现<br>B. 公民的民主意识关系着一个国家和社会民主生活的质量<br>C. 民主选举重要的不是民主意识，而是法治意识<br>D. 民主选举是实现民主权利的一种重要形式",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。民主选举既需要民主意识，也需要法治意识，二者都重要。",
+                        page: "P127"
+                    },
+                    {
+                        q: "(2023 河南洛阳中考) 现行法治体系对公民权利和义务的保障作用体现在：<br>A. 反映政府的意志 B. 维护公民的权利 C. 符合每个人的要求 D. 符合公平正义的要求。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。现行法治体系对公民权利和义务的保障作用体现在符合公平正义的要求。",
+                        page: "P147"
+                    }
+                ]
+            },
+            {
+                id: "unit3",
+                title: "第三单元 文明与家国",
+                icon: "fas fa-landmark",
+                progress: 0,
+                quiz: [
+                    {
+                        q: "2023年是兔年，下列关于中华文化的叙述错误的是：<br>A. 中华文化具有独具特色、历史最悠久<br>B. 中华文化是世界文化大花园中的奇葩<br>C. 中华文化薪火相传、历久弥新<br>D. 中华文化具有永久性和不变性",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。中华文化不是永久性和不变性的，而是不断发展变化的。",
+                        page: "P190"
+                    },
+                    {
+                        q: "发展中国特色社会主义文化，要不忘本来，吸收外来，下列选项不正确的是：<br>①积淀着中华民族最深层的精神追求 ②代表着中华民族独有的精神标识 ③为中华民族的伟大复兴提供精神动力 ④增强了中国人民和中华民族内心深处的自信和自豪。<br>A. ①②③ B. ②③④ C. ①②④ D. ①③④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。发展中国特色社会主义文化，要不忘本来，吸收外来，上述四个选项都是正确的描述。",
+                        page: "P120"
+                    },
+                    {
+                        q: "弘扬民族精神，民族精神的核心是：<br>A. 爱国主义 B. 团结统一 C. 勤劳勇敢 D. 自强不息。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。民族精神的核心是爱国主义。",
+                        page: "P192"
+                    },
+                    {
+                        q: "(新独家原创) 弘扬民族精神：伟大建党精神的内涵是：<br>A. 坚持真理、坚守理想；践行初心、担当使命；不畏牺牲、英勇斗争；对党忠诚、不负人民 B. 井冈山精神 C. 长征精神 D. 抗美援朝精神",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。伟大建党精神的内涵是坚持真理、坚守理想；践行初心、担当使命；不畏牺牲、英勇斗争；对党忠诚、不负人民。",
+                        page: "P192"
+                    },
+                    {
+                        q: "(2023 山西太原期中) 社会主义核心价值观的价值追求是：<br>A. 是坚持和发展中国特色社会主义的价值导向<br>B. 凝聚实现中华民族伟大复兴的强大价值引领<br>C. 是促进人的全面发展，引领社会全面进步<br>D. 是世界各国普遍认可和推崇的价值标准",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。社会主义核心价值观的价值追求是促进人的全面发展，引领社会全面进步。",
+                        page: "P193"
+                    },
+                    {
+                        q: "(2022 山东滨州中考) 卫国戍边英雄用行动诠释社会主义核心价值观，体现的是：<br>①富强 ②民主 ③文明 ④和谐 ⑤自由 ⑥平等 ⑦公正 ⑧法治 ⑨爱国 ⑩敬业 ⑪诚信 ⑫友善。<br>A. ①②③ B. ①③④ C. ②③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。卫国戍边英雄用行动诠释了爱国、敬业等社会主义核心价值观。",
+                        page: "P131"
+                    },
+                    {
+                        q: "坚持人与自然和谐共生，以可持续发展为目标，下列与此相符的是：<br>①环境承载能力为基础...人与自然和谐共生为目标 ②坚持节约资源和保护环境的基本国策 ③贯彻创新、协调、绿色、开放、共享的新发展理念 ④加大对自然开发和利用，尽可能多地索取自然资源。<br>A. ①②③ B. ②③④ C. ①③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 0,
+                        exp: "正确答案是A。坚持人与自然和谐共生，要以环境承载能力为基础，以自然规律为准则，以可持续发展、人与自然和谐共生为目标；坚持节约资源和保护环境的基本国策；贯彻创新、协调、绿色、开放、共享的新发展理念。",
+                        page: "P197"
+                    },
+                    {
+                        q: "(2022 广西中考) 北京冬奥会火炬以氢作为主燃料理念体现：<br>A. 创新与发展 B. 协调和开放 C. 创新和绿色 D. 协调和绿色。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。北京冬奥会火炬以氢作为主燃料理念体现了创新和绿色。",
+                        page: "P197"
+                    },
+                    {
+                        q: "下列名言警句体现爱国主义的是：<br>①'苟利国家生死以，岂因祸福避趋之' ②'爱国不分先后，共御外侮' ③'人生自古谁无死，留取丹心照汗青' ④'捐躯赴国难，视死忽如归'。<br>A. ①②③ B. ①③④ C. ②③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。①②④都是体现爱国主义的名言警句。",
+                        page: "P136"
+                    },
+                    {
+                        q: "弘扬社会主义核心价值观，下列说法正确的是：<br>①学习才能才能培育和践行社会主义核心价值观 ②青少年都已成为民族精神的传播者、弘扬者和建设者 ③社会主义核心价值凝聚着全体人民共同的价值追求 ④在当代中国，我们要坚持爱国和爱党、爱社会主义高度统一。<br>A. ①②③ B. ①③④ C. ②③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。①②④都是弘扬社会主义核心价值观的正确说法。",
+                        page: "P157"
+                    }
+                ]
+            },
+            {
+                id: "unit4",
+                title: "第四单元 和谐与梦想",
+                icon: "fas fa-dove",
+                progress: 0,
+                quiz: [
+                    {
+                        q: "(2022 内蒙古中考) 中华民族大家庭的民族关系坚持的方针是：<br>A. 斗争、平等、团结、互助 B. 平等、团结、互助、和谐 C. 自治、团结、互助、和谐 D. 互助、平等、和谐、友爱。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 1,
+                        exp: "正确答案是B。中华民族大家庭的民族关系坚持平等、团结、互助、和谐的方针。",
+                        page: "P201"
+                    },
+                    {
+                        q: "反对分裂，维护国家统一，爱国主义的体现是：<br>①维护国家主权和领土完整 ②反对一切形式的民族分裂活动 ③坚决反对借民族和宗教之名搞暴力恐怖活动 ④维护国家安全。<br>A. ①②③ B. ②③④ C. ①②④ D. ①③④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。反对分裂，维护国家统一，爱国主义的体现是维护国家主权和领土完整；反对一切形式的民族分裂活动；维护国家安全。",
+                        page: "P203"
+                    },
+                    {
+                        q: "(2023 山东中考) 维护祖国统一：'一国两制'的提出取得了举世公认的成就，下列正确的是：<br>①'一国两制'是实现祖国人民民主和平统一的一项重要制度 ②'一国两制'是中国特色社会主义的伟大创举 ③'一国两制'是'实行'两制'的前提和基础 ④'两制'从属与派生于'一国'并统一于'一国'之内。<br>A. ①②③ B. ②③④ C. ①③④ D. ①②④。",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。'一国两制'是实现祖国人民民主和平统一的一项重要制度；'一国两制'是中国特色社会主义的伟大创举；'两制'从属与派生于'一国'并统一于'一国'之内。",
+                        page: "P204"
+                    },
+                    {
+                        q: "(2022 黑龙江中考) 已经实现了第一个百年奋斗目标，全面建成了小康社会，正意气风发迈向第二个百年奋斗目标。第二个百年奋斗目标是：<br>A. 基本实现社会主义现代化 B. 实现共产主义 C. 全面建成社会主义现代化强国 D. 中国特色社会主义进入新时代",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 2,
+                        exp: "正确答案是C。第二个百年奋斗目标是全面建成社会主义现代化强国。",
+                        page: "P205"
+                    },
+                    {
+                        q: "中国梦的精神就是：<br>A. 伟大建党精神 B. 伟大奋斗精神 C. 社会主义核心价值观 D. 民族精神和时代精神",
+                        opts: ["A", "B", "C", "D"],
+                        ans: 3,
+                        exp: "正确答案是D。中国梦的精神就是民族精神和时代精神。",
+                        page: "P205"
+                    }
+                ]
+            }
+        ];
+
+        // 初始化页面
+        function init() {
+            renderNavigation();
+            renderContent();
+        }
+
+        function renderNavigation() {
+            const navBox = document.getElementById('navBox');
+            navBox.innerHTML = '';
+            
+            subjectData.forEach((item, index) => {
+                const btn = document.createElement('div');
+                btn.className = `nav-btn ${index === 0 ? 'active' : ''}`;
+                btn.innerHTML = `
+                    <i class="${item.icon}"></i>
+                    ${item.title}
+                    <span class="progress-badge">${item.progress}%</span>
+                `;
+                btn.onclick = () => switchTab(index);
+                navBox.appendChild(btn);
+            });
+        }
+
+        function renderContent() {
+            const contentBox = document.getElementById('contentBox');
+            contentBox.innerHTML = '';
+            
+            subjectData.forEach((unit, index) => {
+                const section = document.createElement('div');
+                section.className = `content-section ${index === 0 ? 'active' : ''}`;
+                section.id = `section-${unit.id}`;
+                
+                section.innerHTML = renderUnitContent(unit, index);
+                
+                contentBox.appendChild(section);
+            });
+        }
+
+        function renderUnitContent(unit, unitIdx) {
+            let html = `<div class="section-title"><i class="${unit.icon}"></i> ${unit.title}</div>`;
+
+            // 进度条
+            html += `
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span>本单元进度</span>
+                        <span>0/${unit.quiz.length} 题 (0%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            `;
+
+            // 练习题
+            if (unit.quiz && unit.quiz.length > 0) {
+                html += `
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-pencil-alt"></i> 智能练习 (${unit.quiz.length}题)</div>
+                        <div class="quiz-list">
+                `;
+                
+                unit.quiz.forEach((q, qIdx) => {
+                    html += `
+                        <div class="quiz-item" id="q-${unitIdx}-${qIdx}">
+                            <div class="q-text">${qIdx + 1}. ${q.q}</div>
+                            <div class="options-grid">
+                                ${q.opts.map((opt, oIdx) => `
+                                    <div class="option-btn" onclick="checkAnswer(${unitIdx}, ${qIdx}, ${oIdx}, this)">${opt}</div>
+                                `).join('')}
+                            </div>
+                            <div class="answer-box" id="ans-${unitIdx}-${qIdx}">
+                                <strong>解析：</strong> ${q.exp} <br>
+                                <strong>参考页码：</strong> ${q.page}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+            }
+            
+            return html;
+        }
+
+        function switchTab(idx) {
+            const btns = document.querySelectorAll('.nav-btn');
+            const sections = document.querySelectorAll('.content-section');
+            
+            btns.forEach((b, i) => b.classList.toggle('active', i === idx));
+            sections.forEach((s, i) => s.classList.toggle('active', i === idx));
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function checkAnswer(unitIdx, qIdx, optIdx, btn) {
+            const parent = document.getElementById(`q-${unitIdx}-${qIdx}`);
+            const ansBox = document.getElementById(`ans-${unitIdx}-${qIdx}`);
+            
+            // 防止重复点击
+            if (parent.getAttribute('data-done')) return;
+            parent.setAttribute('data-done', 'true');
+            
+            const allOpts = parent.querySelectorAll('.option-btn');
+            const correctIdx = subjectData[unitIdx].quiz[qIdx].ans;
+            
+            if (optIdx === correctIdx) {
+                parent.classList.add('correct');
+                btn.classList.add('correct');
+                btn.innerHTML += ' <i class="fas fa-check"></i>';
+            } else {
+                parent.classList.add('wrong');
+                btn.classList.add('wrong');
+                btn.innerHTML += ' <i class="fas fa-times"></i>';
+                // 显示正确答案
+                allOpts[correctIdx].classList.add('correct');
+                allOpts[correctIdx].innerHTML += ' <i class="fas fa-check"></i>';
+            }
+            
+            // 禁用所有选项
+            allOpts.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+            
+            ansBox.style.display = 'block';
+            
+            // 更新进度
+            updateProgress(unitIdx);
+        }
+
+        function updateProgress(unitIdx) {
+            const unit = subjectData[unitIdx];
+            const totalQuestions = unit.quiz.length;
+            const answeredQuestions = document.querySelectorAll(`#section-${unit.id} .quiz-item[data-done]`).length;
+            const progress = Math.round((answeredQuestions / totalQuestions) * 100);
+            
+            // 更新进度条
+            const progressFill = document.querySelector(`#section-${unit.id} .progress-fill`);
+            const progressInfo = document.querySelector(`#section-${unit.id} .progress-info span:last-child`);
+            
+            if (progressFill) {
+                progressFill.style.width = `${progress}%`;
+            }
+            
+            if (progressInfo) {
+                progressInfo.textContent = `${answeredQuestions}/${totalQuestions} 题 (${progress}%)`;
+            }
+            
+            // 更新导航标签
+            const navBadge = document.querySelector(`.nav-btn:nth-child(${unitIdx + 1}) .progress-badge`);
+            if (navBadge) {
+                navBadge.textContent = `${progress}%`;
+            }
+            
+            // 更新数据
+            unit.progress = progress;
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

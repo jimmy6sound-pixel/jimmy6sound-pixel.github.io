@@ -7,114 +7,175 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
+        html,body{
+            height:100vh;
+            width:100vw;
+            overflow:hidden;
+        }
         body{
             background:linear-gradient(135deg,#1e3c72,#2a5298);
             color:#fff;
-            min-height:100vh;
-            font-family:-apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif;
-            padding:10px 10px 6px;   /* 上下再抠一点空间 */
+            font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
             display:flex;
             flex-direction:column;
+            padding:2vh 3vw 1vh;
+            height:100vh;
         }
-        h1{font-size:1.95rem;font-weight:900;text-align:center;margin-bottom:2px}
-        .subtitle{font-size:0.95rem;text-align:center;opacity:0.9;margin-bottom:8px}
 
-        /* 倒计时再压缩一点 */
-        .countdown{
-            background:rgba(255,255,255,0.98);
-            color:#e74c3c;
-            border-radius:16px;
-            padding:12px 16px;
+        header{
             text-align:center;
-            margin-bottom:10px;
-            box-shadow:0 6px 20px rgba(0,0,0,0.25);
+            padding:1vh 0 1.5vh;
+            flex-shrink: 0;
         }
-        .countdown h3{font-size:1.22rem;color:#2c3e50;margin-bottom:4px}
-        .days{font-size:4.8rem;font-weight:900;line-height:1;letter-spacing:-3px}
-        .tian{font-size:2.4rem;font-weight:900;position:relative;top:-10px}
+        h1{
+            font-size:1.9rem;
+            font-weight:900;
+            margin-bottom:0.5vh;
+        }
+        .sub{
+            font-size:0.92rem;
+            opacity:0.9;
+        }
 
-        /* 8个卡片间距再抠死 */
+        .countdown{
+            margin:0 0 2vh 0;
+            background:rgba(255,255,255,0.97);
+            border-radius:18px;
+            padding:2vh 4vw;
+            text-align:center;
+            box-shadow:0 8px 25px rgba(0,0,0,0.25);
+            flex-shrink: 0;
+        }
+        .countdown h3{
+            font-size:1.22rem;
+            color:#2c3e50;
+            margin-bottom:1vh;
+        }
+        .days{
+            font-size:4.9rem;
+            font-weight:900;
+            line-height:1;
+            color:#e74c3c;
+        }
+        .tian{
+            font-size:2.4rem;
+            font-weight:900;
+            color:#c0392b;
+            position:relative;
+            top:-8px;
+        }
+
         .grid{
+            flex: 1;
             display:grid;
             grid-template-columns:1fr 1fr;
-            gap:9px;               /* 原来12px → 9px */
-            flex:1;
+            gap:2vh 3vw;
+            overflow: hidden;
+            margin-bottom: 1vh;
         }
         .card{
             background:#fff;
-            border-radius:14px;
+            border-radius:16px;
             overflow:hidden;
-            box-shadow:0 5px 15px rgba(0,0,0,0.22);
+            box-shadow:0 6px 18px rgba(0,0,0,0.22);
             color:#fff;
             text-decoration:none;
             display:flex;
             flex-direction:column;
             justify-content:center;
             align-items:center;
-            font-weight:700;
             transition:transform .2s;
+            min-height: 0; /* 允许卡片收缩 */
         }
-        .card:active{transform:scale(0.96)}
-        .card i{font-size:2rem;margin-bottom:4px}
-        .card span{font-size:1.08rem}
+        .card:active{
+            transform:scale(0.95);
+        }
+        .card i{
+            font-size:2.1rem;
+            margin-bottom:1vh;
+        }
+        .card span{
+            font-size:1.1rem;
+            font-weight:700;
+        }
 
-        /* 颜色保持不变 */
         .c1{background:linear-gradient(135deg,#667eea,#764ba2)}
         .c2{background:linear-gradient(135deg,#f093fb,#f5576c)}
         .c3{background:linear-gradient(135deg,#4facfe,#00f2fe)}
         .c4{background:linear-gradient(135deg,#43e97b,#38f9d7)}
         .c5{background:linear-gradient(135deg,#fa709a,#fee140)}
-        .c6{background:linear-gradient(135deg,#a8edea,#fed6e3)}
+        .c6{background:linear-gradient(135deg,#a8edea,#fed6e3);filter:grayscale(70%);opacity:0.8}
         .c7{background:linear-gradient(135deg,#ff9a9e,#fad0c4)}
         .c8{background:linear-gradient(135deg,#ffecd2,#fcb69f)}
 
-        .soon{filter:grayscale(70%);opacity:0.8}
-
         footer{
             text-align:center;
-            padding:6px 0 4px;      /* 再抠一点 */
+            padding:1vh 0;
             font-size:0.82rem;
-            color:rgba(255,255,255,0.75);
-            line-height:1;
+            color:rgba(255,255,255,0.8);
+            flex-shrink: 0;
+        }
+        
+        /* 针对小屏幕的额外调整 */
+        @media (max-height: 700px) {
+            header {
+                padding: 0.5vh 0 1vh;
+            }
+            .countdown {
+                padding: 1.5vh 4vw;
+                margin-bottom: 1.5vh;
+            }
+            .days {
+                font-size: 4rem;
+            }
+            .tian {
+                font-size: 2rem;
+            }
+            .card i {
+                font-size: 1.8rem;
+            }
+            .card span {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
 
+<header>
     <h1>中考倒计时</h1>
-    <div class="subtitle">最后冲刺，一起上岸！</div>
+    <div class="sub">最后冲刺，一起上岸！</div>
+</header>
 
-    <div class="countdown">
-        <h3>距离中考还有</h3>
-        <div>
-            <span class="days" id="days">198</span>
-            <span class="tian">天</span>
-        </div>
+<div class="countdown">
+    <h3>距离中考还有</h3>
+    <div>
+        <span class="days" id="days">198</span>
+        <span class="tian">天</span>
     </div>
+</div>
 
-    <div class="grid">
-        <a href="Chinese.html"     class="card c1"><i class="fas fa-book-open"></i><span>语文</span></a>
-        <a href="math.html"        class="card c2"><i class="fas fa-calculator"></i><span>数学</span></a>
-        <a href="english.html"     class="card c3"><i class="fas fa-language"></i><span>英语</span></a>
-        <a href="physics.html"     class="card c4"><i class="fas fa-atom"></i><span>物理</span></a>
-        <a href="chemical.html"    class="card c5"><i class="fas fa-flask"></i><span>化学</span></a>
-        <a href="#"                class="card c6 soon"><i class="fas fa-balance-scale"></i><span>政治</span></a>
-        <a href="history_quiz.html"class="card c7"><i class="fas fa-monument"></i><span>历史</span></a>
-        <a href="#"                class="card c8"><i class="fas fa-dumbbell"></i><span>待定</span></a>
-    </div>
+<div class="grid">
+    <a href="Chinese.html"     class="card c1"><i class="fas fa-book-open"></i><span>语文</span></a>
+    <a href="math.html"        class="card c2"><i class="fas fa-calculator"></i><span>数学</span></a>
+    <a href="english.html"     class="card c3"><i class="fas fa-language"></i><span>英语</span></a>
+    <a href="physics.html"     class="card c4"><i class="fas fa-atom"></i><span>物理</span></a>
+    <a href="chemical.html"    class="card c5"><i class="fas fa-flask"></i><span>化学</span></a>
+    <a href="#"                class="card c6"><i class="fas fa-balance-scale"></i><span>政治</span></a>
+    <a href="history_quiz.html"class="card c7"><i class="fas fa-monument"></i><span>历史</span></a>
+    <a href="#"                class="card c8"><i class="fas fa-brain"></i><span>待定</span></a>
+</div>
 
-    <footer>中考冲刺刷题系统 © JIMMY</footer>
+<footer>中考冲刺刷题系统 © JIMMY</footer>
 
 <script>
-    // ←←← 只改这行日期
-    const examDate = new Date("2026-06-16");
-
+    const examDate = new Date("2026-06-16");  // ← 改这里
     function update(){
-        const days = Math.max(0, Math.ceil((examDate - new Date()) / 86400000));
+        const days = Math.max(0, Math.ceil((examDate - new Date())/86400000));
         document.getElementById("days").textContent = days;
     }
     update();
-    setInterval(update, 60000);
+    setInterval(update,60000);
 </script>
 </body>
 </html>

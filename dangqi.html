@@ -976,19 +976,190 @@ let masteredWords = new Set();
             }
         });
         
-        // 游戏模式切换
-        document.querySelectorAll('.game-mode-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.game-mode-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // 这里可以添加不同游戏模式的逻辑
-                alert(`切换到${this.textContent}模式`);
+    // 游戏模式切换 - 修复版本
+let currentMode = '学习模式';
+
+document.querySelectorAll('.game-mode-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.game-mode-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        this.classList.add('active');
+        
+        currentMode = this.textContent;
+        updateGameMode();
+    });
+});
+
+// 更新游戏模式显示
+function updateGameMode() {
+    const wordCard = document.querySelector('.word-card');
+    const currentWord = wordData[currentCategory][currentWordIndex];
+    
+    wordCard.innerHTML = '';
+    
+    if (currentMode === '学习模式') {
+        wordCard.innerHTML = `
+            <div class="word-english">${currentWord.english}</div>
+            <div class="word-phonetic">${currentWord.phonetic}</div>
+            <div class="word-chinese">${currentWord.chinese}</div>
+            <button class="pronunciation-btn" onclick="speakWord('${currentWord.english}')">🔊 发音</button>
+        `;
+    }
+    else if (currentMode === '拼写测试') {
+        wordCard.innerHTML = `
+            <div class="word-phonetic">${currentWord.phonetic}</div>
+            <div class="word-chinese">${currentWord.chinese}</div>
+            <input type="text" id="spellingInput" placeholder="输入英文单词" style="width:80%; padding:12px; font-size:1.2rem; border:2px solid #ddd; border-radius:8px; margin:10px 0;">
+            <button class="btn btn-primary" onclick="checkSpelling('${currentWord.english}')">检查答案</button>
+            <div id="spellingResult" style="margin-top:15px; font-size:1.2rem; font-weight:bold;"></div>
+        `;
+    }
+    else if (currentMode === '选择题') {
+        const allWords = Object.values(wordData).flat();
+        const options = [currentWord.english];
+        while (options.length < 4) {
+            const randomWord = allWords[Math.floor(Math.random() * allWords.length)];
+            if (!options.includes(randomWord.english)) {
+                options.push(randomWord.english);
+            }
+        }
+        options.sort(() => Math.random() - 0.5);
+        
+        wordCard.innerHTML = `
+            <div class="word-phonetic">${currentWord.phonetic}</div>
+            <div class="word-chinese">${currentWord.chinese}</div>
+            <div style="display:flex; flex-direction:column; gap:10px; margin:15px 0;">
+                ${options.map(opt => `
+                    <button class="btn btn-secondary" onclick="checkChoice('${opt}', '${currentWord.english}')" style="text-align:left;">${opt}</button>
+                `).join('')}
+            </div>
+            <div id="choiceResult" style="margin-top:15px; font-size:1.2rem; font-weight:bold;"></div>
+        `;
+    }
+    else if (currentMode === '记忆卡片') {
+        wordCard.innerHTML = `
+            <div onclick="flipCard()" style="width:300px; height:200px; margin:0 auto; position:relative; cursor:pointer;">
+                <div id="cardFront" style="width:100%; height:100%; position:absolute; display:flex; flex-direction:column; justify-content:center; align-items:center; background:var(--light-color); border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+                    <div class="word-english">${currentWord.english}</div>
+                    <div class="word-phonetic">${currentWord.phonetic}</div>
+                    <div style="font-size:0.9rem; color:#6c757d; margin-top:10px;">点击卡片查看中文</div>
+                </div>
+                <div id="cardBack" style="width:100%; height:100%; position:absolute; display:none; flex-direction:column; justify-content:center; align-items:center; background:var(--light-color); border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.1);">
+                    <div class="word-chinese">${currentWord.chinese}</div>
+                    <button class="pronunciation-btn" onclick="speakWord('${currentWord.english}')">🔊 发音</button>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// 修改"下一个"按钮的功能
+nextBtn.addEventListener('click', () => {
+    const words = wordData[currentCategory];
+    if (currentWordIndex < words.length - 1) {
+        currentWordIndex++;
+        updateWordDisplay();
+        updateGameMode(); // 重要：切换单词时更新游戏模式
+        
+        const wordKey = `${currentCategory}-${words[currentWordIndex].english}`;
+        learnedWords.add(wordKey);
+    } else {
+        currentWordIndex = 0;
+        updateWordDisplay();
+        updateGameMode(); // 重要：切换单词时更新游戏模式
+    }
+});
+
+// 修改"上一个"按钮的功能
+prevBtn.addEventListener('click', () => {
+    if (currentWordIndex > 0) {
+        currentWordIndex--;
+        updateWordDisplay();
+        updateGameMode(); // 重要：切换单词时更新游戏模式
+    }
+});
+
+// 修改分类切换功能（在initCategories函数中）
+function initCategories() {
+    categoryList.innerHTML = '';
+    Object.keys(wordData).forEach(category => {
+        const item = document.createElement('li');
+        item.className = 'category-item';
+        if (category === currentCategory) {
+            item.classList.add('active');
+        }
+        
+        item.innerHTML = `
+            ${category}
+            <span class="word-count">${wordData[category].length}</span>
+        `;
+        
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.category-item').forEach(el => {
+                el.classList.remove('active');
             });
+            item.classList.add('active');
+            currentCategory = category;
+            currentWordIndex = 0;
+            updateWordDisplay();
+            updateGameMode(); // 重要：切换分类时更新游戏模式
         });
         
+        categoryList.appendChild(item);
+    });
+}
+
+// 拼写检查函数
+function checkSpelling(correctAnswer) {
+    const userInput = document.getElementById('spellingInput').value.trim();
+    const resultDiv = document.getElementById('spellingResult');
+    
+    if (userInput.toLowerCase() === correctAnswer.toLowerCase()) {
+        resultDiv.textContent = '✅ 正确！';
+        resultDiv.style.color = 'green';
+    } else {
+        resultDiv.textContent = `❌ 错误！正确答案是：${correctAnswer}`;
+        resultDiv.style.color = 'red';
+    }
+}
+
+// 选择题检查函数
+function checkChoice(selected, correct) {
+    const resultDiv = document.getElementById('choiceResult');
+    
+    if (selected === correct) {
+        resultDiv.textContent = '✅ 正确！';
+        resultDiv.style.color = 'green';
+    } else {
+        resultDiv.textContent = `❌ 错误！正确答案是：${correct}`;
+        resultDiv.style.color = 'red';
+    }
+}
+
+// 卡片翻转函数
+function flipCard() {
+    const front = document.getElementById('cardFront');
+    const back = document.getElementById('cardBack');
+    
+    if (front.style.display !== 'none') {
+        front.style.display = 'none';
+        back.style.display = 'flex';
+    } else {
+        front.style.display = 'flex';
+        back.style.display = 'none';
+    }
+}
+
+// 发音函数
+function speakWord(word) {
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.8;
+        window.speechSynthesis.speak(utterance);
+    }
+}
         // 初始化应用
         function initApp() {
             initCategories();

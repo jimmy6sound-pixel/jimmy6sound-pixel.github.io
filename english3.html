@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2025中西文化学案（游戏终极完整版）</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --p: #6c5ce7; --s: #00b894; --w: #fdcb6e; --e: #ff7675; --bg: #2d3436; --txt: #dfe6e9; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); color: var(--txt); padding-bottom: 60px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 10px; }
+        
+        /* 头部 */
+        .header { background: linear-gradient(135deg, #6c5ce7, #a29bfe); padding: 20px; border-radius: 0 0 20px 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .info-tag { background: rgba(0,0,0,0.2); padding: 2px 10px; border-radius: 10px; font-size: 0.8rem; margin-top: 5px; display: inline-block; }
+
+        /* 关卡导航 */
+        .map { display: flex; overflow-x: auto; gap: 15px; padding: 20px 5px; scrollbar-width: none; }
+        .node { flex: 0 0 70px; height: 70px; background: #636e72; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 3px solid #b2bec3; cursor: pointer; transition: 0.3s; font-size: 0.75rem; font-weight: bold; }
+        .node.active { background: var(--p); border-color: #fff; transform: scale(1.1); box-shadow: 0 0 15px var(--p); }
+        
+        /* 内容区 */
+        .stage { display: none; animation: fadeIn 0.4s; background: #f5f6fa; border-radius: 15px; padding: 15px; color: #2d3436; min-height: 500px; }
+        .stage.active { display: block; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        
+        .sec-title { font-weight: 800; color: var(--p); margin: 20px 0 10px; border-left: 4px solid var(--p); padding-left: 10px; font-size: 1.1rem; }
+        .top-title { text-align: center; font-size: 1.4rem; font-weight: 900; color: var(--p); margin-bottom: 20px; text-transform: uppercase; }
+
+        /* 卡片 */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+        .card { height: 80px; perspective: 1000px; cursor: pointer; }
+        .card-in { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .card.flipped .card-in { transform: rotateY(180deg); }
+        .cf, .cb { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: bold; font-size: 0.9rem; padding: 5px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .cf { background: white; border: 1px solid #ccc; }
+        .cb { background: var(--p); color: white; transform: rotateY(180deg); }
+
+        /* 题目 */
+        .q-box { background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .q-txt { font-weight: bold; margin-bottom: 10px; font-size: 1rem; }
+        .opt { padding: 10px; background: #f1f2f6; border: 1px solid #ddd; margin-bottom: 5px; border-radius: 5px; cursor: pointer; }
+        .opt.ok { background: #d4edda; border-color: var(--s); color: var(--s); }
+        .opt.err { background: #fad3d3; border-color: var(--e); color: var(--e); }
+        
+        .inp { border: none; border-bottom: 2px solid #b2bec3; width: 120px; text-align: center; font-size: 1rem; color: var(--p); outline: none; background: transparent; }
+        .inp:focus { border-bottom-color: var(--p); }
+        .inp.ok { border-color: var(--s); color: var(--s); }
+        .inp.err { border-color: var(--e); color: var(--e); }
+        
+        .ans { margin-top: 10px; font-size: 0.9rem; color: #e67e22; display: none; font-weight: bold; }
+
+        /* 回顾文本 */
+        .review-text p { margin-bottom: 10px; line-height: 1.6; }
+        .review-text li { margin-bottom: 5px; margin-left: 20px; }
+        .highlight { color: var(--e); font-weight: bold; }
+
+        footer { text-align: center; margin-top: 20px; font-size: 0.8rem; color: #636e72; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1><i class="fas fa-gamepad"></i> 英语学案大闯关</h1>
+    
+</div>
+
+<div class="container">
+    <!-- 关卡地图 -->
+    <div class="map">
+        <div class="node active" onclick="go('s1')"><i class="fas fa-book"></i>知识</div>
+        <div class="node" onclick="go('s2')"><i class="fas fa-pen"></i>练习1</div>
+        <div class="node" onclick="go('s3')"><i class="fas fa-fire"></i>最新题</div>
+        <div class="node" onclick="go('s4')"><i class="fas fa-history"></i>回顾</div>
+        <div class="node" onclick="go('s5')"><i class="fas fa-calendar-check"></i>作业</div>
+    </div>
+
+    <!-- 关卡1：知识点卡片 -->
+    <div id="s1" class="stage active">
+        <div class="top-title">第一关：魔法记忆卡</div>
+        <p style="text-align:center; color:#666; margin-bottom:20px;">点击卡片翻转查看英文搭配</p>
+
+        <div class="sec-title">一、后接 To Do (不定式)</div>
+        <div class="sec-title" style="font-size:0.9rem; border:none;">1. 基础意愿与计划类</div>
+        <div class="card-grid" id="c-todo-1"></div>
+        <div class="sec-title" style="font-size:0.9rem; border:none;">2. 他人关联与要求类</div>
+        <div class="card-grid" id="c-todo-2"></div>
+        <div class="sec-title" style="font-size:0.9rem; border:none;">3. 其他常用类</div>
+        <div class="card-grid" id="c-todo-3"></div>
+
+        <div class="sec-title">二、后接 Doing (动名词)</div>
+        <div class="sec-title" style="font-size:0.9rem; border:none;">1. 爱好与习惯类</div>
+        <div class="card-grid" id="c-doing-1"></div>
+        <div class="sec-title" style="font-size:0.9rem; border:none;">2. 介词相关类 (介词后必接doing)</div>
+        <div class="card-grid" id="c-doing-2"></div>
+        <div class="sec-title" style="font-size:0.9rem; border:none;">3. 其他常用类</div>
+        <div class="card-grid" id="c-doing-3"></div>
+
+        <div class="sec-title">三、易混淆与省To</div>
+        <div class="sec-title" style="font-size:0.9rem; border:none;">1. 易混淆三组</div>
+        <div class="card-grid" id="c-mix"></div>
+        <div class="sec-title" style="font-size:0.9rem; border:none;">2. 省To (使役/感官/固定)</div>
+        <div class="card-grid" id="c-bare"></div>
+    </div>
+
+    <!-- 关卡2：专项练习1 (30+8题) -->
+    <div id="s2" class="stage">
+        <div class="top-title">第二关：基础修炼场</div>
+        
+        <div class="sec-title">一、单项选择 (8题)</div>
+        <div id="quiz-choice-1"></div>
+
+        <div class="sec-title">二、填空挑战 (30题)</div>
+        <div id="quiz-fill-1"></div>
+    </div>
+
+    <!-- 关卡3：最新试题 (30题) -->
+    <div id="s3" class="stage">
+        <div class="top-title">第三关：巅峰竞技场</div>
+        <div class="sec-title">最新试题：适当形式填空 (30题)</div>
+        <div id="quiz-fill-2"></div>
+    </div>
+
+    <!-- 关卡4：回顾复习 -->
+    <div id="s4" class="stage">
+        <div class="top-title">第四关：智慧卷轴</div>
+        <div class="review-text">
+            <div class="sec-title">（一）动词不定式 to do</div>
+            <p><strong>表目的、表示事情未做</strong></p>
+            <p><strong>记背口诀：</strong>判断事情做没做，没做就用to do, 如计划做某事：plan to do sth.</p>
+            <ul>
+                <li>want / learn / offer / decide / plan / hope / wish / need / agree / refuse / choose / would like + to do</li>
+                <li>teach / invite / ask / tell / want / allow / wish / order / advise + sb. + to do</li>
+            </ul>
+            <p>to do表目的。Example: She studied hard to pass the exam.</p>
+
+            <div class="sec-title">（二）易错点——省to 不定式</div>
+            <ul>
+                <li>make / let sb do sth.</li>
+                <li>why not do sth.</li>
+                <li>had better + (not) do sth.</li>
+                <li>see/hear sb do sth.【全程】 vs see/hear sb doing sth.【正在】</li>
+            </ul>
+
+            <div class="sec-title">（三）动名词 doing</div>
+            <p>doing放句首做主语；谓语动词用is/was或V+s/es。</p>
+            <p><strong>记背技巧：</strong>两个a【after、about】、三个f【of、for、from】、两个w【with、without】</p>
+            
+            <div class="sec-title">常用句型</div>
+            <ul>
+                <li>介词后面跟动词，动词需要用 ing 形式。</li>
+                <li>足够…… 做某事：be + adj. + enough to do</li>
+                <li>太…… 以至于不能……：too + adj. + to do</li>
+                <li>对某人来说做某事是…… 的：It’s + adj. + for sb. to do</li>
+                <li>期待 / 盼望做某事：look forward to doing（to 为介词）</li>
+                <li>阻止某人做某事：stop sb. from doing（from 可省略）</li>
+                <li>做某事有困难：have difficulty (in) doing（in 可省略）</li>
+                <li>忙于做某事：be busy doing</li>
+                <li>有兴趣做某事：be interested in doing / have interest in doing</li>
+                <li>值得做某事：be worth doing</li>
+                <li>花费某人多少时间做某事：It takes sb. some time to do / sb. spends some time (in) doing</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 关卡5：课后作业 -->
+    <div id="s5" class="stage">
+        <div class="top-title">第五关：终极作业</div>
+        
+        <div class="q-box" style="background:#e0f7fa">
+            <div class="q-txt">DAY 1: 基础意愿与计划类 (默写)</div>
+            <div id="hw-day1"></div>
+        </div>
+
+        <div class="q-box" style="background:#e0f7fa">
+            <div class="q-txt">DAY 2: 爱好与介词类 (默写)</div>
+            <div id="hw-day2"></div>
+        </div>
+
+        <div class="q-box" style="background:#e0f7fa">
+            <div class="q-txt">DAY 3: 易混淆与省To (默写)</div>
+            <div id="hw-day3"></div>
+        </div>
+
+        <div class="q-box" style="background:#e0f7fa">
+            <div class="q-txt">DAY 4: 真题演练 (选择)</div>
+            <div id="hw-day4"></div>
+        </div>
+
+        <div class="q-box" style="background:#e0f7fa">
+            <div class="q-txt">DAY 5: 真题演练 (选择)</div>
+            <div id="hw-day5"></div>
+        </div>
+    </div>
+
+    <footer>加油，郭雅婷同学！</footer>
+</div>
+
+<script>
+// ================== 数据源 (完全对应您的文本) ==================
+
+// 知识点数据
+const kb = {
+    todo1: [
+        {cn:"想要做某事",en:"want to do"}, {cn:"希望做某事",en:"hope to do"}, {cn:"希望/祝愿做",en:"wish to do"},
+        {cn:"计划做某事",en:"plan to do"}, {cn:"决定做某事",en:"decide to do"}, {cn:"期待做某事",en:"expect to do"}
+    ],
+    todo2: [
+        {cn:"要求某人做",en:"ask sb. to do"}, {cn:"鼓励某人做",en:"encourage sb. to do"}, {cn:"建议某人做",en:"advise sb. to do"},
+        {cn:"邀请某人做",en:"invite sb. to do"}, {cn:"允许某人做",en:"allow sb. to do"}, {cn:"教某人做",en:"teach sb. to do"},
+        {cn:"帮助某人做",en:"help sb. (to) do"}
+    ],
+    todo3: [
+        {cn:"未能做某事",en:"fail to do"}, {cn:"似乎做某事",en:"seem to do"}, {cn:"学习做某事",en:"learn to do"}
+    ],
+    doing1: [
+        {cn:"享受做某事",en:"enjoy doing"}, {cn:"喜欢做某事",en:"like doing"}, {cn:"热爱做某事",en:"love doing"},
+        {cn:"不喜欢做",en:"dislike doing"}, {cn:"讨厌做某事",en:"hate doing"}, {cn:"更喜欢做",en:"prefer doing"},
+        {cn:"完成做某事",en:"finish doing"}, {cn:"练习做某事",en:"practice doing"}, {cn:"坚持做某事",en:"keep (on) doing"},
+        {cn:"介意做某事",en:"mind doing"}
+    ],
+    doing2: [
+        {cn:"擅长做某事",en:"be good at doing"}, {cn:"感兴趣做",en:"be interested in doing"}, {cn:"忙于做某事",en:"be busy doing"},
+        {cn:"花费时间做",en:"spend time doing"}, {cn:"成功做某事",en:"succeed in doing"}, {cn:"期待做某事",en:"look forward to doing"}
+    ],
+    doing3: [
+        {cn:"建议做某事",en:"suggest doing"}, {cn:"建议做某事",en:"advise doing"}, {cn:"值得做某事",en:"be worth doing"}
+    ],
+    mix: [
+        {cn:"记得要做(未做)",en:"remember to do"}, {cn:"记得做过(已做)",en:"remember doing"},
+        {cn:"忘记要做(未做)",en:"forget to do"}, {cn:"忘记做过(已做)",en:"forget doing"},
+        {cn:"停下去做别事",en:"stop to do"}, {cn:"停止正在做",en:"stop doing"},
+        {cn:"努力/试图做",en:"try to do"}, {cn:"尝试做(试验)",en:"try doing"},
+        {cn:"打算/意图做",en:"mean to do"}, {cn:"意味着做",en:"mean doing"},
+        {cn:"遗憾要做(未做)",en:"regret to do"}, {cn:"后悔做过(已做)",en:"regret doing"}
+    ],
+    bare: [
+        {cn:"让某人做",en:"let sb. do"}, {cn:"使某人做",en:"make sb. do"}, {cn:"让/叫某人做",en:"have sb. do"},
+        {cn:"看见做(全)",en:"see sb. do"}, {cn:"观看做(全)",en:"watch sb. do"}, {cn:"听见做(全)",en:"hear sb. do"},
+        {cn:"注意到做(全)",en:"notice sb. do"}, {cn:"感觉到做(全)",en:"feel sb. do"}, {cn:"观察做(全)",en:"observe sb. do"},
+        {cn:"最好(不)做",en:"had better (not) do"}, {cn:"宁愿做",en:"would rather do"}, {cn:"为什么不做",en:"why not do"},
+        {cn:"某人为何不做",en:"why don't sb. do"}, {cn:"让我们做",en:"let's do"}, {cn:"我们做好吗",en:"shall we do"},
+        {cn:"确保做",en:"make sure"}
+    ]
+};
+
+// 练习1：单选 (8题)
+const quizChoice1 = [
+    {q:"1. I can’t imagine ________ without my favorite book.", opts:["travel","to travel","travelling","travelled"], a:2},
+    {q:"2. She stopped ________ when she realized the teacher was not joking.", opts:["laugh","laughed","to laugh","laughing"], a:3},
+    {q:"3. Now a great number of people from all over the world enjoy ________ Chinese tea.", opts:["drink","drinks","drinking","to drink"], a:2},
+    {q:"4. You should ask Bob ________ his own clothes.", opts:["wash","to wash","washing"], a:1},
+    {q:"5. The family are busy ________ their living room for the coming Spring Festival.", opts:["decorating","to decorate","decorate"], a:0},
+    {q:"6. I enjoy reading the newspaper. I hope ________ out what’s going on around the world.", opts:["find","finding","to find"], a:2},
+    {q:"7. To fight against the COVID-19, people should avoid ________ to some crowded places.", opts:["go","went","going","gone"], a:2},
+    {q:"8. —Do you have any difficulty in ________ English?<br>—Yes, but I try to make myself ________.", opts:["speaking, understood","to speak, understood","speaking, understand","to speak, to understand"], a:0}
+];
+
+// 练习1：填空 (30题 - 完整)
+const quizFill1 = [
+    {q:"1. Lily decided ______ (work) as a cook in a famous restaurant after she finished college.", a:"to work"},
+    {q:"2. Don’t forget ______ (reapply) sunscreen every two hours when you stay outside in summer.", a:"to reapply"},
+    {q:"3. Xu Dawei enjoys ______ (share) books with students because he wants to help them love reading.", a:"sharing"},
+    {q:"4. Many students volunteer ______ (help) clean the community park every weekend.", a:"to help"},
+    {q:"5. The old books in the library need ______ (repair) because some pages are broken.", a:"repairing"},
+    {q:"6. Ann suggested ______ (organize) a “NINP” camp to help people communicate more.", a:"organizing"},
+    {q:"7. Scientists use AI ______ (find) the rare plains wanderers in the grasslands.", a:"to find"},
+    {q:"8. The students like ______ (grow) watermelons because it’s interesting to watch them ripen.", a:"growing"},
+    {q:"9. Laura and her friends plan ______ (travel) to Greece in September.", a:"to travel"},
+    {q:"10. Dr. Wen Yan stopped ______ (rest) even though she was very tired after helping patients.", a:"to rest"},
+    {q:"11. The girl ______ (read) a book under the tree is my best friend, Lucy.", a:"reading"},
+    {q:"12. We should avoid ______ (waste) food because many people in poor areas are still hungry.", a:"wasting"},
+    {q:"13. My mother asked me ______ (buy) some vegetables on my way home from school.", a:"to buy"},
+    {q:"14. Tony is used to ______ (take) a walk after dinner because it helps him keep healthy.", a:"taking"},
+    {q:"15. It’s important ______ (learn) to protect wild animals because they are part of our ecosystem.", a:"to learn"},
+    {q:"16. The teacher told us ______ (not be) late for class again, or we would get a punishment.", a:"not to be"},
+    {q:"17. The story ______ (tell) by the old man made all the children laugh loudly.", a:"told"},
+    {q:"18. ______ (plant) trees every spring is a good way to make our city greener.", a:"Planting"},
+    {q:"19. Tom expects ______ (join) the school music club because he is good at playing the guitar.", a:"to join"},
+    {q:"20. The little boy was very excited ______ (see) his father come back from abroad.", a:"to see"},
+    {q:"21. My father often encourages me ______ (try) new things, like cooking or painting.", a:"to try"},
+    {q:"22. Would you mind ______ (turn) down the music? I’m trying to finish my homework.", a:"turning"},
+    {q:"23. The students are looking forward to ______ (visit) the city museum next week.", a:"visiting"},
+    {q:"24. We need ______ (save) more water because fresh water is becoming less and less.", a:"to save"},
+    {q:"25. The book ______ (write) by Mo Yan is worth reading because it tells interesting stories about Chinese villages.", a:"written"},
+    {q:"26. Lily spent two hours ______ (practice) playing the piano yesterday evening.", a:"practicing"},
+    {q:"27. It’s dangerous ______ (swim) in the river alone because the water is very deep.", a:"to swim"},
+    {q:"28. My sister wants ______ (be) a doctor when she grows up because she wants to help sick people.", a:"to be"},
+    {q:"29. The children kept ______ (laugh) while they were watching the funny cartoon.", a:"laughing"},
+    {q:"30. Our teacher advised us ______ (read) more English newspapers to improve our reading skills.", a:"to read"}
+];
+
+// 最新试题 (30题 - 完整)
+const quizFill2 = [
+    {q:"1. Do you learn English by ______ (watch) English videos to improve your listening skills?（太原37中）", a:"watching"},
+    {q:"2. We should try our best ______ (treat) people and animals with love and kindness.（太原37中）", a:"to treat"},
+    {q:"3. The little boy spent 2 hours ______ (make) a special breakfast for his mom on Mother’s Day.（太原37中）", a:"making"},
+    {q:"4. I was surprised ______ (find) that my son had never made breakfast before.（太原37中）", a:"to find"},
+    {q:"5. Tom’s mom advised him ______ (stay) away from social media to focus on studies.（太原师院附中）", a:"to stay"},
+    {q:"6. It’s hard for teenagers ______ (avoid) using social media because it’s very popular.（太原师院附中）", a:"to avoid"},
+    {q:"7. Tom admitted ______ (depend) on AI too much for homework, which made his dad angry.（太原师院附中）", a:"depending"},
+    {q:"8. The Dai people celebrate the Water Festival by ______ (throw) water at each other for good luck.（太原师院附中）", a:"throwing"},
+    {q:"9. The teacher told us ______ (compare) our notes with classmates after class to correct mistakes.（大同一中）", a:"to compare"},
+    {q:"10. Joe practices ______ (read) Chinese phonetic symbols hundreds of times every day.（大同一中）", a:"reading"},
+    {q:"11. Mario kept ______ (try) to sit on the invisible chair until his true friends helped him.（大同一中）", a:"trying"},
+    {q:"12. We need ______ (develop) good study skills to improve our grades.（大同一中）", a:"to develop"},
+    {q:"13. Pang Zhongwang refused ______ (accept) donations and took three summer jobs to support his family.（山西大学附中）", a:"to accept"},
+    {q:"14. Xu Xiake never gave up ______ (travel) around China even when he met difficulties.（山西大学附中）", a:"traveling"},
+    {q:"15. Grandpa Lin likes ______ (talk) with visitors in English to practice his speaking skills.（山西大学附中）", a:"talking"},
+    {q:"16. It’s important ______ (learn) about the cultural background when reading English articles.（山西大学附中）", a:"to learn"},
+    {q:"17. Monica was frightened ______ (give) a speech in front of her class at first.（湖北名校联考）", a:"to give"},
+    {q:"18. Students in Jingwai Mingde Primary School learn ______ (plant) vegetables on their school farm.（湖北名校联考）", a:"to plant"},
+    {q:"19. The school built a greenhouse ______ (grow) fruit trees and medicinal herbs.（湖北名校联考）", a:"to grow"},
+    {q:"20. Family members enjoy ______ (gather) together to celebrate traditional festivals.（湖北名校联考）", a:"gathering"},
+    {q:"21. Sugar painting artists use melted sugar ______ (draw) beautiful designs like dragons and flowers.（南京玄武外校）", a:"to draw"},
+    {q:"22. The Palace Museum uses technology ______ (protect) valuable relics and improve visitor experience.（南京玄武外校）", a:"to protect"},
+    {q:"23. Zhang Ruoshui keeps ______ (write) grammar diaries to record her English learning mistakes.（南京玄武外校）", a:"writing"},
+    {q:"24. People are used to ______ (see) paper train tickets, so they feel nostalgic about their disappearance.（南京玄武外校）", a:"seeing"},
+    {q:"25. Tom has some relatives ______ (live) in China, and he visits them once a year.（太原37中）", a:"living"},
+    {q:"26. The military parade held on September 3 helped people ______ (remember) the heroes who died for the country.（太原师院附中）", a:"remember"},
+    {q:"27. The writer learned ______ (perform) Peking Opera by watching movies about Lin Chong.（大同一中）", a:"to perform"},
+    {q:"28. Huang Zongde fought bravely in the war, ______ (protect) his country and people.（山西大学附中）", a:"protecting"},
+    {q:"29. The Chongyang Festival is a time ______ (honor) the elderly and go mountain climbing.（湖北名校联考）", a:"to honor"},
+    {q:"30. Liu Jiakun used rubble from collapsed buildings ______ (make) “rebirth bricks” after the Wenchuan earthquake.（南京玄武外校）", a:"to make"}
+];
+
+// 作业数据
+const hwDay1 = kb.todo1.concat(kb.todo2, kb.todo3);
+const hwDay2 = kb.doing1.concat(kb.doing2, kb.doing3);
+const hwDay3 = kb.mix.concat(kb.bare);
+const hwDay4 = [
+    {q:"9. Grandparents just called to say that they expected us ________ them very often.", opts:["visit","visits","visited","to visit"], a:3},
+    {q:"10. With only a few minutes left, they managed ________ the game around.", opts:["turn","turning","to turn","turned"], a:2},
+    {q:"11. Is it necessary for us ________ on clothes before buying them?", opts:["try","to try","trying","tried"], a:1},
+    {q:"12. When Ted was about to open his office door, he realized he had forgotten ________ his key.", opts:["bring","brought","to bring","bringing"], a:2},
+    {q:"13. —Could I ride an e-bike to school, Mr. Wang? <br>—No, you can’t. Students under the age of 16 are not allowed ________ e-bikes.", opts:["ride","rides","riding","to ride"], a:3},
+    {q:"14. The new robot _________ last month can do many jobs instead of humans.", opts:["invents","invented","is invented","was invented"], a:1},
+    {q:"15. Could you make her ________ shouting?", opts:["stop","stops","stopped","to stop"], a:0},
+    {q:"16. If each of us makes efforts ________ something meaningful, our society will become better and better.", opts:["to do","doing","do","to be done"], a:0}
+];
+const hwDay5 = [
+    {q:"17. Many children decided to spend time ______ after they took part in the activities on World Book Day.", opts:["read","to read","reading","reads"], a:2},
+    {q:"18. The ORBIS doctors did everything ________ the girl with eye problems.", opts:["save","saved","to save","saving"], a:2},
+    {q:"19. —I can’t get the work ________ by 7:00 p.m. I need more time.<br>—Take your time. There’s no rush.", opts:["finish","to finish","finishing","finished"], a:3},
+    {q:"20. It is getting more difficult ________ tickets for some popular singers’ concerts.", opts:["buy","buying","to buy","bought"], a:2},
+    {q:"21. The Italian organizations have made a plan ________ more tourists to the landmarks.", opts:["attract","to attract","attracting","attracted"], a:1},
+    {q:"22. The police reminded the public ________ out for pickpockets in crowded areas.", opts:["look","looked","to look","looking"], a:2},
+    {q:"23. For a great performance, the boys spent the whole day ________ their instruments.", opts:["practising","to practise","practised","practise"], a:0},
+    {q:"24. I imagined ________ the problem easily, but it turned out to be much harder.", opts:["solve","solving","to solve","solved"], a:1},
+    {q:"25. The police officer warned the children not ________ near the busy road.", opts:["play","to play","played","playing"], a:1},
+    {q:"26. Mr. White often teaches Jim how to avoid ________ mistakes in his homework.", opts:["make","makes","to make","making"], a:3},
+    {q:"27. New environmental protection materials are used ________ houses in this area.", opts:["build","building","to build","built"], a:2},
+    {q:"28. I wouldn’t mind ________ a roommate. We can help each other and save money as well.", opts:["have","had","to have","having"], a:3},
+    {q:"29. Reading brings me a lot of fun and enables me ________ the world deeply.", opts:["understand","to understand","understood","understanding"], a:1},
+    {q:"30. —Mom, I’m so thirsty. Could you please give me a bottle of soda?<br>—Sorry. There is none ________ in the fridge. You can drink some water instead.", opts:["leaving","to leave","left"], a:2}
+];
+
+// ================== 渲染逻辑 ==================
+
+function renderCards(id, data) {
+    const box = document.getElementById(id);
+    let html = '';
+    data.forEach(i => {
+        html += `<div class="card" onclick="this.classList.toggle('flipped')">
+            <div class="card-in"><div class="cf">${i.cn}</div><div class="cb">${i.en}</div></div>
+        </div>`;
+    });
+    box.innerHTML = html;
+}
+
+function renderChoice(id, data) {
+    const box = document.getElementById(id);
+    let html = '';
+    data.forEach((item, idx) => {
+        html += `<div class="q-box"><div class="q-txt">${item.q}</div>`;
+        item.opts.forEach((opt, oIdx) => {
+            html += `<div class="opt" onclick="checkC(this, ${oIdx}, ${item.a})">${opt}</div>`;
+        });
+        html += `</div>`;
+    });
+    box.innerHTML = html;
+}
+
+function renderFill(id, data) {
+    const box = document.getElementById(id);
+    let html = '';
+    data.forEach((item) => {
+        let q = item.q.replace('______', `<input class="inp" onblur="checkF(this, '${item.a}')">`);
+        html += `<div class="q-box"><div class="q-txt">${q}</div><div class="ans">答案：${item.a}</div></div>`;
+    });
+    box.innerHTML = html;
+}
+
+function renderDictation(id, data) {
+    const box = document.getElementById(id);
+    let html = '';
+    data.forEach(item => {
+        html += `<div class="q-box" style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-weight:bold;width:40%">${item.cn}</div>
+            <input class="inp" style="width:55%;text-align:left" placeholder="输入英文" onblur="checkF(this, '${item.en}')">
+            <div class="ans" style="display:none">${item.en}</div>
+        </div>`;
+    });
+    box.innerHTML = html;
+}
+
+// 检查单选
+window.checkC = function(el, idx, ans) {
+    const p = el.parentElement;
+    if(p.getAttribute('done')) return;
+    p.setAttribute('done', 1);
+    if(idx === ans) el.classList.add('ok');
+    else {
+        el.classList.add('err');
+        p.children[ans].classList.add('ok'); // 修正索引问题
+    }
+}
+
+// 检查填空 (宽松匹配)
+window.checkF = function(el, ans) {
+    const val = el.value.trim().toLowerCase().replace(/[^a-z ]/g, '');
+    const cor = ans.toLowerCase().replace(/[^a-z ]/g, '');
+    if(val === cor) el.className = 'inp ok';
+    else {
+        el.className = 'inp err';
+        if(el.parentElement.querySelector('.ans')) el.parentElement.querySelector('.ans').style.display='block';
+        else if(el.parentElement.nextElementSibling) el.parentElement.nextElementSibling.style.display='block';
+    }
+}
+
+// 切换关卡
+window.go = function(id) {
+    document.querySelectorAll('.stage').forEach(e=>e.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.node').forEach(e=>e.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    window.scrollTo(0,0);
+}
+
+// 初始化
+renderCards('c-todo-1', kb.todo1);
+renderCards('c-todo-2', kb.todo2);
+renderCards('c-todo-3', kb.todo3);
+renderCards('c-doing-1', kb.doing1);
+renderCards('c-doing-2', kb.doing2);
+renderCards('c-doing-3', kb.doing3);
+renderCards('c-mix', kb.mix);
+renderCards('c-bare', kb.bare);
+
+renderChoice('quiz-choice-1', quizChoice1);
+renderFill('quiz-fill-1', quizFill1);
+renderFill('quiz-fill-2', quizFill2);
+
+renderDictation('hw-day1', hwDay1);
+renderDictation('hw-day2', hwDay2);
+renderDictation('hw-day3', hwDay3);
+renderChoice('hw-day4', hwDay4);
+renderChoice('hw-day5', hwDay5);
+
+</script>
+</body>
+</html>

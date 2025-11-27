@@ -241,39 +241,30 @@
         .countdown h3 {
             color: #2c3e50;
             margin-bottom: 15px;
-            font-size: 1.5rem;
         }
         
         .countdown-timer {
             display: flex;
             justify-content: center;
             gap: 15px;
-            flex-wrap: wrap;
         }
         
         .countdown-item {
             background: #3498db;
             color: white;
-            padding: 15px 10px;
-            border-radius: 10px;
-            min-width: 80px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            min-width: 70px;
         }
         
         .countdown-number {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: bold;
         }
         
         .countdown-label {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             margin-top: 5px;
-        }
-        
-        .exam-date {
-            margin-top: 15px;
-            color: #7f8c8d;
-            font-size: 1rem;
         }
         
         footer {
@@ -298,16 +289,7 @@
             }
             
             .countdown-timer {
-                gap: 10px;
-            }
-            
-            .countdown-item {
-                min-width: 70px;
-                padding: 12px 8px;
-            }
-            
-            .countdown-number {
-                font-size: 1.6rem;
+                flex-wrap: wrap;
             }
         }
         
@@ -322,15 +304,6 @@
             
             .motivation-text {
                 font-size: 1.1rem;
-            }
-            
-            .countdown-item {
-                min-width: 60px;
-                padding: 10px 5px;
-            }
-            
-            .countdown-number {
-                font-size: 1.4rem;
             }
         }
     </style>
@@ -356,23 +329,22 @@
             <h3>中考倒计时</h3>
             <div class="countdown-timer">
                 <div class="countdown-item">
-                    <div class="countdown-number" id="days">0</div>
+                    <div class="countdown-number" id="days">120</div>
                     <div class="countdown-label">天</div>
                 </div>
                 <div class="countdown-item">
-                    <div class="countdown-number" id="hours">0</div>
+                    <div class="countdown-number" id="hours">12</div>
                     <div class="countdown-label">小时</div>
                 </div>
                 <div class="countdown-item">
-                    <div class="countdown-number" id="minutes">0</div>
+                    <div class="countdown-number" id="minutes">45</div>
                     <div class="countdown-label">分钟</div>
                 </div>
                 <div class="countdown-item">
-                    <div class="countdown-number" id="seconds">0</div>
+                    <div class="countdown-number" id="seconds">30</div>
                     <div class="countdown-label">秒</div>
                 </div>
             </div>
-            <div class="exam-date">距离2024年6月15日中考还有</div>
         </div>
         
         <div class="subjects-grid">
@@ -417,7 +389,7 @@
                 </div>
                 <div class="card-content">
                     <p>强化词汇记忆，掌握语法规则，提升阅读与写作能力。</p>
-                    <a href="#" class="btn coming-soon">即将上线</a>
+                    <a href="enelish3.html" class="btn btn-primary">开始学习</a>
                 </div>
             </div>
             
@@ -483,7 +455,7 @@
         </div>
         
         <footer>
-            <p>© 2023 初三中考冲刺学习平台 | 设计用于教育目的</p>
+            <p>© 2025 初三中考冲刺学习平台 | @JIMMY</p>
         </footer>
     </div>
 
@@ -503,39 +475,40 @@
                 });
             });
             
-            // 中考倒计时功能（6月15日）
+            // 倒计时功能（模拟）
             function updateCountdown() {
-                // 设置中考日期为2024年6月15日
-                const examDate = new Date('2026-06-15T09:00:00');
-                const now = new Date();
+                const days = document.getElementById('days');
+                const hours = document.getElementById('hours');
+                const minutes = document.getElementById('minutes');
+                const seconds = document.getElementById('seconds');
                 
-                // 计算时间差（毫秒）
-                const timeDiff = examDate - now;
+                // 这里应该是实际的中考日期计算
+                // 现在只是模拟
+                let sec = parseInt(seconds.textContent);
+                let min = parseInt(minutes.textContent);
+                let hrs = parseInt(hours.textContent);
+                let dys = parseInt(days.textContent);
                 
-                // 如果考试时间已过
-                if (timeDiff <= 0) {
-                    document.getElementById('days').textContent = '0';
-                    document.getElementById('hours').textContent = '0';
-                    document.getElementById('minutes').textContent = '0';
-                    document.getElementById('seconds').textContent = '0';
-                    return;
+                sec--;
+                if (sec < 0) {
+                    sec = 59;
+                    min--;
+                    if (min < 0) {
+                        min = 59;
+                        hrs--;
+                        if (hrs < 0) {
+                            hrs = 23;
+                            dys--;
+                        }
+                    }
                 }
                 
-                // 计算天、时、分、秒
-                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-                
-                // 更新显示
-                document.getElementById('days').textContent = days;
-                document.getElementById('hours').textContent = hours < 10 ? '0' + hours : hours;
-                document.getElementById('minutes').textContent = minutes < 10 ? '0' + minutes : minutes;
-                document.getElementById('seconds').textContent = seconds < 10 ? '0' + seconds : seconds;
+                seconds.textContent = sec < 10 ? '0' + sec : sec;
+                minutes.textContent = min < 10 ? '0' + min : min;
+                hours.textContent = hrs < 10 ? '0' + hrs : hrs;
+                days.textContent = dys;
             }
             
-            // 立即执行一次，然后每秒更新
-            updateCountdown();
             setInterval(updateCountdown, 1000);
             
             // 随机显示励志名言

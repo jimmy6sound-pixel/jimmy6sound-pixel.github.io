@@ -11,39 +11,40 @@
             background:linear-gradient(135deg,#1e3c72,#2a5298);
             color:#fff;
             min-height:100vh;
-            font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
-            padding:12px 10px;
-            display:flex;flex-direction:column;
+            font-family:-apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif;
+            padding:10px 10px 6px;   /* 上下再抠一点空间 */
+            display:flex;
+            flex-direction:column;
         }
-        h1{font-size:2rem;font-weight:900;text-align:center;margin-bottom:4px}
-        .subtitle{font-size:1rem;text-align:center;opacity:0.9;margin-bottom:12px}
+        h1{font-size:1.95rem;font-weight:900;text-align:center;margin-bottom:2px}
+        .subtitle{font-size:0.95rem;text-align:center;opacity:0.9;margin-bottom:8px}
 
-        /* 倒计时适中又醒目 */
+        /* 倒计时再压缩一点 */
         .countdown{
             background:rgba(255,255,255,0.98);
             color:#e74c3c;
-            border-radius:18px;
-            padding:16px 20px;
+            border-radius:16px;
+            padding:12px 16px;
             text-align:center;
-            margin-bottom:16px;
-            box-shadow:0 8px 25px rgba(0,0,0,0.25);
+            margin-bottom:10px;
+            box-shadow:0 6px 20px rgba(0,0,0,0.25);
         }
-        .countdown h3{font-size:1.3rem;color:#2c3e50;margin-bottom:6px}
-        .days{font-size:5.2rem;font-weight:900;line-height:1;letter-spacing:-3px}
-        .tian{font-size:2.6rem;font-weight:900;position:relative;top:-8px}
+        .countdown h3{font-size:1.22rem;color:#2c3e50;margin-bottom:4px}
+        .days{font-size:4.8rem;font-weight:900;line-height:1;letter-spacing:-3px}
+        .tian{font-size:2.4rem;font-weight:900;position:relative;top:-10px}
 
-        /* 8个卡片 完美4×2 */
+        /* 8个卡片间距再抠死 */
         .grid{
             display:grid;
             grid-template-columns:1fr 1fr;
-            gap:12px;
+            gap:9px;               /* 原来12px → 9px */
             flex:1;
         }
         .card{
             background:#fff;
-            border-radius:16px;
+            border-radius:14px;
             overflow:hidden;
-            box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            box-shadow:0 5px 15px rgba(0,0,0,0.22);
             color:#fff;
             text-decoration:none;
             display:flex;
@@ -51,25 +52,31 @@
             justify-content:center;
             align-items:center;
             font-weight:700;
-            transition:transform .25s;
+            transition:transform .2s;
         }
-        .card:active{transform:scale(0.95)}
-        .card i{font-size:2.2rem;margin-bottom:6px}
-        .card span{font-size:1.15rem}
+        .card:active{transform:scale(0.96)}
+        .card i{font-size:2rem;margin-bottom:4px}
+        .card span{font-size:1.08rem}
 
-        /* 8个颜色（你可以再改） */
-        .c1{background:linear-gradient(135deg,#667eea,#764ba2)} /* 语文 */
-        .c2{background:linear-gradient(135deg,#f093fb,#f5576c)} /* 数学 */
-        .c3{background:linear-gradient(135deg,#4facfe,#00f2fe)} /* 英语 */
-        .c4{background:linear-gradient(135deg,#43e97b,#38f9d7)} /* 物理 */
-        .c5{background:linear-gradient(135deg,#fa709a,#fee140)} /* 化学 */
-        .c6{background:linear-gradient(135deg,#a8edea,#fed6e3)} /* 政治（灰一点表示未完成） */
-        .c7{background:linear-gradient(135deg,#ff9a9e,#fad0c4)} /* 历史 */
-        .c8{background:linear-gradient(135deg,#ffecd2,#fcb69f)} /* 第8个随便用 */
+        /* 颜色保持不变 */
+        .c1{background:linear-gradient(135deg,#667eea,#764ba2)}
+        .c2{background:linear-gradient(135deg,#f093fb,#f5576c)}
+        .c3{background:linear-gradient(135deg,#4facfe,#00f2fe)}
+        .c4{background:linear-gradient(135deg,#43e97b,#38f9d7)}
+        .c5{background:linear-gradient(135deg,#fa709a,#fee140)}
+        .c6{background:linear-gradient(135deg,#a8edea,#fed6e3)}
+        .c7{background:linear-gradient(135deg,#ff9a9e,#fad0c4)}
+        .c8{background:linear-gradient(135deg,#ffecd2,#fcb69f)}
 
         .soon{filter:grayscale(70%);opacity:0.8}
 
-        footer{text-align:center;padding:12px 0 8px;font-size:0.85rem;color:rgba(255,255,255,0.8)}
+        footer{
+            text-align:center;
+            padding:6px 0 4px;      /* 再抠一点 */
+            font-size:0.82rem;
+            color:rgba(255,255,255,0.75);
+            line-height:1;
+        }
     </style>
 </head>
 <body>
@@ -93,14 +100,14 @@
         <a href="chemical.html"    class="card c5"><i class="fas fa-flask"></i><span>化学</span></a>
         <a href="#"                class="card c6 soon"><i class="fas fa-balance-scale"></i><span>政治</span></a>
         <a href="history_quiz.html"class="card c7"><i class="fas fa-monument"></i><span>历史</span></a>
-        <a href="#"                class="card c8"><i class="fas fa-dumbbell"></i><span>待定</span></a> <!-- 第8个你随便改 -->
+        <a href="#"                class="card c8"><i class="fas fa-dumbbell"></i><span>待定</span></a>
     </div>
 
-    <footer>2025-2026 中考冲刺</footer>
+    <footer>中考冲刺刷题系统 © JIMMY</footer>
 
 <script>
-    // ←←← 只改这一行！改成你们当地中考第一天日期
-    const examDate = new Date("2026-06-16");   // ← 改这里就行
+    // ←←← 只改这行日期
+    const examDate = new Date("2026-06-16");
 
     function update(){
         const days = Math.max(0, Math.ceil((examDate - new Date()) / 86400000));

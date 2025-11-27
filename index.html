@@ -3,294 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>初三中考冲刺 - 首页</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>中考倒计时</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            background:linear-gradient(135deg,#1e3c72,#2a5298);
+            color:#fff;
+            min-height:100vh;
+            font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+            padding:12px 10px;
+            display:flex;flex-direction:column;
         }
-       
-        body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 15px;
-        }
-       
-        .container { max-width: 1200px; margin: 0 auto; }
-       
-        header {
-            text-align: center;
-            padding: 20px 0;
-            color: white;
-            margin-bottom: 20px;
-        }
-       
-        header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-       
-        .motivation-section {
-            background: rgba(255,255,255,0.95);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-       
-        .motivation-section::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7);
-        }
-       
-        .motivation-text {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-       
-        .quote-author {
-            font-style: italic;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-        }
-       
-        .daily-tip {
-            background: #e8f4f8;
-            border-left: 4px solid #3498db;
-            padding: 12px;
-            margin-top: 15px;
-            border-radius: 0 6px 6px 0;
-        }
-       
-        .daily-tip h3 {
-            color: #2c3e50;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            font-size: 1rem;
-        }
-       
-        .daily-tip h3 i { margin-right: 8px; color: #3498db; }
-       
-        /* 重点：简洁大气的倒计时 */
-        .countdown {
-            background: rgba(255,255,255,0.97);
-            border-radius: 16px;
-            padding: 30px 20px;
-            margin: 25px 0;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-       
-        .countdown h3 {
-            color: #2c3e50;
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-        }
-       
-        .days-big {
-            font-size: 4.5rem;
-            font-weight: 900;
-            color: #e74c3c;
-            text-shadow: 0 4px 15px rgba(231,76,60,0.4);
-        }
-       
-        .days-text { font-size: 2.2rem; color: #c0392b; font-weight: bold; }
-       
-        .subjects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-       
-        /* 下面是你原来的卡片样式，基本没动 */
-        .subject-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; }
-        .subject-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
-        .card-header { padding: 15px 10px 10px; color: white; text-align: center; position: relative; overflow: hidden; }
-        .card-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.1); }
-        .math .card-header { background: linear-gradient(135deg, #FF6B6B, #FF8E53); }
-        .physics .card-header { background: linear-gradient(135deg, #4ECDC4, #44A08D); }
-        .chemistry .card-header { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
-        .chinese .card-header { background: linear-gradient(135deg, #A8C0FF, #3F4C6B); }
-        .english .card-header { background: linear-gradient(135deg, #FFD26F, #FFA36C); }
-        .politics .card-header { background: linear-gradient(135deg, #B2FEFA, #0ED2F7); }
-        .history .card-header { background: linear-gradient(135deg, #D4FC79, #96E6A1); }
-        .card-icon { font-size: 2rem; margin-bottom: 8px; position: relative; z-index: 2; }
-        .card-header h2 { font-size: 1.1rem; position: relative; z-index: 2; }
-        .card-content { padding: 12px; }
-        .btn { display: block; width: 100%; padding: 10px; background: #f5f5f5; color: #333; text-decoration: none; border-radius: 6px; font-weight: bold; transition: all 0.3s; }
-        .btn:hover { background: #e0e0e0; }
-        .btn-primary { background: #4a6ee0; color: white; }
-        .btn-primary:hover { background: #3a5bc7; }
-        .coming-soon { background: #f8f8f8; color: #999; cursor: not-allowed; }
-        footer { text-align: center; margin-top: 40px; color: rgba(255,255,255,0.7); padding: 15px 0; font-size: 0.8rem; }
+        h1{font-size:2rem;font-weight:900;text-align:center;margin-bottom:4px}
+        .subtitle{font-size:1rem;text-align:center;opacity:0.9;margin-bottom:12px}
 
-        @media (max-width: 480px) {
-            .days-big { font-size: 3.5rem; }
-            .days-text { font-size: 1.8rem; }
+        /* 倒计时适中又醒目 */
+        .countdown{
+            background:rgba(255,255,255,0.98);
+            color:#e74c3c;
+            border-radius:18px;
+            padding:16px 20px;
+            text-align:center;
+            margin-bottom:16px;
+            box-shadow:0 8px 25px rgba(0,0,0,0.25);
         }
+        .countdown h3{font-size:1.3rem;color:#2c3e50;margin-bottom:6px}
+        .days{font-size:5.2rem;font-weight:900;line-height:1;letter-spacing:-3px}
+        .tian{font-size:2.6rem;font-weight:900;position:relative;top:-8px}
+
+        /* 8个卡片 完美4×2 */
+        .grid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+            flex:1;
+        }
+        .card{
+            background:#fff;
+            border-radius:16px;
+            overflow:hidden;
+            box-shadow:0 6px 18px rgba(0,0,0,0.2);
+            color:#fff;
+            text-decoration:none;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            font-weight:700;
+            transition:transform .25s;
+        }
+        .card:active{transform:scale(0.95)}
+        .card i{font-size:2.2rem;margin-bottom:6px}
+        .card span{font-size:1.15rem}
+
+        /* 8个颜色（你可以再改） */
+        .c1{background:linear-gradient(135deg,#667eea,#764ba2)} /* 语文 */
+        .c2{background:linear-gradient(135deg,#f093fb,#f5576c)} /* 数学 */
+        .c3{background:linear-gradient(135deg,#4facfe,#00f2fe)} /* 英语 */
+        .c4{background:linear-gradient(135deg,#43e97b,#38f9d7)} /* 物理 */
+        .c5{background:linear-gradient(135deg,#fa709a,#fee140)} /* 化学 */
+        .c6{background:linear-gradient(135deg,#a8edea,#fed6e3)} /* 政治（灰一点表示未完成） */
+        .c7{background:linear-gradient(135deg,#ff9a9e,#fad0c4)} /* 历史 */
+        .c8{background:linear-gradient(135deg,#ffecd2,#fcb69f)} /* 第8个随便用 */
+
+        .soon{filter:grayscale(70%);opacity:0.8}
+
+        footer{text-align:center;padding:12px 0 8px;font-size:0.85rem;color:rgba(255,255,255,0.8)}
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>初三中考冲刺</h1>
-            <p>全面复习，高效备考，助你冲刺理想高中</p>
-        </header>
-       
-        <div class="motivation-section">
-            <div class="motivation-text" id="quote">"宝剑锋从磨砺出，梅花香自苦寒来"</div>
-            <div class="quote-author" id="author">—— 励志名言</div>
-           
-            <div class="daily-tip">
-                <h3><i class="fas fa-lightbulb"></i> 今日学习建议</h3>
-                <p>每天坚持解决3道数学难题，背诵10个英语单词，复习一个物理公式。持之以恒，必见成效！</p>
-            </div>
-        </div>
 
-        <!-- 重点：超级简洁的倒计时 -->
-        <div class="countdown">
-            <h3>距离中考还有</h3>
-            <div>
-                <span class="days-big" id="days">198</span>
-                <span class="days-text"> 天</span>
-            </div>
+    <h1>中考倒计时</h1>
+    <div class="subtitle">最后冲刺，一起上岸！</div>
+
+    <div class="countdown">
+        <h3>距离中考还有</h3>
+        <div>
+            <span class="days" id="days">198</span>
+            <span class="tian">天</span>
         </div>
-       
-        <div class="subjects-grid">
-            <!-- 这里你原来的科目卡片完全没动 -->
-            <div class="subject-card chinese">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-book-open"></i></div>
-                    <h2>语文</h2><p>基础·阅读·作文</p>
-                </div>
-                <div class="card-content">
-                    <p>掌握文言文阅读技巧，提升现代文理解能力，优化作文表达。</p>
-                    <a href="Chinese.html" class="btn btn-primary">开始学习</a>
-                </div>
-            </div>
-           
-            <div class="subject-card math">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-calculator"></i></div>
-                    <h2>数学</h2><p>代数·几何·函数</p>
-                </div>
-                <div class="card-content">
-                    <p>掌握解题技巧，突破重点难点，提升数学思维能力。</p>
-                    <a href="math.html" class="btn btn-primary">开始学习</a>
-                </div>
-            </div>
-           
-            <div class="subject-card english">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-language"></i></div>
-                    <h2>英语</h2><p>词汇·语法·写作</p>
-                </div>
-                <div class="card-content">
-                    <p>强化词汇记忆，掌握语法规则，提升阅读与写作能力。</p>
-                    <a href="english.html" class="btn btn-primary">开始学习</a>
-                </div>
-            </div>
-           
-            <div class="subject-card physics">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-atom"></i></div>
-                    <h2>物理</h2><p>力学·电学·光学</p>
-                </div>
-                <div class="card-content">
-                    <p>理解物理概念，掌握实验方法，提高解题能力。</p>
-                    <a href="physics.html" class="btn btn-primary">开始学习</a>
-                </div>
-            </div>
-           
-            <div class="subject-card chemistry">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-flask"></i></div>
-                    <h2>化学</h2><p>元素·反应·实验</p>
-                </div>
-                <div class="card-content">
-                    <p>掌握化学方程式，理解物质性质，熟悉实验操作。</p>
-                    <a href="chemical.html" class="btn btn-primary">开始学习</a>
-                </div>
-            </div>
-           
-            <div class="subject-card politics">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
-                    <h2>政治</h2><p>法律·道德·时事</p>
-                </div>
-                <div class="card-content">
-                    <p>理解政治概念，掌握答题技巧，关注时事热点。</p>
-                    <a href="#" class="btn coming-soon">即将上线</a>
-                </div>
-            </div>
-           
-            <div class="subject-card history">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-monument"></i></div>
-                    <h2>历史</h2><p>古代·近代·世界</p>
-                </div>
-                <div class="card-content">
-                    <p>梳理历史脉络，掌握重要事件，理解历史意义。</p>
-                    <a href="history_quiz.html" class="btn btn-primary">开始学习</a>
-                </div>
-            </div>
-        </div>
-       
-        <footer>
-            <p>© 2025 初三中考冲刺学习平台 | @JIMMY</p>
-        </footer>
     </div>
 
-    <script>
-        // ===== 1. 真实中考倒计时（只显示天数）=====
-        // 请修改这里为你当地中考第一天日期！（大部分地区6月13-24之间）
-        const ZHONGKAO_DATE = new Date("2026-06-16");  // ←←← 改成你们当地日期即可
+    <div class="grid">
+        <a href="Chinese.html"     class="card c1"><i class="fas fa-book-open"></i><span>语文</span></a>
+        <a href="math.html"        class="card c2"><i class="fas fa-calculator"></i><span>数学</span></a>
+        <a href="english.html"     class="card c3"><i class="fas fa-language"></i><span>英语</span></a>
+        <a href="physics.html"     class="card c4"><i class="fas fa-atom"></i><span>物理</span></a>
+        <a href="chemical.html"    class="card c5"><i class="fas fa-flask"></i><span>化学</span></a>
+        <a href="#"                class="card c6 soon"><i class="fas fa-balance-scale"></i><span>政治</span></a>
+        <a href="history_quiz.html"class="card c7"><i class="fas fa-monument"></i><span>历史</span></a>
+        <a href="#"                class="card c8"><i class="fas fa-dumbbell"></i><span>待定</span></a> <!-- 第8个你随便改 -->
+    </div>
 
-        function updateCountdown() {
-            const now = new Date();
-            const diff = ZHONGKAO_DATE - now;
-            const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            
-            if (daysLeft > 0) {
-                document.getElementById("days").textContent = daysLeft;
-            } else {
-                document.getElementById("days").textContent = "0";
-                document.querySelector(".countdown h3").textContent = "中考加油！";
-            }
-        }
+    <footer>2025-2026 中考冲刺</footer>
 
-        updateCountdown();
-        setInterval(updateCountdown, 60000);  // 每分钟更新一次
+<script>
+    // ←←← 只改这一行！改成你们当地中考第一天日期
+    const examDate = new Date("2026-06-16");   // ← 改这里就行
 
-        // ===== 2. 每日随机励志名言（你原来的功能保留）=====
-        const quotes = [
-            {"text": "宝剑锋从磨砺出，梅花香自苦寒来", "author": "励志名言"},
-            {"text": "千淘万漉虽辛苦，吹尽狂沙始到金", "author": "刘禹锡"},
-            {"text": "天行健，君子以自强不息", "author": "《周易》"},
-            {"text": "博观而约取，厚积而薄发", "author": "苏轼"},
-            {"text": "不经一番寒彻骨，怎得梅花扑鼻香", "author": "黄蘖禅师"},
-            {"text": "长风破浪会有时，直挂云帆济沧海", "author": "李白"}
-        ];
-
-        const today = new Date().getDate();
-        const q = quotes[today % quotes.length];
-        document.getElementById("quote").textContent = `"${q.text}"`;
-        document.getElementById("author").textContent = `—— ${q.author}`;
-    </script>
+    function update(){
+        const days = Math.max(0, Math.ceil((examDate - new Date()) / 86400000));
+        document.getElementById("days").textContent = days;
+    }
+    update();
+    setInterval(update, 60000);
+</script>
 </body>
 </html>

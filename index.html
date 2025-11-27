@@ -12,7 +12,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
-        
+       
         body {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: #333;
@@ -20,87 +20,61 @@
             min-height: 100vh;
             padding: 15px;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
+       
+        .container { max-width: 1200px; margin: 0 auto; }
+       
         header {
             text-align: center;
             padding: 20px 0;
             color: white;
             margin-bottom: 20px;
         }
-        
+       
         header h1 {
             font-size: 1.8rem;
             margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
-        
-        header p {
-            font-size: 1rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
+       
         .motivation-section {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255,255,255,0.95);
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-        
+       
         .motivation-section::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
+            top: 0; left: 0; width: 100%; height: 4px;
             background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FFEAA7);
         }
-        
+       
         .motivation-text {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 10px;
-            position: relative;
-            display: inline-block;
         }
-        
-        .motivation-text::after {
-            content: "";
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #3498db, transparent);
-        }
-        
+       
         .quote-author {
             font-style: italic;
             color: #7f8c8d;
             font-size: 0.9rem;
         }
-        
+       
         .daily-tip {
             background: #e8f4f8;
             border-left: 4px solid #3498db;
             padding: 12px;
             margin-top: 15px;
             border-radius: 0 6px 6px 0;
-            text-align: left;
         }
-        
+       
         .daily-tip h3 {
             color: #2c3e50;
             margin-bottom: 6px;
@@ -108,56 +82,46 @@
             align-items: center;
             font-size: 1rem;
         }
-        
-        .daily-tip h3 i {
-            margin-right: 8px;
-            color: #3498db;
+       
+        .daily-tip h3 i { margin-right: 8px; color: #3498db; }
+       
+        /* 重点：简洁大气的倒计时 */
+        .countdown {
+            background: rgba(255,255,255,0.97);
+            border-radius: 16px;
+            padding: 30px 20px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        
-        .daily-tip p {
-            font-size: 0.9rem;
+       
+        .countdown h3 {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
         }
-        
+       
+        .days-big {
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: #e74c3c;
+            text-shadow: 0 4px 15px rgba(231,76,60,0.4);
+        }
+       
+        .days-text { font-size: 2.2rem; color: #c0392b; font-weight: bold; }
+       
         .subjects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
-        
-        .subject-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .subject-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
-        }
-        
-        .card-header {
-            padding: 15px 10px 10px;
-            color: white;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .card-header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.1);
-            z-index: 1;
-        }
-        
+       
+        /* 下面是你原来的卡片样式，基本没动 */
+        .subject-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 5px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; }
+        .subject-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.15); }
+        .card-header { padding: 15px 10px 10px; color: white; text-align: center; position: relative; overflow: hidden; }
+        .card-header::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.1); }
         .math .card-header { background: linear-gradient(135deg, #FF6B6B, #FF8E53); }
         .physics .card-header { background: linear-gradient(135deg, #4ECDC4, #44A08D); }
         .chemistry .card-header { background: linear-gradient(135deg, #FF9A8B, #FF6A88); }
@@ -165,184 +129,19 @@
         .english .card-header { background: linear-gradient(135deg, #FFD26F, #FFA36C); }
         .politics .card-header { background: linear-gradient(135deg, #B2FEFA, #0ED2F7); }
         .history .card-header { background: linear-gradient(135deg, #D4FC79, #96E6A1); }
-        
-        .card-icon {
-            font-size: 2rem;
-            margin-bottom: 8px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .card-header h2 {
-            font-size: 1.1rem;
-            margin-bottom: 3px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .card-header p {
-            font-size: 0.75rem;
-            opacity: 0.9;
-        }
-        
-        .card-content {
-            padding: 12px;
-            position: relative;
-        }
-        
-        .card-content p {
-            color: #666;
-            margin-bottom: 12px;
-            font-size: 0.8rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 8px;
-            text-align: center;
-            background: #f5f5f5;
-            color: #333;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 0.85rem;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .btn:hover {
-            background: #e0e0e0;
-            transform: translateY(-2px);
-        }
-        
-        .btn-primary {
-            background: #4a6ee0;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #3a5bc7;
-        }
-        
-        .coming-soon {
-            background: #f8f8f8;
-            color: #999;
-        }
-        
-        .coming-soon:hover {
-            background: #f0f0f0;
-            transform: none;
-            cursor: not-allowed;
-        }
-        
-        .countdown {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        
-        .countdown h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .countdown-item {
-            background: #3498db;
-            color: white;
-            padding: 8px 10px;
-            border-radius: 6px;
-            min-width: 55px;
-        }
-        
-        .countdown-number {
-            font-size: 1.4rem;
-            font-weight: bold;
-        }
-        
-        .countdown-label {
-            font-size: 0.7rem;
-            margin-top: 3px;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: rgba(255, 255, 255, 0.7);
-            padding: 15px 0;
-            font-size: 0.8rem;
-        }
-        
-        @media (max-width: 768px) {
-            .subjects-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            }
-            
-            header h1 {
-                font-size: 1.8rem;
-            }
-            
-            .motivation-text {
-                font-size: 1.1rem;
-            }
-            
-            .countdown-timer {
-                flex-wrap: wrap;
-            }
-        }
-        
+        .card-icon { font-size: 2rem; margin-bottom: 8px; position: relative; z-index: 2; }
+        .card-header h2 { font-size: 1.1rem; position: relative; z-index: 2; }
+        .card-content { padding: 12px; }
+        .btn { display: block; width: 100%; padding: 10px; background: #f5f5f5; color: #333; text-decoration: none; border-radius: 6px; font-weight: bold; transition: all 0.3s; }
+        .btn:hover { background: #e0e0e0; }
+        .btn-primary { background: #4a6ee0; color: white; }
+        .btn-primary:hover { background: #3a5bc7; }
+        .coming-soon { background: #f8f8f8; color: #999; cursor: not-allowed; }
+        footer { text-align: center; margin-top: 40px; color: rgba(255,255,255,0.7); padding: 15px 0; font-size: 0.8rem; }
+
         @media (max-width: 480px) {
-            .subjects-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            header h1 {
-                font-size: 1.6rem;
-            }
-            
-            .motivation-text {
-                font-size: 1rem;
-            }
-            
-            .countdown-item {
-                min-width: 45px;
-                padding: 6px 8px;
-            }
-            
-            .countdown-number {
-                font-size: 1.2rem;
-            }
-        }
-        
-        @media (max-width: 360px) {
-            .subjects-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            header h1 {
-                font-size: 1.4rem;
-            }
-            
-            .motivation-text {
-                font-size: 0.95rem;
-            }
+            .days-big { font-size: 3.5rem; }
+            .days-text { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -352,138 +151,98 @@
             <h1>初三中考冲刺</h1>
             <p>全面复习，高效备考，助你冲刺理想高中</p>
         </header>
-        
+       
         <div class="motivation-section">
-            <div class="motivation-text">"宝剑锋从磨砺出，梅花香自苦寒来"</div>
-            <div class="quote-author">—— 励志名言</div>
-            
+            <div class="motivation-text" id="quote">"宝剑锋从磨砺出，梅花香自苦寒来"</div>
+            <div class="quote-author" id="author">—— 励志名言</div>
+           
             <div class="daily-tip">
                 <h3><i class="fas fa-lightbulb"></i> 今日学习建议</h3>
                 <p>每天坚持解决3道数学难题，背诵10个英语单词，复习一个物理公式。持之以恒，必见成效！</p>
             </div>
         </div>
-        
+
+        <!-- 重点：超级简洁的倒计时 -->
         <div class="countdown">
-            <h3>中考倒计时</h3>
-            <div class="countdown-timer">
-                <div class="countdown-item">
-                    <div class="countdown-number" id="days">120</div>
-                    <div class="countdown-label">天</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="hours">12</div>
-                    <div class="countdown-label">小时</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="minutes">45</div>
-                    <div class="countdown-label">分钟</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="seconds">30</div>
-                    <div class="countdown-label">秒</div>
-                </div>
+            <h3>距离中考还有</h3>
+            <div>
+                <span class="days-big" id="days">198</span>
+                <span class="days-text"> 天</span>
             </div>
         </div>
-        
+       
         <div class="subjects-grid">
-            <!-- 语文 -->
+            <!-- 这里你原来的科目卡片完全没动 -->
             <div class="subject-card chinese">
                 <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-book-open"></i>
-                    </div>
-                    <h2>语文</h2>
-                    <p>基础·阅读·作文</p>
+                    <div class="card-icon"><i class="fas fa-book-open"></i></div>
+                    <h2>语文</h2><p>基础·阅读·作文</p>
                 </div>
                 <div class="card-content">
                     <p>掌握文言文阅读技巧，提升现代文理解能力，优化作文表达。</p>
                     <a href="Chinese.html" class="btn btn-primary">开始学习</a>
                 </div>
             </div>
-            
-            <!-- 数学 -->
+           
             <div class="subject-card math">
                 <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-calculator"></i>
-                    </div>
-                    <h2>数学</h2>
-                    <p>代数·几何·函数</p>
+                    <div class="card-icon"><i class="fas fa-calculator"></i></div>
+                    <h2>数学</h2><p>代数·几何·函数</p>
                 </div>
                 <div class="card-content">
                     <p>掌握解题技巧，突破重点难点，提升数学思维能力。</p>
                     <a href="math.html" class="btn btn-primary">开始学习</a>
                 </div>
             </div>
-            
-            <!-- 英语 -->
+           
             <div class="subject-card english">
                 <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <h2>英语</h2>
-                    <p>词汇·语法·写作</p>
+                    <div class="card-icon"><i class="fas fa-language"></i></div>
+                    <h2>英语</h2><p>词汇·语法·写作</p>
                 </div>
                 <div class="card-content">
                     <p>强化词汇记忆，掌握语法规则，提升阅读与写作能力。</p>
                     <a href="english.html" class="btn btn-primary">开始学习</a>
                 </div>
             </div>
-            
-            <!-- 物理 -->
+           
             <div class="subject-card physics">
                 <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-atom"></i>
-                    </div>
-                    <h2>物理</h2>
-                    <p>力学·电学·光学</p>
+                    <div class="card-icon"><i class="fas fa-atom"></i></div>
+                    <h2>物理</h2><p>力学·电学·光学</p>
                 </div>
                 <div class="card-content">
                     <p>理解物理概念，掌握实验方法，提高解题能力。</p>
                     <a href="physics.html" class="btn btn-primary">开始学习</a>
                 </div>
             </div>
-            
-            <!-- 化学 -->
+           
             <div class="subject-card chemistry">
                 <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <h2>化学</h2>
-                    <p>元素·反应·实验</p>
+                    <div class="card-icon"><i class="fas fa-flask"></i></div>
+                    <h2>化学</h2><p>元素·反应·实验</p>
                 </div>
                 <div class="card-content">
                     <p>掌握化学方程式，理解物质性质，熟悉实验操作。</p>
                     <a href="chemical.html" class="btn btn-primary">开始学习</a>
                 </div>
             </div>
-            
-            <!-- 政治 -->
+           
             <div class="subject-card politics">
                 <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <h2>政治</h2>
-                    <p>法律·道德·时事</p>
+                    <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                    <h2>政治</h2><p>法律·道德·时事</p>
                 </div>
                 <div class="card-content">
                     <p>理解政治概念，掌握答题技巧，关注时事热点。</p>
                     <a href="#" class="btn coming-soon">即将上线</a>
                 </div>
             </div>
-            
-            <!-- 历史 -->
+           
             <div class="subject-card history">
                 <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-monument"></i>
-                    </div>
-                    <h2>历史</h2>
-                    <p>古代·近代·世界</p>
+                    <div class="card-icon"><i class="fas fa-monument"></i></div>
+                    <h2>历史</h2><p>古代·近代·世界</p>
                 </div>
                 <div class="card-content">
                     <p>梳理历史脉络，掌握重要事件，理解历史意义。</p>
@@ -491,84 +250,47 @@
                 </div>
             </div>
         </div>
-        
+       
         <footer>
             <p>© 2025 初三中考冲刺学习平台 | @JIMMY</p>
         </footer>
     </div>
 
     <script>
-        // 添加简单的交互效果
-        document.addEventListener('DOMContentLoaded', function() {
-            // 为卡片添加点击效果
-            const cards = document.querySelectorAll('.subject-card');
-            cards.forEach(card => {
-                card.addEventListener('click', function(e) {
-                    if (!e.target.classList.contains('btn')) {
-                        const link = this.querySelector('a.btn-primary');
-                        if (link && link.href && !link.classList.contains('coming-soon')) {
-                            window.location.href = link.href;
-                        }
-                    }
-                });
-            });
+        // ===== 1. 真实中考倒计时（只显示天数）=====
+        // 请修改这里为你当地中考第一天日期！（大部分地区6月13-24之间）
+        const ZHONGKAO_DATE = new Date("2026-06-16");  // ←←← 改成你们当地日期即可
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = ZHONGKAO_DATE - now;
+            const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
             
-            // 倒计时功能（模拟）
-            function updateCountdown() {
-                const days = document.getElementById('days');
-                const hours = document.getElementById('hours');
-                const minutes = document.getElementById('minutes');
-                const seconds = document.getElementById('seconds');
-                
-                // 这里应该是实际的中考日期计算
-                // 现在只是模拟
-                let sec = parseInt(seconds.textContent);
-                let min = parseInt(minutes.textContent);
-                let hrs = parseInt(hours.textContent);
-                let dys = parseInt(days.textContent);
-                
-                sec--;
-                if (sec < 0) {
-                    sec = 59;
-                    min--;
-                    if (min < 0) {
-                        min = 59;
-                        hrs--;
-                        if (hrs < 0) {
-                            hrs = 23;
-                            dys--;
-                        }
-                    }
-                }
-                
-                seconds.textContent = sec < 10 ? '0' + sec : sec;
-                minutes.textContent = min < 10 ? '0' + min : min;
-                hours.textContent = hrs < 10 ? '0' + hrs : hrs;
-                days.textContent = dys;
+            if (daysLeft > 0) {
+                document.getElementById("days").textContent = daysLeft;
+            } else {
+                document.getElementById("days").textContent = "0";
+                document.querySelector(".countdown h3").textContent = "中考加油！";
             }
-            
-            setInterval(updateCountdown, 1000);
-            
-            // 随机显示励志名言
-            const quotes = [
-                {"text": "宝剑锋从磨砺出，梅花香自苦寒来", "author": "励志名言"},
-                {"text": "千淘万漉虽辛苦，吹尽狂沙始到金", "author": "刘禹锡"},
-                {"text": "天行健，君子以自强不息", "author": "《周易》"},
-                {"text": "博观而约取，厚积而薄发", "author": "苏轼"},
-                {"text": "不经一番寒彻骨，怎得梅花扑鼻香", "author": "黄蘖禅师"},
-                {"text": "长风破浪会有时，直挂云帆济沧海", "author": "李白"}
-            ];
-            
-            const motivationText = document.querySelector('.motivation-text');
-            const quoteAuthor = document.querySelector('.quote-author');
-            
-            // 每天更换一条励志名言（基于日期）
-            const today = new Date().getDate();
-            const quoteIndex = today % quotes.length;
-            motivationText.textContent = `"${quotes[quoteIndex].text}"`;
-            quoteAuthor.textContent = `—— ${quotes[quoteIndex].author}`;
-        });
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000);  // 每分钟更新一次
+
+        // ===== 2. 每日随机励志名言（你原来的功能保留）=====
+        const quotes = [
+            {"text": "宝剑锋从磨砺出，梅花香自苦寒来", "author": "励志名言"},
+            {"text": "千淘万漉虽辛苦，吹尽狂沙始到金", "author": "刘禹锡"},
+            {"text": "天行健，君子以自强不息", "author": "《周易》"},
+            {"text": "博观而约取，厚积而薄发", "author": "苏轼"},
+            {"text": "不经一番寒彻骨，怎得梅花扑鼻香", "author": "黄蘖禅师"},
+            {"text": "长风破浪会有时，直挂云帆济沧海", "author": "李白"}
+        ];
+
+        const today = new Date().getDate();
+        const q = quotes[today % quotes.length];
+        document.getElementById("quote").textContent = `"${q.text}"`;
+        document.getElementById("author").textContent = `—— ${q.author}`;
     </script>
 </body>
 </html>
-

@@ -1,0 +1,2427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初中历史刷题系统 - 完整版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .sidebar {
+            flex: 0 0 250px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .unit-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2a5298;
+            color: #2a5298;
+        }
+        
+        .lesson-list {
+            list-style: none;
+        }
+        
+        .lesson-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .lesson-item:hover {
+            background-color: #f0f5ff;
+        }
+        
+        .lesson-item.active {
+            background-color: #e6f0ff;
+            border-left-color: #2a5298;
+            font-weight: bold;
+            color: #2a5298;
+        }
+        
+        .content-area {
+            flex: 1;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question-section {
+            margin-bottom: 30px;
+        }
+        
+        .question-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #2a5298;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .options {
+            margin-bottom: 25px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border: 1px solid #e1e5eb;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .option:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .option.selected {
+            border-color: #2a5298;
+            background-color: #e6f0ff;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            background-color: #e8f5e8;
+        }
+        
+        .option.incorrect {
+            border-color: #dc3545;
+            background-color: #fde8e8;
+        }
+        
+        .option input {
+            margin-right: 12px;
+            margin-top: 3px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-prev {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-next {
+            background-color: #2a5298;
+            color: white;
+        }
+        
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .answer-section {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .answer-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #2a5298;
+        }
+        
+        .correct-answer {
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        
+        .answer-explanation {
+            line-height: 1.7;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2a5298;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                flex: none;
+                max-height: none;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+        <div class="container">
+        <!-- 1. 给 header 加上 style="position: relative;" -->
+        <header style="position: relative;">
+            
+            <!-- 2. 在这里插入返回按钮代码 -->
+            <a href="index.html" style="position: absolute; left: 20px; top: 20px; color: white; text-decoration: none; border: 1px solid rgba(255,255,255,0.4); padding: 6px 15px; border-radius: 20px; font-size: 14px; background: rgba(255,255,255,0.1); transition: background 0.3s;">
+                ⬅ 返回首页
+            </a>
+            <h1>初中历史刷题系统 - 完整版</h1>
+            <p class="subtitle">九年级上册 - 人教版 - 包含全部单元题目</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="unit-title">第一单元 古代亚非文明</div>
+                <ul class="lesson-list">
+                    <li class="lesson-item active" data-lesson="1">第1课 古代埃及</li>
+                    <li class="lesson-item" data-lesson="2">第2课 古代两河流域</li>
+                    <li class="lesson-item" data-lesson="3">第3课 古代印度</li>
+                </ul>
+                
+                <div class="unit-title">第二单元 古代欧洲文明</div>
+                <ul class="lesson-list">
+                    <li class="lesson-item" data-lesson="4">第4课 希腊城邦和亚历山大帝国</li>
+                    <li class="lesson-item" data-lesson="5">第5课 罗马城邦和罗马帝国</li>
+                    <li class="lesson-item" data-lesson="6">第6课 希腊罗马古典文化</li>
+                </ul>
+                
+                <div class="unit-title">第三单元 封建时代的欧洲</div>
+                <ul class="lesson-list">
+                    <li class="lesson-item" data-lesson="7">第7课 基督教的兴起和法兰克王国</li>
+                    <li class="lesson-item" data-lesson="8">第8课 西欧庄园</li>
+                    <li class="lesson-item" data-lesson="9">第9课 中世纪城市和大学的兴起</li>
+                    <li class="lesson-item" data-lesson="10">第10课 拜占庭帝国和《查士丁尼法典》</li>
+                </ul>
+                
+                <div class="unit-title">第四单元 封建时代的亚洲国家</div>
+                <ul class="lesson-list">
+                    <li class="lesson-item" data-lesson="11">第11课 古代日本</li>
+                    <li class="lesson-item" data-lesson="12">第12课 阿拉伯帝国</li>
+                </ul>
+                
+                <div class="unit-title">第五单元 走向近代</div>
+                <ul class="lesson-list">
+                    <li class="lesson-item" data-lesson="13">第13课 西欧经济和社会的发展</li>
+                    <li class="lesson-item" data-lesson="14">第14课 文艺复兴运动</li>
+                    <li class="lesson-item" data-lesson="15">第15课 探寻新航路</li>
+                    <li class="lesson-item" data-lesson="16">第16课 早期殖民掠夺</li>
+                </ul>
+            </div>
+            
+            <div class="content-area">
+                <div class="progress-info">
+                    <span>题目: <span id="current-question">1</span>/<span id="total-questions">10</span></span>
+                    <span>正确率: <span id="accuracy-rate">0%</span></span>
+                </div>
+                
+                <div class="question-section">
+                    <h2 class="question-title" id="question-category">基础过关全练</h2>
+                    <div class="question-text" id="question-text">
+                        古代亚非地区的文明是在适合农业耕作的大河流域产生的。古代埃及文明发展于（ ）
+                    </div>
+                    
+                    <div class="options" id="options-container">
+                        <div class="option">
+                            <input type="radio" name="answer" id="optionA" value="A">
+                            <label for="optionA">A. 两河流域</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="answer" id="optionB" value="B">
+                            <label for="optionB">B. 尼罗河流域</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="answer" id="optionC" value="C">
+                            <label for="optionC">C. 印度河流域</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="answer" id="optionD" value="D">
+                            <label for="optionD">D. 黄河流域</label>
+                        </div>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn-prev" id="prev-btn">上一题</button>
+                        <button class="btn-submit" id="submit-btn">提交答案</button>
+                        <button class="btn-next" id="next-btn">下一题</button>
+                    </div>
+                </div>
+                
+                <div class="answer-section" id="answer-section">
+                    <h3 class="answer-title">答案解析</h3>
+                    <div class="correct-answer" id="correct-answer">正确答案: B. 尼罗河流域</div>
+                    <div class="answer-explanation" id="answer-explanation">
+                        古代埃及文明发源于尼罗河流域。尼罗河定期泛滥为两岸土地带来肥沃的淤泥，有利于农业生产，促进了古埃及文明的形成和发展。
+                    </div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="total-answered">0</div>
+                        <div class="stat-label">已答题数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="correct-count">0</div>
+                        <div class="stat-label">答对题数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="incorrect-count">0</div>
+                        <div class="stat-label">答错题数</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 完整题目数据
+        const questionsData = {
+            // 第一单元 古代亚非文明
+            1: [ // 第1课 古代埃及
+                {
+                    category: "基础过关全练",
+                    question: "古代亚非地区的文明是在适合农业耕作的大河流域产生的。古代埃及文明发展于（ ）",
+                    options: [
+                        "A. 两河流域",
+                        "B. 尼罗河流域", 
+                        "C. 印度河流域",
+                        "D. 黄河流域"
+                    ],
+                    answer: "B",
+                    explanation: "古代埃及文明发源于尼罗河流域。尼罗河定期泛滥为两岸土地带来肥沃的淤泥，有利于农业生产，促进了古埃及文明的形成和发展。"
+                },
+                {
+                    category: "基础过关全练", 
+                    question: "公元前3100年左右，上埃及国王美尼斯将他的统治权延伸至上下埃及的两方土地之上。这表明古埃及（ ）",
+                    options: [
+                        "A. 初步实现统一",
+                        "B. 遭到外族入侵",
+                        "C. 文明未能延续", 
+                        "D. 等级制度森严"
+                    ],
+                    answer: "A",
+                    explanation: "美尼斯统一上下埃及，标志着古埃及初步实现统一，建立了统一的奴隶制国家。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "下列属于古埃及文明成就的是（ ）<br>①太阳历 ②《大明历》 ③金字塔 ④象形文字 ⑤长城",
+                    options: [
+                        "A. ①③④",
+                        "B. ②③④", 
+                        "C. ①③⑤",
+                        "D. ②④⑤"
+                    ],
+                    answer: "A",
+                    explanation: "古埃及文明成就包括太阳历、金字塔和象形文字。《大明历》是中国南北朝时期的历法，长城是中国古代的伟大工程。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "下列关于金字塔表述正确的是（ ）<br>①金字塔是古埃及国王的陵墓 ②埃及最大的金字塔是哈夫拉金字塔 ③金字塔是古代埃及文明的象征 ④金字塔既是古埃及人智慧的结晶，也是其被奴役和压迫的历史见证",
+                    options: [
+                        "A. ①②③④",
+                        "B. ②③④", 
+                        "C. ①②③④",
+                        "D. ①③④"
+                    ],
+                    answer: "D",
+                    explanation: "埃及最大的金字塔是胡夫金字塔，不是哈夫拉金字塔。其他三项都是关于金字塔的正确描述。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "古埃及人赞扬他（法老）说：'威令在你的口中，认知在你的心中，而你的舌头可以产生正义。'材料说明在古埃及，法老（ ）",
+                    options: [
+                        "A. 由古埃及人选举产生",
+                        "B. 具有无上的权威", 
+                        "C. 都建有金字塔",
+                        "D. 王权受到挑战"
+                    ],
+                    answer: "B",
+                    explanation: "材料反映了法老在古埃及拥有至高无上的权力，被认为是神在人间的代表，具有绝对权威。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "金字塔越建越小的主要原因是（ ）",
+                    options: [
+                        "A. 外族的频繁入侵",
+                        "B. 王权的逐渐衰落", 
+                        "C. 石料的逐渐缺乏",
+                        "D. 法老审美的变化"
+                    ],
+                    answer: "B",
+                    explanation: "金字塔规模的变化反映了古埃及王权的盛衰。随着王权逐渐衰落，法老无法调动大量人力物力修建巨型金字塔。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "金字塔是古埃及文明的象征，反映了古埃及社会经济发展的较高水平。若用于研究古埃及历史，它属于（ ）",
+                    options: [
+                        "A. 文献史料",
+                        "B. 实物史料", 
+                        "C. 口述史料",
+                        "D. 图像史料"
+                    ],
+                    answer: "B",
+                    explanation: "金字塔是古代建筑遗存，属于实物史料，能够为研究古埃及历史提供直接的物证。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "古埃及人制定了世界上第一部太阳历，将一年分为三季，分别是泛滥季、播种季和收获季。由此可见，太阳历的制定（ ）",
+                    options: [
+                        "A. 体现了法老的权威",
+                        "B. 印证了古埃及的神话", 
+                        "C. 促进了国家的统一",
+                        "D. 受到了自然环境影响"
+                    ],
+                    answer: "D",
+                    explanation: "古埃及太阳历的三季划分直接反映了尼罗河定期泛滥的规律，体现了历法制定与自然环境的密切关系。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "下图是古埃及墓葬壁画，描绘了古埃及人从事狩猎和农业生产的场景。据此可知，古埃及（ ）",
+                    options: [
+                        "A. 宗教观念深入人心",
+                        "B. 奴隶制国家已经形成", 
+                        "C. 等级秩序十分严明",
+                        "D. 丧葬习俗反映社会生活"
+                    ],
+                    answer: "D",
+                    explanation: "古埃及墓葬壁画内容反映了当时的社会生活状况，为了解古埃及人的生产生活方式提供了重要资料。"
+                },
+                {
+                    category: "史料拓展全练",
+                    question: "阅读史料，回答问题。<br>史料一：金字塔是古埃及的国王——法老的陵墓……<br>史料二：提起长城，人们就会情不自禁地赞叹这伟大古老的中华文明……<br>根据史料一、二、结合所学知识，指出金字塔与长城的相同点与不同点。",
+                    options: [
+                        "A. 相同点：都是古代帝王陵墓；不同点：金字塔在埃及，长城在中国",
+                        "B. 相同点：都是世界文化遗产；不同点：金字塔是陵墓，长城是防御工程", 
+                        "C. 相同点：都体现了劳动人民的智慧；不同点：建造目的完全不同",
+                        "D. 相同点：都是石质建筑；不同点：建造年代不同"
+                    ],
+                    answer: "B",
+                    explanation: "金字塔与长城都是世界文化遗产，体现了古代劳动人民的智慧。但金字塔是法老陵墓，主要用于宗教目的；长城是军事防御工程，主要用于国防目的。"
+                }
+            ],
+            2: [ // 第2课 古代两河流域
+                {
+                    category: "基础过关全练",
+                    question: "下列内容可能出现在《两河文明三千年》中的是（ ）<br>①古代两河流域文明诞生于约公元前3500年 ②两河流域又称'美索不达米亚' ③苏美尔人发明了象形文字 ④约公元前24世纪，两河流域实现了初步统一",
+                    options: [
+                        "A. ①②③", 
+                        "B. ①③④",
+                        "C. ②③④",
+                        "D. ①②④"
+                    ],
+                    answer: "D",
+                    explanation: "苏美尔人发明的是楔形文字，不是象形文字。其他三项都是关于两河流域文明发展的正确描述。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "如图是《汉谟拉比法典》石柱局部图。图中呈现的是古巴比伦人的太阳神沙玛什向国王汉谟拉比授予权杖的情景。该情景表达的思想是（ ）",
+                    options: [
+                        "A. 民主自由",
+                        "B. 专制主义", 
+                        "C. 忍耐顺从",
+                        "D. 君权神授"
+                    ],
+                    answer: "D",
+                    explanation: "太阳神向国王授予权杖的场景体现了'君权神授'的思想，即国王的权力来自神的授予，为其统治提供合法性依据。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "《汉谟拉比法典》规定，如果一个自由民打掉了另一个与其社会地位相同的自由民的牙齿，那么他的牙齿也应该被打掉，如果他打掉的是比他地位低的平民的牙齿，他只需要赔偿一点钱财。可见《汉谟拉比法典》（ ）",
+                    options: [
+                        "A. 宣扬君权神授",
+                        "B. 关注百姓生计", 
+                        "C. 强化男性权威",
+                        "D. 维护等级差别"
+                    ],
+                    answer: "D",
+                    explanation: "法典对不同社会地位的人实行不同的惩罚标准，明确体现了维护社会等级差别的特点。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "古代西亚的美索不达米亚给人类留下了丰富的文明成果。出现在这里，为人类留下了迄今已知世界上第一部较为完整的成文法典的文明古国是（ ）",
+                    options: [
+                        "A. 古埃及",
+                        "B. 古巴比伦", 
+                        "C. 古印度",
+                        "D. 中国"
+                    ],
+                    answer: "B",
+                    explanation: "古巴比伦王国制定的《汉谟拉比法典》是迄今已知世界上第一部较为完整的成文法典。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "如表是对《汉谟拉比法典》中法律条文的不完全统计，这表明古巴比伦（ ）",
+                    options: [
+                        "A. 法律体系完善",
+                        "B. 商品经济活跃", 
+                        "C. 民主政治发达",
+                        "D. 社会等级森严"
+                    ],
+                    answer: "B",
+                    explanation: "法典中关于租赁、雇佣、借贷等条文反映了古巴比伦商品经济的活跃程度。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "下表是古巴比伦王国汉谟拉比在位时统治者的行为和职责。据此可以推断古巴比伦（ ）",
+                    options: [
+                        "A. 重视发展农业",
+                        "B. 法律体系严密", 
+                        "C. 维护奴隶主阶级利益",
+                        "D. 商品经济活跃"
+                    ],
+                    answer: "A",
+                    explanation: "统治者重视水利工程建设和管理，反映了对农业发展的重视。"
+                }
+            ],
+            3: [ // 第3课 古代印度
+                {
+                    category: "基础过关全练",
+                    question: "下图是在哈拉帕遗址发现的石刻印章，现藏于大英博物馆。该遗址位于（ ）",
+                    options: [
+                        "A. 尼罗河流域",
+                        "B. 印度河流域", 
+                        "C. 恒河流域",
+                        "D. 两河流域"
+                    ],
+                    answer: "B",
+                    explanation: "哈拉帕遗址是古印度河流域文明的重要遗址，位于今天的巴基斯坦境内。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "下列对孔雀王朝的介绍，正确的是（ ）",
+                    options: [
+                        "A. 是哈拉帕等早期文明的延续",
+                        "B. 统一了整个印度半岛", 
+                        "C. 其首都在巴格达",
+                        "D. 其统治时期是古代印度文明的鼎盛时期"
+                    ],
+                    answer: "D",
+                    explanation: "孔雀王朝时期是古代印度文明的鼎盛时期，阿育王统治时期孔雀王朝达到极盛。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "有学者指出：公元前1500年左右，一群雅利安人成功入侵并统治印度后，为维护雅利安人的统治权以及确保各个工作都有一定的人数，建立了种姓制度。该学者认为，种姓制度（ ）",
+                    options: [
+                        "A. 界限森严不可逾越",
+                        "B. 造成社会混乱", 
+                        "C. 目的在于巩固统治",
+                        "D. 划分依稀明确"
+                    ],
+                    answer: "C",
+                    explanation: "种姓制度的建立主要是为了维护雅利安人的统治地位，确保社会分工和统治秩序。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "目前，印度的低种姓群众仍有1亿多人，他们中的大约2/3是文盲，半数是农民，只有7%的人能喝到安全的饮用水。你认为'低种姓群众'指的是（ ）",
+                    options: [
+                        "A. 婆罗门",
+                        "B. 刹帝利", 
+                        "C. 吠舍",
+                        "D. 首陀罗和贱民"
+                    ],
+                    answer: "D",
+                    explanation: "首陀罗和贱民是种姓制度中的最低等级，承担最繁重的劳动，社会地位最低。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "在古印度，有着非常严格的社会等级制度，史称'种姓制度'。下列关于种姓制度的相关表述，正确的有（ ）<br>①第一等级的婆罗门掌管祭祀 ②不同种姓之间可以通婚 ③种姓制度下的各等级世代相袭 ④低等级的人不得从事高等级的人的职业",
+                    options: [
+                        "A. ②③④",
+                        "B. ①②③", 
+                        "C. ①②④",
+                        "D. ①③④"
+                    ],
+                    answer: "D",
+                    explanation: "种姓制度严格禁止不同种姓之间通婚，以维持种姓的纯洁性。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "下列关于佛教创建和传播的表述中，正确的是（ ）",
+                    options: [
+                        "A. 产生的背景是受苦受难的犹太人渴望得到'拯救'",
+                        "B. 佛教创立于公元6世纪，创始人为乔达摩·悉达多", 
+                        "C. 主张世人只有不断地抗争，今生才能享受幸福",
+                        "D. 佛教于汉朝时通过丝绸之路传入中国"
+                    ],
+                    answer: "D",
+                    explanation: "佛教在汉朝时通过丝绸之路传入中国，对中国文化产生了深远影响。"
+                },
+                {
+                    category: "基础过关全练",
+                    question: "佛教故事说：有个首陀罗挑粪者叫尼提，他在路上遇到释迦牟尼时赶快躲开，但释迦牟尼却主动去找尼提，让他跟自己出家修行。这个故事的核心是宣扬（ ）",
+                    options: [
+                        "A. 尼提受种姓观念的影响",
+                        "B. 佛教只对低等种姓开放", 
+                        "C. 释迦牟尼同情低种姓者",
+                        "D. 佛教强调'众生平等'"
+                    ],
+                    answer: "D",
+                    explanation: "这个故事体现了佛教'众生平等'的思想，反对种姓制度的不平等。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "某同学在学习笔记上画了这样一幅示意图。该示意图描述的是（ ）",
+                    options: [
+                        "A. 佛教传播的路线",
+                        "B. 种姓制度的传播路线", 
+                        "C. 印度教传播的路线",
+                        "D. 孔雀王朝疆域扩张的路线"
+                    ],
+                    answer: "A",
+                    explanation: "示意图展示了佛教从印度向中亚、东亚、东南亚等地区传播的路线。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "在日常生活中，我们常常接触到'因果报应''生死轮回''众生平等''大慈大悲''忍耐顺从'等词语。这些词语来源于公元前6世纪创立的（ ）",
+                    options: [
+                        "A. 基督教",
+                        "B. 佛教", 
+                        "C. 道教",
+                        "D. 伊斯兰教"
+                    ],
+                    answer: "B",
+                    explanation: "这些词语都来源于佛教的基本教义和理念。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "'首陀罗虽然主人解放，但不能摆脱奴隶地位，因为这种地位对他是天生的，谁能使他摆脱呢？'这表明古印度种姓制度（ ）",
+                    options: [
+                        "A. 规定等级世袭",
+                        "B. 强调众生平等", 
+                        "C. 提倡天赋人权",
+                        "D. 宣扬以人为本"
+                    ],
+                    answer: "A",
+                    explanation: "材料反映了种姓制度的世袭性，一个人的种姓地位由出身决定，终身不变。"
+                },
+                {
+                    category: "能力提升全练",
+                    question: "婆罗门教圣典《吠陀经》将种姓制度的等级描述得很具有艺术性……据此可知，种姓制度（ ）",
+                    options: [
+                        "A. 是艺术创作的产物",
+                        "B. 是以土地封赐为纽带", 
+                        "C. 反映了'众生平等'",
+                        "D. 各等级之间贵贱分明"
+                    ],
+                    answer: "D",
+                    explanation: "种姓制度各等级之间界限森严，贵贱分明，高级种姓享有特权，低级种姓受到歧视。"
+                },
+                {
+                    category: "史料拓展全练",
+                    question: "阅读史料，回答问题。<br>史料：他（梵天）为了世界的繁荣，用自己的口、双手、双腿和双脚相应地创造了婆罗门、刹帝利、吠舍与首陀罗……<br>(1) 史料中宣扬梵天用身体不同部分造出不同种姓的人，其目的是什么？<br>(2) 怎样理解史料中所说的吠舍和首陀罗'逃避自己的义务时，会使这个世界动摇'？",
+                    options: [
+                        "A. (1)神化种姓制度 (2)他们承担主要生产劳动",
+                        "B. (1)宣扬众生平等 (2)他们享有特殊权利", 
+                        "C. (1)反对等级制度 (2)他们是社会精英",
+                        "D. (1)提倡民主政治 (2)他们掌握国家权力"
+                    ],
+                    answer: "A",
+                    explanation: "史料通过神话传说神化种姓制度，为其提供宗教合法性。吠舍和首陀罗承担了社会主要生产劳动，他们的反抗会动摇社会基础。"
+                }
+            ],
+                // 第二单元 古代欧洲文明
+    4: [ // 第4课 希腊城邦和亚历山大帝国（8题）
+        {
+            category: "基础过关全练",
+            question: "王斯德在《大学世界史》中说，与东方早期的小国相比，'蔚蓝色的地中海世界孕育出众多的希腊城邦，形成了自己鲜明的个性'。这种'鲜明的个性'主要体现在（ ）<br>①从小国林立走向中央集权 ②保持着小国寡民的状态 ③航海业和海外贸易发达 ④居民都有充分的政治权利",
+            options: [
+                "A. ①②③",
+                "B. ②③", 
+                "C. ①②④",
+                "D. ②③④"
+            ],
+            answer: "B",
+            explanation: "希腊城邦的特点是保持小国寡民状态，航海业和海外贸易发达。并非所有居民都有政治权利，奴隶和妇女被排除在外。"
+        },
+        {
+            category: "基础过关全练",
+            question: "公元前5世纪中期，雅典奴隶制民主政治臻于全盛。'全盛'时期的当政者是（ ）",
+            options: [
+                "A. 汉谟拉比",
+                "B. 伯里克利", 
+                "C. 亚历山大",
+                "D. 图特摩斯三世"
+            ],
+            answer: "B",
+            explanation: "伯里克利统治时期是雅典民主政治的'黄金时代'，民主政治发展到顶峰。"
+        },
+        {
+            category: "基础过关全练",
+            question: "2022年2月，北京成功举办冬奥会，成为全球首个'双奥之城'。奥林匹克运动会起源于古希腊，而位于古希腊中部的雅典城邦于公元前5世纪中期达到全盛。这一时期雅典城邦的最高权力机构是（ ）",
+            options: [
+                "A. 公民大会",
+                "B. 陪审法庭", 
+                "C. 主席团",
+                "D. 元老院"
+            ],
+            answer: "A",
+            explanation: "公民大会是雅典城邦的最高权力机关，所有成年男性公民都有权参加。"
+        },
+        {
+            category: "基础过关全练",
+            question: "伯里克利强调：一个公民只要有任何长处，他就会受到提拔，担任公职，这是对他优点的奖赏，跟特权是两码事。他所说的'公民'是指（ ）",
+            options: [
+                "A. 所有城邦居民",
+                "B. 城邦所有贵族", 
+                "C. 成年男性公民",
+                "D. 城邦公职人员"
+            ],
+            answer: "C",
+            explanation: "在雅典民主政治中，'公民'特指成年男性公民，不包括妇女、奴隶和外邦人。"
+        },
+        {
+            category: "基础过关全练",
+            question: "雅典民主政治在伯里克利时期发展到高峰，他扩大公民权利，公职人员几乎都是从全体公民中抽签产生，给予公民参政机会；他还建立了津贴制度。这些措施有利于（ ）",
+            options: [
+                "A. 鼓励公民积极参与",
+                "B. 雅典居民人人平等", 
+                "C. 促进雅典法制建设",
+                "D. 保障妇女参政权利"
+            ],
+            answer: "A",
+            explanation: "津贴制度的建立使贫穷公民也能参与政治活动，有利于鼓励公民积极参与城邦事务。"
+        },
+        {
+            category: "基础过关全练",
+            question: "电影《亚历山大大帝》主要讲述了亚历山大大帝传奇的一生。亚历山大东征时，正值中国的（ ）",
+            options: [
+                "A. 西周时期",
+                "B. 春秋时期", 
+                "C. 战国时期",
+                "D. 秦朝时期"
+            ],
+            answer: "C",
+            explanation: "亚历山大东征发生在公元前4世纪，此时中国正处于战国时期。"
+        },
+        {
+            category: "基础过关全练",
+            question: "亚历山大历经数年征战，占领埃及、灭亡波斯，入侵印度，征服了从希腊到印度的广大地区。亚历山大东征（ ）<br>①建立了地跨欧亚非三洲的帝国 ②把地中海变为帝国的'内湖' ③给被征服地区带来了巨大灾难 ④促进了东西方文化的大交汇",
+            options: [
+                "A. ①②③",
+                "B. ①②④", 
+                "C. ①③④",
+                "D. ②③④"
+            ],
+            answer: "C",
+            explanation: "把地中海变为'内湖'的是罗马帝国，不是亚历山大帝国。其他三项都是亚历山大东征的影响。"
+        },
+        {
+            category: "能力提升全练",
+            question: "古希腊早期喜剧作家阿里斯托芬在喜剧作品《公民大会妇女》中虚构了一个故事……作者虚构的故事意在揭示（ ）",
+            options: [
+                "A. 民主政治推动戏剧艺术发展",
+                "B. 民主沦为人们争权夺利的工具", 
+                "C. 民主氛围浓厚公民意志自由",
+                "D. 雅典民主具有一定的局限性"
+            ],
+            answer: "D",
+            explanation: "阿里斯托芬通过虚构故事讽刺雅典民主政治的某些弊端，揭示其局限性。"
+        }
+    ],
+    5: [ // 第5课 罗马城邦和罗马帝国（10题）
+        {
+            category: "基础过关全练",
+            question: "公元前509年，罗马人驱逐了前国王暴君卢修斯·塔克文·苏佩布，结束了罗马王朝时代，建立了罗马共和国……公元前509年可以表述为（ ）",
+            options: [
+                "A. 公元前5世纪初",
+                "B. 公元前5世纪末", 
+                "C. 公元前6世纪初",
+                "D. 公元前6世纪末"
+            ],
+            answer: "D",
+            explanation: "公元前509年属于公元前6世纪的最后几年，因此是公元前6世纪末。"
+        },
+        {
+            category: "基础过关全练",
+            question: "作为一名生活在罗马共和国时期的一位贵族公民，有机会参加的形式上的最高权力机关是（ ）",
+            options: [
+                "A. 主席团",
+                "B. 执政官", 
+                "C. 公民大会",
+                "D. 保民官"
+            ],
+            answer: "C",
+            explanation: "公民大会是罗马共和国的最高权力机关，但在实际政治生活中，元老院掌握着真正的权力。"
+        },
+        {
+            category: "基础过关全练",
+            question: "小明在家里欣赏一部反映罗马共和国历史的电影，下列情节与史实严重不符的是（ ）",
+            options: [
+                "A. 为了维护共和体制，罗马人把元老院作为国家的最高决策机构",
+                "B. 两名执政官主持日常政务", 
+                "C. 在生产和生活中，罗马人广泛使用奴隶劳动，甚至训练角斗士供自己取乐",
+                "D. 不堪忍受压迫的奴隶发动了斯巴达克起义，推翻了罗马共和国的统治"
+            ],
+            answer: "D",
+            explanation: "斯巴达克起义虽然沉重打击了罗马共和国，但并没有推翻共和国的统治。"
+        },
+        {
+            category: "基础过关全练",
+            question: "公元前49年，凯撒率领军队进攻罗马城，打败对手，控制了元老院。后来，元老院任命他为终身独裁官。公元前27年，屋大维首创'元首制'，掌握了最高统治权。这段材料描述了（ ）",
+            options: [
+                "A. 古罗马政治体制的演变",
+                "B. 罗马共和国的兴衰", 
+                "C. 古罗马对外侵略和扩张",
+                "D. 罗马帝国的发展史"
+            ],
+            answer: "A",
+            explanation: "材料描述了从共和国到帝国的政治体制演变过程。"
+        },
+        {
+            category: "能力提升全练",
+            question: "'此前习惯法是口耳相传，含混不清的，司法官使用习惯法时任意曲解，平民深受其苦。'《十二铜表法》的出现……这在很大程度上限制了贵族的司法专断。'这说明《十二铜表法》（ ）",
+            options: [
+                "A. 结束了罗马贵族的司法专断",
+                "B. 使贵族和平民享有平等的权利", 
+                "C. 全面反映了雅典社会的民主政治",
+                "D. 一定程度上保护了罗马平民利益"
+            ],
+            answer: "D",
+            explanation: "《十二铜表法》使法律成文化、公开化，在一定程度上限制了贵族随意解释法律的特权。"
+        },
+        {
+            category: "能力提升全练",
+            question: "下表是某初三同学在学习世界古代史时绘制的表格，它反映了罗马帝国的一些基本情况。这可用来说明（ ）",
+            options: [
+                "A. 对外扩张带来帝国的强大",
+                "B. 帝国保障了区域和平", 
+                "C. 地理环境决定帝国的发展",
+                "D. 罗马帝国衰落的原因"
+            ],
+            answer: "D",
+            explanation: "表格内容反映了罗马帝国面临的内外困境，这些是导致帝国衰落的重要原因。"
+        },
+        {
+            category: "能力提升全练",
+            question: "罗马不再是拉丁-罗马城邦和城邦文化的象征，它吸收了叙利亚、希腊和其他地中海文明，成为欧洲文明的先声。材料指出罗马（ ）",
+            options: [
+                "A. 早期法律制度的背景",
+                "B. 吸收希腊文化的原因", 
+                "C. 文化交流和传播的影响",
+                "D. 民主政治发展历程的特征"
+            ],
+            answer: "C",
+            explanation: "材料强调了罗马在文化交流和传播方面的重要作用。"
+        },
+        {
+            category: "史料拓展全练",
+            question: "阅读史料，回答问题。<br>史料一：湖北省云梦县陆地地质条件简，记载了秦代先行的部分法律法规条款……<br>史料二：《十二铜表法》对奴隶主私有制、家长制、继承、债务和刑法、诉讼程序等方面都做了规定，限制了贵族法官随心所欲地解释法律的权力。<br>根据史料一、二并结合所学知识，概括秦律和《十二铜表法》的异同。",
+            options: [
+                "A. 相同点：都是维护奴隶主利益；不同点：秦律更系统完整",
+                "B. 相同点：都是成文法；不同点：适用范围不同", 
+                "C. 相同点：都限制贵族特权；不同点：立法目的不同",
+                "D. 相同点：都是古代重要法典；不同点：秦律影响更深远"
+            ],
+            answer: "A",
+            explanation: "两者都是维护统治阶级利益的法律，但秦律在体系性和完整性方面更为突出。"
+        },
+        {
+            category: "素养探究全练",
+            question: "请完成下列探究任务。<br>【历史解释 看透共和政体】<br>材料一：300名贵族、元老院（权力最大）、执政官（主持日常政务）……<br>材料二：古罗马共和政体是君主国素、贵族国素和民主国素的融合……",
+            options: [
+                "A. 罗马实行纯粹的民主政治",
+                "B. 罗马共和政体是混合政体", 
+                "C. 罗马政治权力高度集中",
+                "D. 罗马公民享有充分权利"
+            ],
+            answer: "B",
+            explanation: "罗马共和政体融合了君主制、贵族制和民主制的要素，是一种混合政体。"
+        },
+        {
+            category: "素养探究全练",
+            question: "【历史解释 认识帝国影响】<br>材料三：拉丁字母是从别的文化中移植过来的……罗马早期的历史作品都是用希腊文写的……",
+            options: [
+                "A. 罗马文化缺乏原创性",
+                "B. 罗马善于吸收其他文化", 
+                "C. 希腊文化优于罗马文化",
+                "D. 罗马排斥外来文化"
+            ],
+            answer: "B",
+            explanation: "材料反映了罗马文化的开放性和包容性，善于吸收和借鉴其他文化的优秀成果。"
+        }
+    ],
+    6: [ // 第6课 希腊罗马古典文化（12题）
+        {
+            category: "基础过关全练",
+            question: "《荷马史诗》是野蛮时代带人文明时代的主要遗产之一。这一遗产可以用来研究（ ）",
+            options: [
+                "A. 希腊的早期社会",
+                "B. 雅典的民主政治", 
+                "C. 罗马的法制建设",
+                "D. 两河流域的文明"
+            ],
+            answer: "A",
+            explanation: "《荷马史诗》反映了古希腊从氏族社会向奴隶制社会过渡时期的历史，是研究希腊早期社会的重要文献。"
+        },
+        {
+            category: "基础过关全练",
+            question: "古代希腊、罗马的建筑艺术对后世的建筑风格产生了深远影响。古代希腊建筑艺术主要体现在（ ）",
+            options: [
+                "A. 教堂",
+                "B. 陵墓", 
+                "C. 石雕",
+                "D. 神庙"
+            ],
+            answer: "D",
+            explanation: "古希腊建筑以神庙为代表，如帕特农神庙，体现了古希腊建筑艺术的最高成就。"
+        },
+        {
+            category: "基础过关全练",
+            question: "原子是化学变化不可再分的最小微粒，近代原子论是英国化学家约翰·道尔顿提出的。在两个多年前，一位古希腊哲学家就认为宇宙万物是由微小的'原子'组成的。他是（ ）",
+            options: [
+                "A. 德谟克利特",
+                "B. 苏格拉底", 
+                "C. 柏拉图",
+                "D. 亚里士多德"
+            ],
+            answer: "A",
+            explanation: "德谟克利特提出了古代原子论，认为万物都是由不可再分的原子构成的。"
+        },
+        {
+            category: "基础过关全练",
+            question: "古希腊文明和古代春秋战国时期的中国文明高度发展，交相辉映。下列能佐证这一说法的思想成果是（ ）",
+            options: [
+                "A. 德谟克利特的'原子论'与董仲舒的思想",
+                "B. 亚里士多德创立逻辑学与道教的出现", 
+                "C. '儒略历'与《大明历》",
+                "D. 苏格拉底的哲学思想与孔子的儒家思想"
+            ],
+            answer: "D",
+            explanation: "苏格拉底和孔子都是轴心时代的重要思想家，他们的思想对各自文明产生了深远影响。"
+        },
+        {
+            category: "基础过关全练",
+            question: "古希腊哲学成就突出，产生了多位著名的哲学家，亚里士多德便是其中之一。下列属于他的名言的是（ ）",
+            options: [
+                "A. '走自己的路，让别人说去吧'",
+                "B. '认识你自己'", 
+                "C. '勤为无价宝，慎为护身术'",
+                "D. '吾爱吾师，吾更爱真理'"
+            ],
+            answer: "D",
+            explanation: "'吾爱吾师，吾更爱真理'是亚里士多德的名言，体现了他对真理的执着追求。"
+        },
+        {
+            category: "基础过关全练",
+            question: "端午节是中华民族的传统节日，2023年的端午节在公历6月22日。公历是世界通用的历法，它的基础是（ ）",
+            options: [
+                "A. 授时历",
+                "B. 俄历", 
+                "C. 农历",
+                "D. 儒略历"
+            ],
+            answer: "D",
+            explanation: "现行公历是在儒略历基础上改革而来的格里高利历，其基础是古罗马的儒略历。"
+        },
+        {
+            category: "能力提升全练",
+            question: "古希腊社会很重视体育竞技，人们也积极参加。主要项目有赛马、举哑铃、投掷标枪、投掷铁饼、格斗、摔跤等，竞技中名列前茅的人会获得极大的荣誉。这表明古希腊（ ）",
+            options: [
+                "A. 和平时代来临",
+                "B. 崇尚力量之美", 
+                "C. 生活方式未衰",
+                "D. 文化水平低下"
+            ],
+            answer: "B",
+            explanation: "古希腊人重视体育锻炼，崇尚健美的身体，这体现了他们对力量之美的追求。"
+        },
+        {
+            category: "能力提升全练",
+            question: "罗马大竞技场将希腊古典建筑精华的柱式和罗马人深为自豪的拱门结合。这体现了古罗马人在建筑上（ ）",
+            options: [
+                "A. 注重吸收创新",
+                "B. 强调全盘模仿", 
+                "C. 趋向封闭保守",
+                "D. 重视中西合璧"
+            ],
+            answer: "A",
+            explanation: "罗马建筑在吸收希腊建筑优点的基础上进行创新，形成了独特的建筑风格。"
+        },
+        {
+            category: "能力提升全练",
+            question: "公元前5世纪中叶，罗马共和国颁布了适用于罗马公民的《十二铜表法》。罗马帝国时期，法律体系进一步完善，以便实施于分散在帝国各处的各族人民。由此可见，罗马法律不断发展的主要原因是（ ）",
+            options: [
+                "A. 统治区域不断扩大",
+                "B. 古希腊文化广泛传播", 
+                "C. 民主制度达到鼎盛",
+                "D. 东西方文明交流互鉴"
+            ],
+            answer: "A",
+            explanation: "随着罗马帝国疆域的扩大，需要制定适用于不同民族的法律体系，这推动了罗马法的发展。"
+        },
+        {
+            category: "能力提升全练",
+            question: "帕特农意为贞女，指雅典娜女神，她是雅典娜的保护神。帕特农神庙极为宏伟隆重，在细部安置和工程质量上皆精益求精，艺术设计尤为巧妙，神庙的雕刻被人们誉为'虽出自人工之手，却具有神奇永恒的生命'。这反映出（ ）",
+            options: [
+                "A. 希腊神话中'神人同形同性'",
+                "B. 雅典民主政治受到神权冲击", 
+                "C. 古希腊的艺术成就十分辉煌",
+                "D. 帕特农神庙至今仍保存完好"
+            ],
+            answer: "C",
+            explanation: "材料通过描述帕特农神庙的精美，反映了古希腊在建筑艺术方面取得的辉煌成就。"
+        },
+        {
+            category: "能力提升全练",
+            question: "如表为古希腊部分哲学家及其主张。表中信息反映了古希腊哲学（ ）",
+            options: [
+                "A. 只关注人的外部世界",
+                "B. 推动了民主政治发展", 
+                "C. 研究视角的不断变化",
+                "D. 奠定了西方哲学基础"
+            ],
+            answer: "D",
+            explanation: "古希腊哲学家的思想为西方哲学的发展奠定了基础，对后世产生了深远影响。"
+        },
+        {
+            category: "史料拓展全练",
+            question: "阅读史料，回答问题。<br>史料一：龙门石窟佛像、《掷铁饼者》<br>史料二：古希腊罗马的雕塑属于艺术范畴，雕塑家社会地位很高，可以肯定留名；我国古代雕塑属于工艺范畴，制作者属于社会地位不高的工匠群体……<br>(1) 根据史料一和所学，分别指出两件文物的价值。<br>(2) 史料二从哪些方面比较了古代东西方雕塑艺术的不同？",
+            options: [
+                "A. (1)都是宗教艺术 (2)艺术地位和创作者身份",
+                "B. (1)都是古代杰作 (2)创作题材和技法", 
+                "C. (1)体现不同文明 (2)艺术理念和社会地位",
+                "D. (1)具有历史价值 (2)材料使用和保存状况"
+            ],
+            answer: "C",
+            explanation: "两件文物分别代表了东西方不同的艺术传统，史料二从艺术理念和创作者社会地位等方面进行了比较。"
+        }
+    ],
+
+    // 第三单元 封建时代的欧洲
+    7: [ // 第7课 基督教的兴起和法兰克王国（8题）
+        {
+            category: "基础过关全练",
+            question: "下列关于基督教的说法正确的是（ ）",
+            options: [
+                "A. 产生于公元前6世纪",
+                "B. 基督教诞生于亚洲", 
+                "C. 基督教宣扬'众生平等、忍耐顺从'",
+                "D. 罗马帝国一直反对基督教传播"
+            ],
+            answer: "B",
+            explanation: "基督教诞生于1世纪的巴勒斯坦地区，属于亚洲。初期受到罗马帝国迫害，后来被定为国教。"
+        },
+        {
+            category: "基础过关全练",
+            question: "如图是法兰克王国的建立者。他统治期间的史实有（ ）<br>① 依依基督教，承认罗马教会在欧洲的重要地位 ② 把王国划分为很多教区，向人民征收'什一税' ③ 四处征伐，使法兰克王国成为8世纪西欧最大的王国 ④ 把原属罗马国有的土地和无主土地赐给教会和部下",
+            options: [
+                "A. ①②",
+                "B. ②③", 
+                "C. ③④",
+                "D. ①④"
+            ],
+            answer: "D",
+            explanation: "克洛维皈依基督教并赏赐土地给教会，这些措施巩固了他的统治地位。"
+        },
+        {
+            category: "基础过关全练",
+            question: "'通过封建契约和分封仪式，如臣服礼、授职礼、领主和附庸形成依附关系。'对材料现象理解正确的是（ ）",
+            options: [
+                "A. '领主'是封君，'附庸'是封臣",
+                "B. 封君可以任意侵害封臣财产安全", 
+                "C. 确立以上地封为纽带的奴隶制度",
+                "D. 封君与封臣关系的等级性不明显"
+            ],
+            answer: "A",
+            explanation: "封君封臣制度以土地封赐为纽带，通过契约确立双方的权利义务关系。"
+        },
+        {
+            category: "基础过关全练",
+            question: "查理维任法兰克王国国王后四处征伐，法兰克王国成为当时西欧最大的王国。下列有关查理的表述正确的是（ ）",
+            options: [
+                "A. 低价基督教，承认罗马教会在欧洲的重要地位",
+                "B. 建立以土地的封赐为纽带的封建制度", 
+                "C. 实行鼓励基督教发展的政策，征收'什一税'",
+                "D. 缔结条约，将帝国'一分为三'"
+            ],
+            answer: "C",
+            explanation: "查理大帝鼓励基督教发展，规定所有人必须向教会缴纳'什一税'。"
+        },
+        {
+            category: "能力提升全练",
+            question: "法兰克王国国王克洛维娅做了基督教，取得了罗马教会和信徒的广泛支持。查理成为法兰克王国国王后鼓励基督教发展，让教会征收'什一税'，获得了教会的支持。材料反映了（ ）",
+            options: [
+                "A. 法兰克王国兴起历程",
+                "B. 数权屈居王权之下", 
+                "C. 查理曼帝国分裂原因",
+                "D. 王权数权相互勾结"
+            ],
+            answer: "D",
+            explanation: "材料反映了法兰克王国统治者与基督教会相互支持、相互利用的关系。"
+        },
+        {
+            category: "能力提升全练",
+            question: "据加图并结合所学知识可知，中世纪欧洲维护封建与封建之间关系的纽带是（ ）",
+            options: [
+                "A. 血缘关系",
+                "B. 土地封赐", 
+                "C. 授予爵位",
+                "D. 服役权"
+            ],
+            answer: "B",
+            explanation: "土地封赐是封君封臣关系的经济基础，也是维系这种关系的主要纽带。"
+        },
+        {
+            category: "能力提升全练",
+            question: "一个向封建官僚效忠的人，应该记住：安全、诚实、堪用、能做事……同样，封建也要在所有事情上为向他宣誓效忠的封臣做事。这说明（ ）",
+            options: [
+                "A. 封臣无偿为封建提供兵役",
+                "B. 封建与封建以土地封赐为纽带", 
+                "C. 封建只能管理自己的封臣",
+                "D. 封建与封建权利与义务相交织"
+            ],
+            answer: "D",
+            explanation: "封君封臣关系是一种契约关系，双方都享有权利并承担相应的义务。"
+        },
+        {
+            category: "史料拓展全练",
+            question: "阅读史料，回答问题。<br>史料一：基督教……最初是奴隶和被释放者、穷人和无权者、被罗马征服或驱散的人们的家教。——恩格斯<br>史料二：到了欧洲的封建社会，也就是欧洲的中世纪，随着封建制度的建立及基督教的兴起，就必然作为'神权'与'王权'的象征……<br>(1) 根据史料一，指出基督教诞生初期信徒的主要来源。结合所学知识回答，基督教诞生于哪一地区？",
+            options: [
+                "A. 奴隶和穷人；巴勒斯坦地区",
+                "B. 贵族和富人；希腊地区", 
+                "C. 商人和手工业者；埃及地区",
+                "D. 农民和牧民；两河流域"
+            ],
+            answer: "A",
+            explanation: "基督教最初在受压迫的底层民众中传播，诞生于罗马帝国统治下的巴勒斯坦地区。"
+        }
+    ],
+
+    // 第8课 西欧庄园（8题）
+8: [
+    {
+        category: "基础过关全练",
+        question: "'它是一个经济实体，有经营农业所需要的各种设施，如农具、牲畜、作坊和仓库；领主本人或其管家管理生产，监督农奴劳动。''它'遍布欧洲各地的时间约是（ ）",
+        options: [
+            "A. 9世纪",
+            "B. 10世纪", 
+            "C. 11世纪",
+            "D. 12世纪"
+        ],
+        answer: "C",
+        explanation: "西欧庄园从9世纪开始兴起，到11世纪时已经遍布欧洲各地，成为中世纪西欧乡村的典型组织形式。"
+    },
+    {
+        category: "基础过关全练",
+        question: "在俄罗斯中立初期对家庭大族的田庄'有煮盐、冶铁、酿造、纺织等作坊，能满足田庄基本生活要求'。中世纪西欧庄园以农业为主，奶酪、火腿、蔬菜等食物均可自给、鞋帽、衣服也自己制作。由此可见，汉朝田庄与中世纪西欧庄园的共同点是（ ）",
+        options: [
+            "A. 大规模使用奴隶生产",
+            "B. 商品主要用来交换", 
+            "C. 生产基本能自给自足",
+            "D. 具有资本主义性质"
+        ],
+        answer: "C",
+        explanation: "两者都是自给自足的经济单位，生产主要满足自身消费需要，商品经济不发达。"
+    },
+    {
+        category: "基础过关全练",
+        question: "1275年约克福德庄园法庭留下这样的记录：法院判决农奴约翰逊告农奴托马斯，对约翰逊行罚款；小管家吉姆未按要求出席法庭，吉姆被罚款。这份记录反映了庄园法庭惩罚违法行为的主要手段是（ ）",
+        options: [
+            "A. 处以罚金",
+            "B. 处以刑罚", 
+            "C. 缴纳实物地租",
+            "D. 缴纳劳役地租"
+        ],
+        answer: "A",
+        explanation: "庄园法庭主要通过对违法者处以罚金来维持庄园秩序，这是最常见的惩罚手段。"
+    },
+    {
+        category: "基础过关全练",
+        question: "13世纪英国黑尔斯庄园的法庭档案里记录的一个案件：一个农民丢失了一头黑母牛，他在领主的牛棚里发现了自己走失的牛，但领主却拒绝归还，所以这个农民就向庄园法庭起诉，法庭判定领主要将黑母牛归还该农民。据此可知，庄园法庭（ ）",
+        options: [
+            "A. 仅仅维护庄园领主的利益",
+            "B. 惩罚违法行为的手段是处以罚金", 
+            "C. 详细记录了审理的所有案件",
+            "D. 也在一定程度上维护佃户的利益"
+        ],
+        answer: "D",
+        explanation: "这个案例说明庄园法庭不仅维护领主利益，也在一定程度上保护佃户的合法权益。"
+    },
+    {
+        category: "能力提升全练",
+        question: "西欧中世纪乡村的典型组织形式是庄园。以下叙述正确的是（ ）<br>①庄园从9世纪开始逐渐流行开来，后来遍布欧洲各地 ②佃户通过义务耕种领主的'自营地'取得土地 ③庄园法庭维护者庄园公共秩序 ④领主可以买卖自己庄园的佃户",
+        options: [
+            "A. ①②③",
+            "B. ①②④", 
+            "C. ②③④",
+            "D. ①③④"
+        ],
+        answer: "A",
+        explanation: "领主不能买卖佃户，佃户虽然依附于领主，但具有人身自由，不同于奴隶。"
+    },
+    {
+        category: "能力提升全练",
+        question: "假如你穿越时空，来到公元10世纪时的西欧庄园，你有可能见到的庄园生活场景是（ ）",
+        options: [
+            "A. 管家在庄园大树下召开法庭会议处理纠纷",
+            "B. 佃户在有偿耕种领主的'自营地'", 
+            "C. 佃户不必缴纳'什一税'",
+            "D. 佃户使用领主的酿酒机不必缴纳使用费"
+        ],
+        answer: "A",
+        explanation: "庄园法庭通常在庄园的大树下或教堂门口召开，处理庄园内的各种纠纷。"
+    },
+    {
+        category: "能力提升全练",
+        question: "1287年，西欧某庄园的庄头将一名农奴带到庄园法庭，指控他装病拒服劳役，但农奴不承认。法庭调查后证实，庄头出于宿怨伪造了事实，故以谣言罪对其处以罚款。据此可知，庄园法庭（ ）",
+        options: [
+            "A. 危及了领主人身安全",
+            "B. 扩大了城市的自主权", 
+            "C. 加速了市民阶层形成",
+            "D. 有利于维护庄园秩序"
+        ],
+        answer: "D",
+        explanation: "庄园法庭通过公正审理案件，维护了庄园的正常秩序和公平正义。"
+    },
+    {
+        category: "能力提升全练",
+        question: "庄园法庭经常'邀请德高望重者进行调解'，已经起诉的纠纷有时也会被允许'私下和解'，法庭还需应诉这一方和解请求而'推迟裁决'，只有难以和解的诉讼才由陪审团裁决。这些做法旨在（ ）",
+        options: [
+            "A. 缓解或避免矛盾激化",
+            "B. 保证判决的公平公正", 
+            "C. 维护领主的司法权",
+            "D. 凸显法院庭的权威"
+        ],
+        answer: "A",
+        explanation: "这些做法体现了庄园法庭注重调解和和解，目的是维护庄园内部的和谐稳定。"
+    }
+],
+
+// 第9课 中世纪城市和大学的兴起（10题）
+9: [
+    {
+        category: "基础过关全练",
+        question: "从10世纪起，西欧农业技术提高，农业剩余产品增加，商业贸易发展，人口增长，旧的城市开始复苏，新的城市不断产生。这一描述反映出（ ）",
+        options: [
+            "A. 城市兴起的特点",
+            "B. 城市获得自治特权", 
+            "C. 城市兴起的原因",
+            "D. 城市推动贸易发展"
+        ],
+        answer: "C",
+        explanation: "材料从农业、商业、人口等方面说明了中世纪城市兴起的原因和背景。"
+    },
+    {
+        category: "基础过关全练",
+        question: "中世纪某个西欧城市，以每年向王室缴纳300英镑税金的代价，获得国王对市民自选市长和市政官的许可。这个城市获得自治权的方式是（ ）",
+        options: [
+            "A. 投票表决",
+            "B. 武力斗争", 
+            "C. 金钱赎买",
+            "D. 制定法律"
+        ],
+        answer: "C",
+        explanation: "通过向封建主缴纳金钱来换取自治特权是中世纪城市获得自治的常用方式之一。"
+    },
+    {
+        category: "基础过关全练",
+        question: "'城市的空气使人自由'是中世纪的一句谚语。下列最能印证这句话指的是（ ）",
+        options: [
+            "A. 当时没有污染，城市空气清新",
+            "B. 农奴在城市住满一年零一天，就获得了市民的身份", 
+            "C. 在城市里没有法律约束",
+            "D. 城市里文化氛围好"
+        ],
+        answer: "B",
+        explanation: "这句谚语反映了农奴逃往城市后可以获得人身自由的历史事实。"
+    },
+    {
+        category: "基础过关全练",
+        question: "中古西欧城市兴起最伟大的意义是（ ）",
+        options: [
+            "A. 为西欧资本主义的产生和发展奠定了基础",
+            "B. 城市自治得以普遍实现", 
+            "C. 基督教会和等级制度日趋完善",
+            "D. 彻底瓦解了西欧的封建制度"
+        ],
+        answer: "A",
+        explanation: "城市的兴起促进了商品经济发展和市民阶层壮大，为资本主义萌芽创造了条件。"
+    },
+    {
+        category: "基础过关全练",
+        question: "巴黎大学索邦神学院建立于13世纪。下列关于大学的说法错误的是（ ）",
+        options: [
+            "A. 希腊、罗马、阿拉伯文化传入西欧是大学建立的重要原因",
+            "B. 为了维护自身的权利和经济利益，西欧教师成立了行会", 
+            "C. 大学的自治地位主要体现在免税税特权、司法特权、教育自主权",
+            "D. 罗马教皇和国王对教师行会持反对态度"
+        ],
+        answer: "D",
+        explanation: "罗马教皇和国王一般支持大学发展，通过颁发特许状授予大学各种特权。"
+    },
+    {
+        category: "基础过关全练",
+        question: "中世纪欧洲大学可以主办学术讲座，控制人员编制，有权审查并发放各种证书和学位，甚至享有赋税、司法等方面的特权。这说明中世纪欧洲大学（ ）",
+        options: [
+            "A. 拥有较大的自治权",
+            "B. 受到世俗权力支配", 
+            "C. 享有充分言论自由",
+            "D. 具备政府管理职能"
+        ],
+        answer: "A",
+        explanation: "大学享有的这些特权体现了其相对独立的自治地位。"
+    },
+    {
+        category: "基础过关全练",
+        question: "下表是13世纪巴黎大学某学院课程设置表。该课程设置表明（ ）",
+        options: [
+            "A. 基督教会影响的继续",
+            "B. 成立教师行会的需求", 
+            "C. 社会发展要求的反映",
+            "D. 城市取得自治的保障"
+        ],
+        answer: "C",
+        explanation: "大学课程设置反映了当时社会对专业人才的需求，适应了社会发展需要。"
+    },
+    {
+        category: "能力提升全练",
+        question: "大学的兴起被认为是欧洲中世纪教育'最美好的花朵'。下列各项与西欧中世纪大学的产生无关的是（ ）",
+        options: [
+            "A. 选拔官吏的需要",
+            "B. 教师行会的出现", 
+            "C. 国王与教皇的支持",
+            "D. 城市的自由和自治"
+        ],
+        answer: "A",
+        explanation: "中世纪大学的主要目的是培养神职人员、医生、律师等专业人才，而非选拔官吏。"
+    },
+    {
+        category: "能力提升全练",
+        question: "中世纪欧洲自治城市的司法权是不完整的，受到封建教会严密控制，有时还被看成是完全封闭的一个集体，要为封建服役并履行封臣的其他义务。这表明，自治城市（ ）",
+        options: [
+            "A. 建立了君主立宪制",
+            "B. 出现了教育学术新气象", 
+            "C. 获得免除赋税特权",
+            "D. 未完全摆脱封建主控制"
+        ],
+        answer: "D",
+        explanation: "材料说明中世纪城市虽然获得一定自治，但仍然受到封建势力的制约。"
+    },
+    {
+        category: "能力提升全练",
+        question: "中世纪西欧大学的学生活跃度逐渐高，学生在学习基础课程与专业课程之余，还有唱歌、跳舞、击剑和打球等活动。根据可知，中世纪西欧大学（ ）",
+        options: [
+            "A. 推动城市兴起",
+            "B. 关注人的发展", 
+            "C. 摆脱教会控制",
+            "D. 强化国王权力"
+        ],
+        answer: "B",
+        explanation: "丰富的课外活动体现了大学教育对学生全面发展的关注。"
+    }
+],
+
+// 第10课 拜占庭帝国和《查士丁尼法典》（8题）
+10: [
+    {
+        category: "基础过关全练",
+        question: "'美国《关于拜占庭帝国的一些基本概念》一文中指出：在中古欧洲并不存在所谓'拜占庭帝国'，也没有任何民族自称为'拜占庭人'。当时，这块地区被称为'The Eastern Roman Empire'，其君主自称为'罗马皇帝'，当地的居民则自称'罗马人'。'The Eastern Roman Empire'是指（ ）",
+        options: [
+            "A. 亚历山大帝国",
+            "B. 西罗马帝国", 
+            "C. 东罗马帝国",
+            "D. 罗马帝国"
+        ],
+        answer: "C",
+        explanation: "拜占庭帝国实际上是东罗马帝国的延续，其居民一直自认为是罗马人。"
+    },
+    {
+        category: "基础过关全练",
+        question: "'人民起义为查士丁尼敲响警钟。他不得不实行一些改革以缓和尖锐的阶级矛盾……为总结古罗马的统治经验，特成立罗马法编纂委员会。'材料说明查士丁尼一世编纂法典的目的是（ ）",
+        options: [
+            "A. 实行民主政治",
+            "B. 为欧洲民法奠定基础", 
+            "C. 推行封建制度",
+            "D. 稳固帝国的社会秩序"
+        ],
+        answer: "D",
+        explanation: "查士丁尼编纂法典的主要目的是通过法律手段巩固统治，维护社会秩序。"
+    },
+    {
+        category: "基础过关全练",
+        question: "拜占庭帝国明显缺乏古典时期雅典的生气和光辉，它自然至终都在使自己适应时代和环境的变化。但命运注定只是保存，而不是创新。它生活在过去的努力和荣誉的阴影之中，这种势力和荣誉正是它所试图维持和恢复的。由此可知拜占庭帝国灭亡的启示是（ ）",
+        options: [
+            "A. 开放进取不利于文化保存",
+            "B. 保守政策使文明衰落", 
+            "C. 国家发展就要侵略扩张",
+            "D. 辉煌历史可导致国家灭亡"
+        ],
+        answer: "B",
+        explanation: "拜占庭帝国过分保守，固守传统而缺乏创新，最终导致衰落。"
+    },
+    {
+        category: "基础过关全练",
+        question: "拜占庭文化极大地影响了中世纪地中海沿岸各民族文化和西欧文化的发展，并给意大利文艺复兴运动提供了珍贵的文化素材和资源，因而在世界文化发展史上占有极其重要的地位。这主要缘于拜占庭帝国（ ）",
+        options: [
+            "A. 皇帝重视法律建设",
+            "B. 对古典文化的兼收并蓄", 
+            "C. 传教士的积极传播",
+            "D. 地跨亚、非、欧三大洲"
+        ],
+        answer: "B",
+        explanation: "拜占庭帝国保存并发展了古希腊罗马文化，成为连接古典时代与文艺复兴的桥梁。"
+    },
+    {
+        category: "能力提升全练",
+        question: "拜占庭帝国的军事战略与其前身罗马帝国截然不同，总体来说呈现守势状态，其目标以恢复为主，并非开拓新疆土。由此可知，拜占庭帝国（ ）",
+        options: [
+            "A. 其前身是波斯帝国",
+            "B. 版图一直在扩大", 
+            "C. 长期进行防御战争",
+            "D. 被阿拉伯人灭亡"
+        ],
+        answer: "C",
+        explanation: "拜占庭帝国长期处于防御状态，致力于恢复罗马帝国昔日的疆域。"
+    },
+    {
+        category: "能力提升全练",
+        question: "'现代的法典在很大程度上可视作查士丁尼之不朽罗马法典的再次出版——它们只是与新的时代相适应了，并且穿上了新的语言学的外衣。'由此可见罗马法（ ）",
+        options: [
+            "A. 维护了统治阶级的利益",
+            "B. 与现代法律完全一致", 
+            "C. 奠定了现代法律的基础",
+            "D. 体现了法律的平等性"
+        ],
+        answer: "C",
+        explanation: "罗马法对近代欧洲各国的法律体系产生了深远影响，是现代法律的重要基础。"
+    },
+    {
+        category: "能力提升全练",
+        question: "《罗马民法大全》中规定'释放奴隶也列入列国通法''被释放，便是从管辖下得到释放'。这一记载，说明拜占庭帝国（ ）",
+        options: [
+            "A. 专制统治日益巩固",
+            "B. 奴隶处境有所改善", 
+            "C. 法制时代全面开启",
+            "D. 废除封建领主特权"
+        ],
+        answer: "B",
+        explanation: "法律对奴隶释放的规定反映了奴隶地位的某种改善。"
+    },
+    {
+        category: "史料拓展全练",
+        question: "阅读史料，回答问题。<br>史料一：拜占庭帝国的商业和手工业相当繁荣，古代希腊罗马的文化在这里保存下来……<br>史料二：1453年，欧洲历史的列车来了个急转弯。君士坦丁堡沦陷后……<br>(1) 史料一反映了拜占庭帝国的什么特征？<br>(2) 根据史料二并结合所学知识回答，我们应该怎样全面评价君士坦丁堡的陷落及拜占庭帝国的灭亡？",
+        options: [
+            "A. (1)经济文化繁荣 (2)既是灾难也是文化传播契机",
+            "B. (1)军事力量强大 (2)完全消极的历史事件", 
+            "C. (1)政治制度先进 (2)促进了欧洲统一",
+            "D. (1)宗教影响深远 (2)阻碍了文明发展"
+        ],
+        answer: "A",
+        explanation: "拜占庭帝国在经济文化方面成就显著，其灭亡虽然是个悲剧，但促进了古典文化向西欧传播。"
+    }
+],
+
+// 第11课 古代日本（10题）
+11: [
+    {
+        category: "基础过关全练",
+        question: "下列关于古代日本的说法错误的是（ ）",
+        options: [
+            "A. 5世纪，大和政权基本统一了日本",
+            "B. 大和国的最高统治者称为'天皇'", 
+            "C. 大和国依靠贵族统治全国",
+            "D. 大和国的居民以'部'的形式组织生产"
+        ],
+        answer: "B",
+        explanation: "大和国时期最高统治者称为'大王'，'天皇'称号是在大化改新后才正式使用的。"
+    },
+    {
+        category: "基础过关全练",
+        question: "大和的世袭贵族占有大量的土地和奴隶及地位近似奴隶的部民，他们之间不断争战，使矛盾日益尖锐，而部民也不断反抗。此时中国唐朝的统治兴盛极大刺激了大和统治者，于是天皇决心改革。材料反映了（ ）",
+        options: [
+            "A. 大化改新的背景",
+            "B. 大化改新的内容", 
+            "C. 大化改新的性质",
+            "D. 大化改新的影响"
+        ],
+        answer: "A",
+        explanation: "材料从国内矛盾和外部影响两方面说明了大化改新的历史背景。"
+    },
+    {
+        category: "基础过关全练",
+        question: "下图内容是日本历史上一次改革的部分规定，该规定反映出土地的所有者是（ ）",
+        options: [
+            "A. 公民",
+            "B. 国家", 
+            "C. 部民",
+            "D. 贵族"
+        ],
+        answer: "B",
+        explanation: "大化改新实行班田收授法，土地归国家所有，分配给农民耕种。"
+    },
+    {
+        category: "基础过关全练",
+        question: "646年，日本新政权发布《改新之诏》，其在政治方面的主要内容有：中央设二官八省；地方设国、郡、里三级，由中央派官治理；官吏由国家任免，废除世袭制。材料描述的改革（ ）",
+        options: [
+            "A. 严重削弱了天皇的权力",
+            "B. 使日本成为中央集权的封建国家", 
+            "C. 直接推翻了幕府的统治",
+            "D. 直接促使日本进入资本主义社会"
+        ],
+        answer: "B",
+        explanation: "大化改新建立了以天皇为中心的中央集权制度，使日本进入封建社会。"
+    },
+    {
+        category: "基础过关全练",
+        question: "武士是日本以武艺为中心的社会阶层，是日本封建社会平安时代中期以后统治阶级的忠实仆从。武士集团形成的原因是（ ）",
+        options: [
+            "A. 中央集权进一步加强",
+            "B. 庄园的形成与壮大", 
+            "C. 幕府政治开始",
+            "D. 西方殖民者入侵日本"
+        ],
+        answer: "B",
+        explanation: "庄园经济的发展和地方豪强势力的壮大是武士阶层形成的社会基础。"
+    },
+    {
+        category: "基础过关全练",
+        question: "12世纪晚期，日本进入近700年的幕府统治时期，在这一时期（ ）",
+        options: [
+            "A. 天皇、将军、武士、公民构成了日本封建社会的统治阶级",
+            "B. 幕府将军实际上把持着国家大权，天皇大权旁落", 
+            "C. 天皇是实际上的最高统治者",
+            "D. 武士效忠的对象是国家"
+        ],
+        answer: "B",
+        explanation: "幕府时期实行'二元政治'，天皇成为傀儡，实权掌握在幕府将军手中。"
+    },
+    {
+        category: "能力提升全练",
+        question: "如图两件文物能佐证（ ）",
+        options: [
+            "A. 幕府统治源远流长",
+            "B. 大化改新经济改革", 
+            "C. 古代中国边疆管辖",
+            "D. 日本深受中国影响"
+        ],
+        answer: "D",
+        explanation: "'汉委奴国王'金印和'和同开珎'钱币都体现了日本古代深受中国文化影响。"
+    },
+    {
+        category: "能力提升全练",
+        question: "7世纪，日本整个朝野掀起了'中国化运动'，仿效唐朝的制度和文化，把处于蒙昧状态的民族，向前推进了几个世纪。这表明（ ）",
+        options: [
+            "A. 日本推进改革进入资本主义社会",
+            "B. 日本文化落后照搬唐朝文化", 
+            "C. 日本善于吸收先进文明",
+            "D. 唐朝的国力强盛且居世界第一"
+        ],
+        answer: "C",
+        explanation: "日本民族善于学习外来先进文化，并结合本国实际进行改造创新。"
+    },
+    {
+        category: "能力提升全练",
+        question: "大化改新后的日本，奴隶占总人口的10%左右，这个数目比农民少得多，奴隶在社会生产中退居公民之后的次要地位。这表明，大化改新（ ）",
+        options: [
+            "A. 实现了日本统一",
+            "B. 加剧了社会矛盾", 
+            "C. 推动了社会转型",
+            "D. 造成了社会动荡"
+        ],
+        answer: "C",
+        explanation: "大化改新使日本从奴隶社会向封建社会过渡，推动了社会形态的转型。"
+    },
+    {
+        category: "能力提升全练",
+        question: "事实证明，大化改新没有让日本变成中国，该学的一样也不少，该保留的一样也没少保留，日本还是日本，日本还因此跳了龙门。由此可见，日本学习外来文化的特点是（ ）",
+        options: [
+            "A. 在文化上缺乏自己的独特创造性",
+            "B. 全盘吸收世界各地的文化", 
+            "C. 学习外来文化与保留本国族特色相结合",
+            "D. 完全继承了本国族的文化"
+        ],
+        answer: "C",
+        explanation: "日本在吸收外来文化时注重与本国传统文化相结合，形成独特的日本文化。"
+    }
+],
+
+// 第12课 阿拉伯帝国（8题）
+12: [
+    {
+        category: "基础过关全练",
+        question: "历史学家麦克·哈特在他所著的《影响人类历史进程的100名人排行榜》中说：'我选择穆罕默德作为世界历史上第一个最有影响力的人物……他确实是历史上在宗教和世俗两方面都取得了卓越成就的唯一人物。'下列史实不能说明这一观点的是（ ）",
+        options: [
+            "A. 创立伊斯兰教",
+            "B. 在麦地那建立政教合一的穆斯林公社", 
+            "C. 麦加城传教",
+            "D. 建立起统一的阿拉伯帝国"
+        ],
+        answer: "D",
+        explanation: "穆罕默德在世时只统一了阿拉伯半岛的部分地区，统一的阿拉伯帝国是在他去世后由其继承者建立的。"
+    },
+    {
+        category: "基础过关全练",
+        question: "下列关于阿拉伯帝国的说法不正确的是（ ）",
+        options: [
+            "A. 751年阿拉伯帝国的军队被唐朝大将高仙芝击败",
+            "B. 8世纪中期，阿拉伯帝国是当时世界上疆域最大的帝国", 
+            "C. 阿拉伯帝国的最高首领是哈里发",
+            "D. 1258年，阿拉伯帝国被蒙古人所灭"
+        ],
+        answer: "A",
+        explanation: "751年怛罗斯之战中，阿拉伯军队战胜了唐朝军队，不是被击败。"
+    },
+    {
+        category: "基础过关全练",
+        question: "阿拉伯文化历史悠久，内容博大精深，又充满包容。其成就有误的一项是（ ）",
+        options: [
+            "A. 宗教：伊斯兰教",
+            "B. 数学：创造阿拉伯数字", 
+            "C. 医学：《医学集成》",
+            "D. 文学：《天方夜谭》"
+        ],
+        answer: "B",
+        explanation: "阿拉伯数字实际上起源于印度，由阿拉伯人传播到欧洲，故称'阿拉伯数字'。"
+    },
+    {
+        category: "基础过关全练",
+        question: "中国的造纸术、指南针、火药等重大发明和印度的棉花、食糖等都是由阿拉伯人传入欧洲的。这表明阿拉伯人（ ）",
+        options: [
+            "A. 建立了地跨亚欧非三洲的大帝国",
+            "B. 创造了独具特色的阿拉伯文化", 
+            "C. 传播了欧洲文明的成果",
+            "D. 担当了沟通东西方文化的角色"
+        ],
+        answer: "D",
+        explanation: "阿拉伯人在东西方文化交流中发挥了桥梁作用，促进了不同文明的传播与交流。"
+    },
+    {
+        category: "能力提升全练",
+        question: "恩格斯指出：'伊斯兰教这种宗教是通过东方人民的，特别是适合于阿拉伯人。也就是说，一方面适合从事贸易和平工业的市民，另一方面适合于贝都因游牧民族。'这表明伊斯兰教（ ）",
+        options: [
+            "A. 解决了阿拉伯半岛的民族矛盾",
+            "B. 是阿拉伯人民生活的精神支柱", 
+            "C. 顺应了阿拉伯社会发展的趋势和要求",
+            "D. 满足了各个阶层的心愿和诉求"
+        ],
+        answer: "C",
+        explanation: "伊斯兰教的教义和制度适应了阿拉伯社会从部落向国家过渡的需要。"
+    },
+    {
+        category: "能力提升全练",
+        question: "阿拉伯文化区域自古代东方文化的韵味，又有西方文化的气质。埃及、叙利亚、美索不达米亚、希腊诸地的文化，都在阿拉伯帝国时代得到了广泛的接触和交流。材料反映了阿拉伯文化具有（ ）",
+        options: [
+            "A. 落后性",
+            "B. 包容性", 
+            "C. 扩张性",
+            "D. 保守性"
+        ],
+        answer: "B",
+        explanation: "阿拉伯文化善于吸收其他文明的优秀成果，具有开放包容的特点。"
+    },
+    {
+        category: "能力提升全练",
+        question: "据史书记载，阿拉伯帝国时期，巴格达的市场上，有从中国运来的瓷器、丝绸和麝香，从印度和马来群岛运来的香料、矿物和染料，从非洲东部运来的象牙、金粉等。这表明阿拉伯帝国（ ）",
+        options: [
+            "A. 疆域辽阔",
+            "B. 贸易发达", 
+            "C. 人口密集",
+            "D. 港口众多"
+        ],
+        answer: "B",
+        explanation: "巴格达市场商品的多样性反映了阿拉伯帝国贸易的繁荣和发达。"
+    },
+    {
+        category: "史料拓展全练",
+        question: "阅读史料，回答问题。<br>史料一：阿拉伯帝国繁荣时期，哈里发《国家最高领导者》重视知识，认为'人最美的装饰是知识'……<br>史料二：阿拉伯学者在数学、天文学、医学、化学等方面都取得了卓越成就……",
+        options: [
+            "A. 阿拉伯帝国重视文化发展",
+            "B. 阿拉伯科学完全原创", 
+            "C. 哈里发都是科学家",
+            "D. 阿拉伯排斥外来文化"
+        ],
+        answer: "A",
+        explanation: "史料反映了阿拉伯帝国对知识文化的重视，这是阿拉伯文化繁荣的重要原因。"
+    }
+],
+
+// 第14课 文艺复兴运动（12题）
+14: [
+    {
+        category: "基础过关全练",
+        question: "'在中世纪，人类意识的两方面——内心自省和外界观察都一直处在一层共同的妙幕之下，处于睡眠或半醒状态。'这是'妙幕'最先烟消云散在（ ）",
+        options: [
+            "A. 意大利",
+            "B. 英国", 
+            "C. 法国",
+            "D. 希腊"
+        ],
+        answer: "A",
+        explanation: "文艺复兴运动最早兴起于意大利，然后传播到欧洲其他国家。"
+    },
+    {
+        category: "基础过关全练",
+        question: "文艺复兴时期，人们对文学、艺术等方面的巨大成就极为欢欣。他们认为这是一次精神的新生，而不是像花开花落那样，只是周而复始的重复。材料中'精神的新生'是指（ ）",
+        options: [
+            "A. 对古典文化进行再创作",
+            "B. 宣传资产阶级思想", 
+            "C. 复兴古代希腊罗马文化",
+            "D. 与宗教文化相结合"
+        ],
+        answer: "B",
+        explanation: "'精神的新生'实质上是指资产阶级新文化的兴起和人文主义思想的传播。"
+    },
+    {
+        category: "基础过关全练",
+        question: "西方近代化的变革首先是精神层面的变革，然后是制度方面的变革，最后才是物质方面的变革。为'精神层面的变革'奠定思想文化基础的先驱是（ ）",
+        options: [
+            "A. 但丁",
+            "B. 薄伽丘", 
+            "C. 达·芬奇",
+            "D. 彼特拉克"
+        ],
+        answer: "A",
+        explanation: "但丁被誉为'文艺复兴的先驱'，他的作品《神曲》标志着文艺复兴运动的开始。"
+    },
+    {
+        category: "基础过关全练",
+        question: "15,16世纪，文艺复兴开始向西欧其他国家和地区传播。下列作品虽能体现'传播'的是（ ）",
+        options: [
+            "A. 《神曲》",
+            "B. 《蒙娜丽莎》", 
+            "C. 《最后的晚餐》",
+            "D. 《哈姆雷特》"
+        ],
+        answer: "D",
+        explanation: "莎士比亚的《哈姆雷特》是英国文艺复兴时期的代表作，体现了文艺复兴向北欧的传播。"
+    },
+    {
+        category: "基础过关全练",
+        question: "他的作品，无论是《李尔王》等历史剧，还是《罗密欧与朱丽叶》《威尼斯商人》等悲剧剧，都充分体现了人文主义者的生活理想。'他'是（ ）",
+        options: [
+            "A. 但丁",
+            "B. 莎士比亚", 
+            "C. 拉斐尔",
+            "D. 达·芬奇"
+        ],
+        answer: "B",
+        explanation: "莎士比亚是英国文艺复兴时期最杰出的戏剧家，他的作品深刻体现了人文主义精神。"
+    },
+    {
+        category: "能力提升全练",
+        question: "严格来说，是威尼斯和佛罗伦萨的纺纱作坊而不是达·芬奇的绘画作坊养育了文艺复兴。由此可见，文艺复兴运动兴起的根源是意大利（ ）",
+        options: [
+            "A. 拥有众多文学巨匠",
+            "B. 最早出现资本主义萌芽", 
+            "C. 教会势力受到削弱",
+            "D. 保留了古希腊罗马文化"
+        ],
+        answer: "B",
+        explanation: "文艺复兴运动的根本原因是资本主义萌芽的出现，新兴资产阶级需要新的思想文化。"
+    },
+    {
+        category: "能力提升全练",
+        question: "14—15世纪，一些先进的意大利人认识到，他们的学问不仅仅限于研究古代经典的理论知识，还要为人们日常生活的实际需要服务。这一认识（ ）",
+        options: [
+            "A. 带有'神权至上'色彩",
+            "B. 推动罗马帝国建立", 
+            "C. 意图复兴古典文化",
+            "D. 具有人文主义特点"
+        ],
+        answer: "D",
+        explanation: "关注现实生活、重视人的价值是人文主义思想的重要特征。"
+    },
+    {
+        category: "能力提升全练",
+        question: "文艺复兴运动使欧洲的封建制度、封建精神和教会的愚民政策不能再制广大民众的思想和行为，开阔了人们的视野，增长了人们的知识。这说明该运动（ ）",
+        options: [
+            "A. 促进了资本主义发展",
+            "B. 促进了文化的繁荣", 
+            "C. 推动了欧洲的近代化",
+            "D. 解放了人们的思想"
+        ],
+        answer: "D",
+        explanation: "文艺复兴运动最重要的意义在于打破了中世纪的思想束缚，解放了人们的思想。"
+    },
+    {
+        category: "能力提升全练",
+        question: "从'认识你自己'（苏格拉底），到'吾爱吾师，吾更爱真理'（亚里士多德），再到'走自己的路，让别人说去吧'（但丁），西方传承了一种文明特质。这一'特质'的内涵是（ ）",
+        options: [
+            "A. 人文精神",
+            "B. 契约精神", 
+            "C. 法律至上",
+            "D. 分权制衡"
+        ],
+        answer: "A",
+        explanation: "这些名言都体现了对人的价值、理性和独立思考的重视，是人文精神的体现。"
+    },
+    {
+        category: "能力提升全练",
+        question: "文艺复兴时期，学者们不仅研究柏拉图和亚里士多德的思想，还研究欧几里得和阿基米德在物理学和数学方面的贡献。这表明文艺复兴（ ）",
+        options: [
+            "A. 全面复活希腊的古典文化",
+            "B. 有利于近代科学的产生", 
+            "C. 开始追求世俗人生的乐趣",
+            "D. 不再以宗教为主要题材"
+        ],
+        answer: "B",
+        explanation: "对自然科学知识的重视和研究为近代科学的产生奠定了基础。"
+    },
+    {
+        category: "史料拓展全练",
+        question: "阅读史料，回答问题。<br>史料一：图1、图2（圣母像）<br>史料二：在眼光向天的中世纪，资产阶级虽然拥有'财权'，但却没有与他们的经济地位相适应的'人权'。因此他们用'人道'反对'神道'，用'人权'反对'神权'……<br>(1) 请判断史料一中两幅圣母像哪一幅更能体现文艺复兴时期的精神？并说明理由。<br>(2) 根据史料二并结合所学知识，谈谈你对'（文艺复兴）为资产阶级的政治解放大造舆论'的理解。",
+        options: [
+            "A. (1)图2，体现人性美 (2)奠定思想基础",
+            "B. (1)图1，更神圣庄严 (2)直接推动革命", 
+            "C. (1)图2，色彩更鲜艳 (2)反对一切宗教",
+            "D. (1)图1，历史更悠久 (2)维护封建统治"
+        ],
+        answer: "A",
+        explanation: "文艺复兴时期的艺术作品更注重表现人性美，人文主义思想为后来的资产阶级革命做了舆论准备。"
+    },
+    {
+        category: "素养探究全练",
+        question: "阅读下列材料，完成下列要求。<br>【唯物史观 寻根源】<br>材料一：资本主义经济的萌芽和一定的发展，新兴市民阶层地位的提高，以及城市化的生活方式，孕育出佛罗伦萨人崭新的世界观和人生观……",
+        options: [
+            "A. 文艺复兴是经济发展的必然结果",
+            "B. 文艺复兴是偶然的文化现象", 
+            "C. 文艺复兴与经济发展无关",
+            "D. 文艺复兴阻碍了经济发展"
+        ],
+        answer: "A",
+        explanation: "文艺复兴运动的兴起有着深刻的经济社会根源，是资本主义经济发展的必然产物。"
+    }
+],
+
+// 第15课 探寻新航路（10题）
+15: [
+    {
+        category: "基础过关全练",
+        question: "欧洲航海家从15世纪开始探索通往东方的新航路。下列为新航路的开辟创造条件的有（ ）<br>①欧洲地理学的发展 ②迪亚士带领船队到达非洲的好望角 ③造船航海技术的进步 ④中国人发明的指南针传入欧洲",
+        options: [
+            "A. ①②③",
+            "B. ①②④", 
+            "C. ①③④",
+            "D. ②③④"
+        ],
+        answer: "C",
+        explanation: "迪亚士到达好望角本身就是新航路开辟的成果（过程），而不是创造'条件'。①③④属于技术和理论条件。"
+    },
+    {
+        category: "基础过关全练",
+        question: "哥伦布是意大利热那亚人，他坚信地圆说，向往东方。1492年8月，哥伦布率领87名船员分乘3艘船，从西班牙出发，开始航行。下列选项与他航行史实相符的是（ ）",
+        options: [
+            "A. 到达非洲南端的好望角",
+            "B. '发现'美洲新大陆",
+            "C. 绕过好望角，到达印度",
+            "D. 首次完成了环球航行"
+        ],
+        answer: "B",
+        explanation: "哥伦布横渡大西洋，到达巴哈马群岛、古巴、海地等地，'发现'了美洲新大陆，但他误以为到达了印度。"
+    },
+    {
+        category: "基础过关全练",
+        question: "文艺复兴时期的欧洲学者发现了地圆学说，但仍有不少人表示怀疑。后来，以无可辩驳的事实向全人类证明了这一学说的举措是（ ）",
+        options: [
+            "A. 麦哲伦船队完成的环球航行",
+            "B. 达·伽马到达印度卡里库特",
+            "C. 亚里士多德对北极星的观察",
+            "D. 哥伦布发现美洲新大陆"
+        ],
+        answer: "A",
+        explanation: "麦哲伦船队的环球航行第一次完成了环球航行，证明了地圆说的正确性。"
+    },
+    {
+        category: "基础过关全练",
+        question: "'学完'探寻新航路'一课后，几位同学交流学习心得，其中正确的是（ ）",
+        options: [
+            "A. 达·伽马的探索为迪亚士到达印度准备了条件",
+            "B. 欧洲航海家先后到达了好望角、美洲、印度",
+            "C. 麦哲伦船队完成了人类首次横渡大西洋的壮举",
+            "D. 西班牙王室支持的航海活动都是向东方航行"
+        ],
+        answer: "B",
+        explanation: "A项反了，是迪亚士为达·伽马准备了条件；C项哥伦布早已横渡大西洋；D项西班牙支持的哥伦布和麦哲伦是向西航行。"
+    },
+    {
+        category: "基础过关全练",
+        question: "它（指新航路的开辟）打破了以往人类文明区域性分割和孤立发展的局面，首次把全球人类联系起来，开始了人类文明一体化的进程……'这表明（ ）",
+        options: [
+            "A. 欧洲社会开始关注东方",
+            "B. 欧洲人开始早期殖民掠夺",
+            "C. 世界开始成为一个整体",
+            "D. 世界经济全球化趋势加强"
+        ],
+        answer: "C",
+        explanation: "新航路开辟最重要的意义在于打破了世界各地区孤立隔绝的状态，世界开始连为一个整体。"
+    },
+    {
+        category: "能力提升全练",
+        question: "据记载：哥伦布曾到处寻找王室赞助他远航...哥伦布执着进行海外探险主要是为了（ ）",
+        options: [
+            "A. 绘制航海路线",
+            "B. 发现美洲大陆",
+            "C. 证明地图学说",
+            "D. 获取海外财富"
+        ],
+        answer: "D",
+        explanation: "新航路开辟的根本动力是商品经济发展，欧洲人渴求黄金和香料，获取财富是主要目的。"
+    },
+    {
+        category: "能力提升全练",
+        question: "玉米是一种原产于美洲的物种，16世纪以来广泛见于欧洲和中国的中西部。这一现象说明（ ）",
+        options: [
+            "A. 郑和下西洋促进中外商品贸易往来",
+            "B. 玉米成为中国古代主要的粮食作物",
+            "C. 新航路开辟后带来了全球物种交换",
+            "D. 玉米作为观赏和利用植物广泛种植"
+        ],
+        answer: "C",
+        explanation: "新航路开辟促进了哥伦布大交换，美洲的玉米、马铃薯等作物传播到了世界各地。"
+    },
+    {
+        category: "能力提升全练",
+        question: "地理知识不再属于一个地区或一个大陆，整个地球的外形弄清楚了，接近真实的世界地图也相应了。这说明新航路开辟（ ）",
+        options: [
+            "A. 有助于世界市场的形成",
+            "B. 促进了西欧资本主义发展",
+            "C. 加剧了殖民扩张与掠夺",
+            "D. 使世界观念逐步确立起来"
+        ],
+        answer: "D",
+        explanation: "人们对世界的认知越来越清晰，世界观念逐步确立。"
+    },
+    {
+        category: "能力提升全练",
+        question: "世界市场的突然扩大，流通商品种类的增多...对打破生产的封建束缚起了重大的作用。据此可知，新航路的开辟（ ）",
+        options: [
+            "A. 助推了欧洲地理学的萌芽",
+            "B. 提升了欧洲航海技术水平",
+            "C. 促进了欧洲资本主义发展",
+            "D. 引发了欧洲人口结构变化"
+        ],
+        answer: "C",
+        explanation: "市场的扩大和商业革命加速了欧洲封建制度的解体和资本主义的发展。"
+    },
+    {
+        category: "史料拓展全练",
+        question: "阅读史料，回答问题。<br>史料一：新航路开辟后，欧洲人把欧亚大陆的马、鸡等家畜禽...引入美洲；美洲向欧亚大陆输出...玉米、马铃薯等。<br>史料二：...玉米进入亚洲，推动了对边远地区的拓荒...使得多地区的人口得到快速增长。<br>问：'交流'带来的影响是什么？",
+        options: [
+            "A. 导致了美洲文明的衰落",
+            "B. 仅对欧洲产生了积极影响",
+            "C. 丰富了饮食，促进了人口增长，改变了生态",
+            "D. 阻碍了全球贸易的发展"
+        ],
+        answer: "C",
+        explanation: "物种交换丰富了人类的饮食结构，高产作物促进了人口增长，同时也改变了各地的生态环境。"
+    }
+],
+
+// 第16课 早期殖民掠夺（12题）
+16: [
+    {
+        category: "基础过关全练",
+        question: "葡萄牙是最早从事殖民扩张和奴隶贸易的国家之一，最主要的原因可能是（ ）",
+        options: [
+            "A. 葡萄牙人最先发现商机",
+            "B. 葡萄牙王室财政紧张，急需金钱",
+            "C. 葡萄牙人极富冒险精神",
+            "D. 葡萄牙是最早开辟新航路的国家之一"
+        ],
+        answer: "D",
+        explanation: "葡萄牙和西班牙作为最早开辟新航路的国家，也最先走上了殖民扩张的道路。"
+    },
+    {
+        category: "基础过关全练",
+        question: "如图18世纪一幅描绘黑奴加工烟草的版画。该版画体现的历史现象直接推动了（ ）",
+        options: [
+            "A. 不同物种的交换",
+            "B. 种植园经济开发",
+            "C. 世界市场的形成",
+            "D. 东方从属于西方"
+        ],
+        answer: "B",
+        explanation: "黑奴贸易为美洲提供了大量劳动力，直接推动了美洲种植园经济（如烟草、棉花、甘蔗）的开发。"
+    },
+    {
+        category: "基础过关全练",
+        question: "'大英博物馆是英国殖民扩张历史的一个缩影...'下列有关英国殖民扩张的说法正确的是（ ）",
+        options: [
+            "A. 种植园和丝绸贸易为英国带来巨额利润",
+            "B. 17世纪，英国在北美建立了殖民地",
+            "C. 16世纪英国拥有一支强大的海军舰队，自称'无敌舰队'",
+            "D. 最早进行殖民的国家是英国和法国"
+        ],
+        answer: "B",
+        explanation: "A丝绸是中国；C无敌舰队是西班牙的；D最早的是葡、西。B项正确，英国在17世纪在北美建立了殖民地。"
+    },
+    {
+        category: "基础过关全练",
+        question: "据估计，15世纪到19世纪，从非洲运往美洲的黑人不下1500万...整个奴隶贸易使非洲丧失了近亿的人口。这主要说明了（ ）",
+        options: [
+            "A. 奴隶贸易的血腥性与残酷性",
+            "B. 美洲劳动力缺乏导致奴隶贸易兴起",
+            "C. 奴隶贩子获得了巨额的财富",
+            "D. 英国成为了三角贸易的主要经营者"
+        ],
+        answer: "A",
+        explanation: "大量的人口损失和死亡率体现了资本原始积累时期奴隶贸易的极度血腥和残酷。"
+    },
+    {
+        category: "基础过关全练",
+        question: "刘宗绪在《世界近代史》中写道：'它是17世纪的‘海上马车夫’，拥有世界上最庞大的商船队...' '它'是（ ）",
+        options: [
+            "A. 西班牙",
+            "B. 英国",
+            "C. 荷兰",
+            "D. 法国"
+        ],
+        answer: "C",
+        explanation: "17世纪的荷兰凭借强大的商船队被称为'海上马车夫'。"
+    },
+    {
+        category: "基础过关全练",
+        question: "从17世纪下半叶起，与荷兰、法国发生了一系列战争，凭借强大的实力最终战胜了荷兰和法国，在世界各地夺取了大片殖民地，自诩为'日不落帝国'的国家是（ ）",
+        options: [
+            "A. 葡萄牙",
+            "B. 英国",
+            "C. 西班牙",
+            "D. 美国"
+        ],
+        answer: "B",
+        explanation: "18世纪后半期，英国成为世界上最强大的殖民国家，号称'日不落帝国'。"
+    },
+    {
+        category: "基础过关全练",
+        question: "下表反映了16,17世纪的国际分工（美洲-原料，非洲-劳动力，亚洲-奢侈品，欧洲-工业），由此可知（ ）",
+        options: [
+            "A. 国际分工促进各大洲的繁荣",
+            "B. 亚洲在分工中占主导地位",
+            "C. 世界市场有一定程度的发展",
+            "D. 欧洲开始了海外殖民扩张"
+        ],
+        answer: "C",
+        explanation: "世界各地通过贸易联系在一起，形成了特定的分工，说明世界市场正在逐步形成和发展。"
+    },
+    {
+        category: "能力提升全练",
+        question: "如表反映英国当时（英国公司垄断非洲贸易等数据）（ ）",
+        options: [
+            "A. 公司实力最强",
+            "B. 重视对非洲开发",
+            "C. 参与黑奴贸易",
+            "D. 垄断了非洲贸易"
+        ],
+        answer: "D",
+        explanation: "根据题干描述（英国公司控制贸易），体现了英国对非洲贸易（主要是奴隶贸易）的垄断地位。"
+    },
+    {
+        category: "能力提升全练",
+        question: "'西班牙抛弃了新大陆的许多财富...而英国累积的资金为商业所用。'材料主要说明了（ ）",
+        options: [
+            "A. 西班牙没有参与早期殖民掠夺",
+            "B. 英国没有参与新航路的开辟",
+            "C. 西班牙致力于寻找新大陆新物种",
+            "D. 英国致力于进行资本的原始积累"
+        ],
+        answer: "D",
+        explanation: "英国将掠夺来的财富转化为资本，推动了工商业发展，完成了资本原始积累；而西班牙则将财富挥霍，导致衰落。"
+    },
+    {
+        category: "能力提升全练",
+        question: "位于西非塞内加尔的戈雷岛，15—19世纪，至少有数千万黑人从这里被转卖。该岛见证了（ ）",
+        options: [
+            "A. 迪亚士到达印度",
+            "B. 罪恶的'三角贸易'",
+            "C. 地图学说的流行",
+            "D. 资本原始积累的野蛮性"
+        ],
+        answer: "B",
+        explanation: "戈雷岛是奴隶贸易的重要中转站，见证了罪恶的三角贸易。"
+    },
+    {
+        category: "能力提升全练",
+        question: "全球史观强调在全球范围内从整体上把握人类历史的演进。如果以这种角度看待殖民扩张，下列表述合适的是（ ）",
+        options: [
+            "A. 冲击了欧洲的封建制度",
+            "B. 极大地促进了欧洲资本主义的发展",
+            "C. 给亚非拉造成了深重的灾难",
+            "D. '带着血泪的进步'"
+        ],
+        answer: "D",
+        explanation: "全球史观强调辩证看待，既看到了其残酷性（血泪），也看到了其推动世界连为一体和现代化进程（进步）。"
+    },
+    {
+        category: "史料拓展全练",
+        question: "关于'三角贸易'的判断：<br>(1) 新航路开辟加快了世界历史从分散走向整体的进程。<br>(2) '三角贸易'涉及欧洲、亚洲、非洲三地。<br>(3) 咖啡、烟草、棉花等属于返回欧洲的'归程'中的物品。<br>(4) 三角贸易给英国带来了高达百分之一百二十的巨额利润。<br>请选出包含错误的选项组合：",
+        options: [
+            "A. (1)正确 (2)错误 (3)正确 (4)无法得出",
+            "B. (1)错误 (2)正确 (3)错误 (4)正确",
+            "C. 全部正确",
+            "D. 全部错误"
+        ],
+        answer: "A",
+        explanation: "(2)错误，三角贸易涉及欧洲、非洲、美洲；(4)材料中未提及具体利润数字，属于C（未涉及）或无法得出。"
+    }
+]
+        };
+
+        // 当前状态
+        let currentLesson = 1;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let answeredQuestions = 0;
+        let correctAnswers = 0;
+        
+        // DOM元素
+        const lessonItems = document.querySelectorAll('.lesson-item');
+        const questionCategory = document.getElementById('question-category');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const answerSection = document.getElementById('answer-section');
+        const correctAnswer = document.getElementById('correct-answer');
+        const answerExplanation = document.getElementById('answer-explanation');
+        const currentQuestionEl = document.getElementById('current-question');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const accuracyRateEl = document.getElementById('accuracy-rate');
+        const totalAnsweredEl = document.getElementById('total-answered');
+        const correctCountEl = document.getElementById('correct-count');
+        const incorrectCountEl = document.getElementById('incorrect-count');
+        
+        // 初始化
+        function init() {
+            loadLesson(currentLesson);
+            updateStats();
+            
+            // 事件监听
+            lessonItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const lessonId = parseInt(item.getAttribute('data-lesson'));
+                    switchLesson(lessonId);
+                });
+            });
+            
+            prevBtn.addEventListener('click', goToPrevQuestion);
+            nextBtn.addEventListener('click', goToNextQuestion);
+            submitBtn.addEventListener('click', submitAnswer);
+            
+            // 选项点击事件
+            optionsContainer.addEventListener('click', (e) => {
+                if (e.target.type === 'radio') {
+                    const optionElement = e.target.closest('.option');
+                    if (optionElement) {
+                        clearOptionSelection();
+                        optionElement.classList.add('selected');
+                    }
+                } else if (e.target.tagName === 'LABEL' || e.target.closest('.option')) {
+                    const optionElement = e.target.closest('.option');
+                    if (optionElement) {
+                        const radioInput = optionElement.querySelector('input[type="radio"]');
+                        if (radioInput) {
+                            radioInput.checked = true;
+                            clearOptionSelection();
+                            optionElement.classList.add('selected');
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 切换课程
+        function switchLesson(lessonId) {
+            currentLesson = lessonId;
+            currentQuestionIndex = 0;
+            
+            // 更新活动课程样式
+            lessonItems.forEach(item => {
+                if (parseInt(item.getAttribute('data-lesson')) === lessonId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            loadLesson(lessonId);
+        }
+        
+        // 加载课程题目
+        function loadLesson(lessonId) {
+            const questions = questionsData[lessonId] || [];
+            
+            if (questions.length > 0) {
+                displayQuestion(questions[0]);
+                totalQuestionsEl.textContent = questions.length;
+                updateNavigationButtons(questions.length);
+            } else {
+                questionCategory.textContent = "开发中";
+                questionText.textContent = "该课程题目正在开发中，敬请期待...";
+                optionsContainer.innerHTML = "";
+                answerSection.style.display = "none";
+            }
+        }
+        
+        // 显示题目
+        function displayQuestion(question) {
+            questionCategory.textContent = question.category;
+            questionText.innerHTML = question.question;
+            
+            // 清空选项
+            optionsContainer.innerHTML = "";
+            
+            // 添加选项
+            question.options.forEach((option, index) => {
+                const optionId = `option${String.fromCharCode(65 + index)}`;
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                
+                optionElement.innerHTML = `
+                    <input type="radio" name="answer" id="${optionId}" value="${String.fromCharCode(65 + index)}">
+                    <label for="${optionId}">${option}</label>
+                `;
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // 隐藏答案解析
+            answerSection.style.display = "none";
+            
+            // 更新当前题目索引
+            currentQuestionEl.textContent = currentQuestionIndex + 1;
+            
+            // 检查是否已回答过此题
+            const questionKey = `${currentLesson}-${currentQuestionIndex}`;
+            if (userAnswers[questionKey]) {
+                const selectedOption = document.querySelector(`input[value="${userAnswers[questionKey].answer}"]`);
+                if (selectedOption) {
+                    selectedOption.checked = true;
+                    selectedOption.closest('.option').classList.add('selected');
+                    
+                    // 如果已回答，显示答案解析
+                    showAnswer(question);
+                }
+            } else {
+                clearOptionSelection();
+            }
+        }
+        
+        // 清空选项选择
+        function clearOptionSelection() {
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => {
+                option.classList.remove('selected');
+            });
+        }
+        
+        // 显示答案
+        function showAnswer(question) {
+            const correctOption = document.querySelector(`input[value="${question.answer}"]`);
+            if (correctOption) {
+                correctOption.closest('.option').classList.add('correct');
+            }
+            
+            // 如果用户答错了，标记错误选项
+            const questionKey = `${currentLesson}-${currentQuestionIndex}`;
+            if (userAnswers[questionKey] && userAnswers[questionKey].answer !== question.answer) {
+                const userOption = document.querySelector(`input[value="${userAnswers[questionKey].answer}"]`);
+                if (userOption) {
+                    userOption.closest('.option').classList.add('incorrect');
+                }
+            }
+            
+            // 显示答案解析
+            correctAnswer.textContent = `正确答案: ${question.answer}. ${question.options[question.answer.charCodeAt(0) - 65]}`;
+            answerExplanation.innerHTML = question.explanation;
+            answerSection.style.display = "block";
+        }
+        
+        // 提交答案
+        function submitAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) {
+                alert('请选择一个答案！');
+                return;
+            }
+            
+            const userAnswer = selectedOption.value;
+            const questionKey = `${currentLesson}-${currentQuestionIndex}`;
+            const currentQuestion = questionsData[currentLesson][currentQuestionIndex];
+            
+            // 保存用户答案
+            userAnswers[questionKey] = {
+                answer: userAnswer,
+                isCorrect: userAnswer === currentQuestion.answer
+            };
+            
+            // 更新统计数据
+            answeredQuestions++;
+            if (userAnswer === currentQuestion.answer) {
+                correctAnswers++;
+            }
+            
+            // 显示正确答案和解析
+            showAnswer(currentQuestion);
+            
+            // 更新统计信息
+            updateStats();
+            
+            // 禁用提交按钮
+            submitBtn.disabled = true;
+        }
+        
+        // 更新统计信息
+        function updateStats() {
+            totalAnsweredEl.textContent = answeredQuestions;
+            correctCountEl.textContent = correctAnswers;
+            incorrectCountEl.textContent = answeredQuestions - correctAnswers;
+            
+            const accuracyRate = answeredQuestions > 0 ? Math.round((correctAnswers / answeredQuestions) * 100) : 0;
+            accuracyRateEl.textContent = `${accuracyRate}%`;
+        }
+        
+        // 更新导航按钮状态
+        function updateNavigationButtons(totalQuestions) {
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.disabled = currentQuestionIndex === totalQuestions - 1;
+        }
+        
+        // 上一题
+        function goToPrevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                const questions = questionsData[currentLesson];
+                displayQuestion(questions[currentQuestionIndex]);
+                updateNavigationButtons(questions.length);
+                submitBtn.disabled = false;
+            }
+        }
+        
+        // 下一题
+        function goToNextQuestion() {
+            const questions = questionsData[currentLesson];
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion(questions[currentQuestionIndex]);
+                updateNavigationButtons(questions.length);
+                submitBtn.disabled = false;
+            }
+        }
+        
+        // 初始化应用
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
